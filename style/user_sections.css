@@ -1,0 +1,179 @@
+/* User Sections Styles */
+.user-section {
+    padding: 1.75rem;
+    background: linear-gradient(145deg, var(--surface), var(--surface-dark));
+    border-radius: var(--radius-lg);
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.user-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.user-section:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.user-section:hover::before {
+    opacity: 1;
+}
+
+.section-title {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    position: relative;
+}
+
+.section-title i {
+    color: var(--primary);
+    font-size: 1.1em;
+    background: rgba(76, 229, 149, 0.1);
+    padding: 0.5rem;
+    border-radius: var(--radius-md);
+    transition: transform 0.3s ease;
+}
+
+.user-section:hover .section-title i {
+    transform: scale(1.1);
+}
+
+.user-details {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.25rem;
+    background: rgba(18, 25, 43, 0.6);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s ease;
+}
+
+.user-section:hover .user-details {
+    transform: translateX(5px);
+}
+
+.user-info {
+    flex: 1;
+}
+
+.user-info h4 {
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.user-info p {
+    color: var(--text-secondary);
+    margin: 0.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.95rem;
+    padding: 0.5rem 0.75rem;
+    background: rgba(18, 25, 43, 0.4);
+    border-radius: var(--radius-sm);
+    transition: all 0.3s ease;
+}
+
+.user-info p:hover {
+    background: rgba(18, 25, 43, 0.6);
+    transform: translateX(5px);
+}
+
+.user-info i {
+    color: var(--primary);
+    width: 1rem;
+    text-align: center;
+}
+
+.avatar {
+    width: 90px;
+    height: 90px;
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface-light);
+    border: 3px solid var(--primary);
+    box-shadow: 0 4px 12px rgba(76, 229, 149, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+.user-section:hover .avatar {
+    transform: scale(1.05);
+    box-shadow: 0 8px 24px rgba(76, 229, 149, 0.3);
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.avatar:hover img {
+    transform: scale(1.1);
+}
+
+.avatar i {
+    font-size: 2.5rem;
+    color: var(--primary);
+    opacity: 0.7;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.avatar:hover i {
+    transform: scale(1.1);
+    opacity: 1;
+}
+
+/* Executor Section Specific */
+.executor-section {
+    position: relative;
+    margin-top: 2rem;
+    padding-top: 2rem;
+}
+
+.executor-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    height: 1px;
+    background: linear-gradient(90deg, 
+        transparent, 
+        rgba(255, 255, 255, 0.1),
+        rgba(255, 255, 255, 0.1),
+        transparent
+    );
+}

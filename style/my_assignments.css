@@ -1,0 +1,402 @@
+/* My Assignments Page Styles */
+:root {
+  --primary: #4ce595;
+  --primary-dark: #3cba7f;
+  --primary-light: #7eedb3;
+  --secondary: #12192b;
+  --surface: #1a2235;
+  --surface-dark: #141a2b;
+  --surface-light: #1e2943;
+  --text-primary: #ffffff;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --danger: #ef4444;
+  --danger-dark: #dc2626;
+  --success: #10b981;
+  --success-dark: #059669;
+  --header-height: 80px;
+}
+
+body {
+  background: #12192b;
+  min-height: 100vh;
+  color: #fff;
+  margin: 0;
+  padding: 0;
+  font-family: "Magnetik", system-ui, -apple-system, sans-serif;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  min-height: calc(100vh - var(--header-height));
+}
+
+.assignments-container {
+  background: rgba(18, 25, 43, 0.4);
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(76, 229, 149, 0.1);
+  padding: 2rem;
+  margin-top: 120px;
+}
+
+.assignments-header {
+  margin-bottom: 2rem;
+  text-align: center;
+  padding: 2rem;
+  background: linear-gradient(
+    180deg,
+    rgba(76, 229, 149, 0.1) 0%,
+    rgba(18, 25, 43, 0.4) 100%
+  );
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(76, 229, 149, 0.15);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.assignments-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  background: linear-gradient(90deg, #ffffff, #4ce595);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.assignments-header h1 i {
+  color: #4ce595;
+  -webkit-text-fill-color: #4ce595;
+}
+
+.assignments-header p {
+  color: #94a3b8;
+  font-size: 1.1rem;
+}
+
+.assignments-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.assignment-card {
+  background: rgba(18, 25, 43, 0.6);
+  border: 1px solid rgba(76, 229, 149, 0.15);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.assignment-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(to right, var(--primary), var(--primary-dark));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.assignment-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(76, 229, 149, 0.3);
+  box-shadow: 0 8px 32px rgba(76, 229, 149, 0.1);
+}
+
+.assignment-card:hover::before {
+  opacity: 1;
+}
+
+.assignment-header {
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.assignment-header h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.assignment-details {
+  padding: 1.5rem;
+}
+
+.detail-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: rgba(18, 25, 43, 0.4);
+  border-radius: 12px;
+  margin-bottom: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.detail-row:hover {
+  background: rgba(18, 25, 43, 0.6);
+  transform: translateX(5px);
+}
+
+.detail-row i {
+  color: var(--primary);
+  width: 20px;
+  text-align: center;
+}
+
+.detail-row span {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.client-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.client-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.client-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.client-avatar i {
+  color: var(--surface-dark);
+  font-size: 1.5rem;
+}
+
+.client-details {
+  flex: 1;
+}
+
+.client-name {
+  color: var(--text-primary);
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.25rem 0;
+}
+
+.client-email {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.assignment-actions {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.btn {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem 1.75rem;
+  border-radius: 50px;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.btn i {
+  font-size: 20px;
+  transition: transform 0.3s ease;
+}
+
+.btn:hover i {
+  transform: translateX(3px);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: var(--surface-dark);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(76, 229, 149, 0.2);
+}
+
+.btn-success {
+  background: linear-gradient(135deg, var(--success), var(--success-dark));
+  color: white;
+}
+
+.btn-success:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, var(--danger), var(--danger-dark));
+  color: white;
+}
+
+.btn-danger:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 2px solid rgba(76, 229, 149, 0.3);
+  color: var(--primary);
+}
+
+.btn-secondary:hover {
+  background: rgba(76, 229, 149, 0.1);
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.status-badge {
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-assigned {
+  background: rgba(251, 191, 36, 0.1);
+  color: #fbbf24;
+}
+
+.status-in_progress {
+  background: rgba(76, 229, 149, 0.1);
+  color: var(--primary);
+}
+
+.status-completed {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--success);
+}
+
+.status-cancelled {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--danger);
+}
+
+.no-assignments {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.no-assignments i {
+  font-size: 4rem;
+  color: var(--primary);
+  margin-bottom: 1.5rem;
+}
+
+.no-assignments h2 {
+  font-size: 1.8rem;
+  margin: 0 0 1rem 0;
+  color: var(--text-primary);
+}
+
+.no-assignments p {
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  margin: 0 0 2rem 0;
+}
+
+.no-assignments .btn {
+  display: inline-flex;
+  max-width: 200px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .assignments-container {
+    padding: 1.5rem;
+  }
+
+  .assignments-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .assignments-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .assignment-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    padding: 0.75rem 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .assignments-container {
+    padding: 1rem;
+  }
+
+  .assignments-header h1 {
+    font-size: 1.75rem;
+  }
+
+  .client-info {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .assignment-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}

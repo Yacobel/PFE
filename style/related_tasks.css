@@ -1,0 +1,338 @@
+/* Modern Design System - Related Tasks */
+:root {
+    --primary: #4ce595;
+    --primary-dark: #3cba7f;
+    --primary-light: #7eedb3;
+    --secondary: #12192b;
+    --surface: #1a2235;
+    --surface-dark: #141a2b;
+    --surface-light: #1e2943;
+    --text-primary: #ffffff;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --status-posted: #fbbf24;
+    --status-progress: #4ce595;
+    --status-completed: #10b981;
+    --status-cancelled: #ef4444;
+}
+
+/* Container Styles */
+.dashboard-container {
+    background: rgba(18, 25, 43, 0.4);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(76, 229, 149, 0.1);
+    padding: 2rem;
+    margin-top: 2rem;
+}
+
+/* Header Section */
+.assignments-header {
+    text-align: center;
+    padding: 2.5rem;
+    background: linear-gradient(
+        180deg,
+        rgba(76, 229, 149, 0.1) 0%,
+        rgba(18, 25, 43, 0.4) 100%
+    );
+    border-radius: var(--radius-lg);
+    margin-bottom: 2.5rem;
+    border: 1px solid rgba(76, 229, 149, 0.1);
+}
+
+.assignments-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background: linear-gradient(90deg, var(--text-primary), var(--primary));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.assignments-header h1 i {
+    color: var(--primary);
+    -webkit-text-fill-color: var(--primary);
+    font-size: 2rem;
+}
+
+.assignments-header p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+/* Task Grid */
+.task-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
+}
+
+/* Task Card */
+.task-card {
+    background: linear-gradient(
+        145deg,
+        rgba(26, 34, 53, 0.9),
+        rgba(20, 26, 43, 0.8)
+    );
+    border: 1px solid rgba(76, 229, 149, 0.1);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.task-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(to right, var(--primary), var(--primary-dark));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.task-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(76, 229, 149, 0.2);
+    box-shadow: 0 8px 32px rgba(76, 229, 149, 0.1);
+}
+
+.task-card:hover::before {
+    opacity: 1;
+}
+
+/* Card Content */
+.card-content {
+    padding: 1.75rem;
+}
+
+.card-info {
+    margin-bottom: 1.5rem;
+}
+
+.card-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1.25rem;
+    line-height: 1.4;
+}
+
+/* Card Meta */
+.card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.card-category {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(76, 229, 149, 0.1);
+    border-radius: var(--radius-md);
+    color: var(--primary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.card-category:hover {
+    background: rgba(76, 229, 149, 0.2);
+    transform: translateY(-2px);
+}
+
+.card-status {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.card-status.status-posted {
+    background: rgba(251, 191, 36, 0.1);
+    color: var(--status-posted);
+}
+
+.card-status.status-progress {
+    background: rgba(76, 229, 149, 0.1);
+    color: var(--status-progress);
+}
+
+.card-status.status-completed {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--status-completed);
+}
+
+.card-status.status-cancelled {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--status-cancelled);
+}
+
+/* Card Details */
+.card-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1.25rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    margin-bottom: 1.5rem;
+}
+
+.card-details span {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    padding: 0.75rem 1rem;
+    background: rgba(18, 25, 43, 0.4);
+    border-radius: var(--radius-md);
+    transition: all 0.3s ease;
+}
+
+.card-details span:hover {
+    background: rgba(18, 25, 43, 0.6);
+    transform: translateX(5px);
+}
+
+.card-details i {
+    color: var(--primary);
+    width: 1rem;
+    text-align: center;
+}
+
+/* Card Actions */
+.card-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 0.875rem 1.5rem;
+    border-radius: var(--radius-md);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex: 1;
+    text-decoration: none;
+    border: none;
+    text-align: center;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: var(--surface-dark);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(76, 229, 149, 0.2);
+}
+
+.btn-secondary {
+    background: transparent;
+    border: 2px solid rgba(76, 229, 149, 0.3);
+    color: var(--primary);
+}
+
+.btn-secondary:hover {
+    background: rgba(76, 229, 149, 0.1);
+    border-color: var(--primary);
+    transform: translateY(-2px);
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: rgba(26, 34, 53, 0.6);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(76, 229, 149, 0.1);
+}
+
+.empty-state i {
+    font-size: 3rem;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+}
+
+.empty-state h2 {
+    font-size: 1.8rem;
+    margin: 0 0 1rem 0;
+    background: linear-gradient(90deg, var(--text-primary), var(--primary));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.empty-state p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    margin: 0 0 2rem 0;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .task-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-container {
+        padding: 1.5rem;
+        margin-top: 1.5rem;
+    }
+
+    .assignments-header h1 {
+        font-size: 2rem;
+    }
+
+    .task-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .card-actions {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .assignments-header {
+        padding: 1.5rem;
+    }
+
+    .assignments-header h1 {
+        font-size: 1.75rem;
+    }
+
+    .card-meta {
+        flex-direction: column;
+    }
+}
