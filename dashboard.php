@@ -102,7 +102,17 @@ include 'components/head.php';
                         </div>
                         <div class="action-content">
                             <h3>My Tasks</h3>
-                            <p>View and manage all your tasks</p>
+                            <p>View and manage your posted tasks</p>
+                        </div>
+                    </a>
+                    
+                    <a href="pending_bids.php" class="action-card">
+                        <div class="action-icon">
+                            <i class="fas fa-gavel"></i>
+                        </div>
+                        <div class="action-content">
+                            <h3>Pending Bids</h3>
+                            <p>Review and accept bids from executors</p>
                         </div>
                     </a>
 

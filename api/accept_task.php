@@ -18,18 +18,23 @@ if (!isset($data['task_id'])) {
     exit;
 }
 
+// Get bid amount and proposal text if provided
+$bid_amount = isset($data['bid_amount']) ? floatval($data['bid_amount']) : 0;
+$proposal_text = isset($data['proposal_text']) ? trim($data['proposal_text']) : '';
+
 try {
     // Start transaction
     $pdo->beginTransaction();
 
     // Check if task exists and is available
     $stmt = $pdo->prepare("
-        SELECT status 
-        FROM tasks 
-        WHERE task_id = ? 
+        SELECT t.task_id, t.status, t.budget, 
+               (SELECT COUNT(*) FROM bids WHERE task_id = t.task_id AND executor_id = ?) as has_bid
+        FROM tasks t
+        WHERE t.task_id = ? 
         FOR UPDATE
     ");
-    $stmt->execute([$data['task_id']]);
+    $stmt->execute([$_SESSION['user_id'], $data['task_id']]);
     $task = $stmt->fetch();
 
     if (!$task) {
@@ -37,24 +42,30 @@ try {
     }
 
     if ($task['status'] !== 'posted') {
-        throw new Exception('Task is no longer available');
+        throw new Exception('Task is no longer available for bidding');
+    }
+    
+    // Check if executor has already bid on this task
+    if ($task['has_bid'] > 0) {
+        throw new Exception('You have already submitted a bid for this task');
     }
 
-    // Update task status and assign executor
+    // If no bid amount provided, use the task budget
+    if ($bid_amount <= 0) {
+        $bid_amount = $task['budget'];
+    }
+
+    // Insert bid into bids table
     $stmt = $pdo->prepare("
-        UPDATE tasks 
-        SET status = 'in_progress', 
-            executor_id = ?,
-            accepted_at = NOW() 
-        WHERE task_id = ? 
-        AND status = 'posted'
+        INSERT INTO bids (task_id, executor_id, bid_amount, proposal_text, bid_date, status)
+        VALUES (?, ?, ?, ?, NOW(), 'pending')
     ");
-    $stmt->execute([$_SESSION['user_id'], $data['task_id']]);
+    $stmt->execute([$data['task_id'], $_SESSION['user_id'], $bid_amount, $proposal_text]);
 
     // Commit transaction
     $pdo->commit();
 
-    echo json_encode(['success' => true, 'message' => 'Task accepted successfully']);
+    echo json_encode(['success' => true, 'message' => 'Bid submitted successfully. The client will review your proposal.']);
 } catch (Exception $e) {
     // Rollback transaction on error
     if ($pdo->inTransaction()) {

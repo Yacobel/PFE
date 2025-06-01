@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: May 23, 2025 at 10:20 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Hôte : 127.0.0.1
+-- Généré le : dim. 01 juin 2025 à 01:50
+-- Version du serveur : 10.4.32-MariaDB
+-- Version de PHP : 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `task_platform`
+-- Base de données : `task_platform`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `bids`
+-- Structure de la table `bids`
 --
 
 CREATE TABLE `bids` (
@@ -37,10 +37,18 @@ CREATE TABLE `bids` (
   `status` enum('pending','accepted','rejected','cancelled','done') DEFAULT 'pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Déchargement des données de la table `bids`
+--
+
+INSERT INTO `bids` (`bid_id`, `task_id`, `executor_id`, `bid_amount`, `proposal_text`, `bid_date`, `status`) VALUES
+(33, 23, 1, 1111.00, '', '2025-05-31 23:47:41', 'pending'),
+(34, 23, 5, 1111.00, '', '2025-05-31 23:47:46', 'accepted');
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `categories`
+-- Structure de la table `categories`
 --
 
 CREATE TABLE `categories` (
@@ -51,7 +59,7 @@ CREATE TABLE `categories` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `categories`
+-- Déchargement des données de la table `categories`
 --
 
 INSERT INTO `categories` (`category_id`, `name`, `description`, `icon`) VALUES
@@ -67,7 +75,7 @@ INSERT INTO `categories` (`category_id`, `name`, `description`, `icon`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `messages`
+-- Structure de la table `messages`
 --
 
 CREATE TABLE `messages` (
@@ -83,7 +91,7 @@ CREATE TABLE `messages` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `payments`
+-- Structure de la table `payments`
 --
 
 CREATE TABLE `payments` (
@@ -100,7 +108,7 @@ CREATE TABLE `payments` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `reviews`
+-- Structure de la table `reviews`
 --
 
 CREATE TABLE `reviews` (
@@ -116,7 +124,7 @@ CREATE TABLE `reviews` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tasks`
+-- Structure de la table `tasks`
 --
 
 CREATE TABLE `tasks` (
@@ -132,20 +140,23 @@ CREATE TABLE `tasks` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `accepted_at` timestamp NULL DEFAULT NULL,
   `location` varchar(255) DEFAULT NULL,
-  `image_url` varchar(255) NOT NULL
+  `image_url` varchar(255) NOT NULL,
+  `payment_status` enum('unpaid','paid') DEFAULT 'unpaid',
+  `payment_date` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `tasks`
+-- Déchargement des données de la table `tasks`
 --
 
-INSERT INTO `tasks` (`task_id`, `client_id`, `executor_id`, `title`, `description`, `category_id`, `budget`, `deadline`, `status`, `created_at`, `accepted_at`, `location`, `image_url`) VALUES
-(2, 1, NULL, 'ggg', 'yaszgjciksdyfnoiutlsdkyfvbiof7taitfuioYSTDYUTOYFATSDYFUYSTUITFADYUTFUYTUISYDTFUTSDUYFTDYUTFUYSTFUISDTFUITAUDFTUDTFIY', 2, 133.00, '2025-05-23 21:51:35', 'posted', '2025-05-23 19:53:02', NULL, NULL, 'https://cdn.prod.website-files.com/66ab1b43b4f3042de134d7a8/66bd2a9267bd02ecd171e984_Circle%20Blured%20Background.svg');
+INSERT INTO `tasks` (`task_id`, `client_id`, `executor_id`, `title`, `description`, `category_id`, `budget`, `deadline`, `status`, `created_at`, `accepted_at`, `location`, `image_url`, `payment_status`, `payment_date`) VALUES
+(22, 4, 1, 'ana', 'dfdsfv', 7, 1.01, '2025-06-08 15:56:00', 'completed', '2025-05-31 22:57:04', '2025-05-31 23:01:01', 'Marocco tanger', 'uploads/tasks/task_683b894064f0d0.77181944.png', 'unpaid', NULL),
+(23, 4, NULL, '2 task', 'sd', 7, 1111.00, '2025-06-07 16:14:00', 'posted', '2025-05-31 23:14:52', '2025-05-31 23:47:56', 'Marocco tanger', 'uploads/tasks/task_683b8d6c69c737.80951788.jpg', 'unpaid', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `task_assignments`
+-- Structure de la table `task_assignments`
 --
 
 CREATE TABLE `task_assignments` (
@@ -160,7 +171,21 @@ CREATE TABLE `task_assignments` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Structure de la table `task_cancellations`
+--
+
+CREATE TABLE `task_cancellations` (
+  `cancellation_id` int(11) NOT NULL,
+  `task_id` int(11) NOT NULL,
+  `executor_id` int(11) NOT NULL,
+  `cancellation_date` datetime NOT NULL,
+  `reason` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `users`
 --
 
 CREATE TABLE `users` (
@@ -175,19 +200,22 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `users`
+-- Déchargement des données de la table `users`
 --
 
 INSERT INTO `users` (`id_user`, `name`, `email`, `password`, `role`, `registration_date`, `profile_picture`, `bio`) VALUES
-(1, 'YAAKOUB ELHAOUARI', 'yaakoubelhaouari040@gmail.com', '$2y$10$zJ/Q72wi/tTKYQ0a6Zq8.eDmHB.LHonVySDETPycqWC5ONJotHPcG', 'client', '2025-05-23 18:15:39', NULL, NULL),
-(2, 'Test User', 'test@example.com', '$2y$10$W7ub0mKItIITUu2rH03Mde3OLVsNyJkgw4LgedRCY8IwA8/2K1pXu', 'client', '2025-05-23 18:22:29', NULL, NULL);
+(1, 'YAAKOUB ELHAOUARI', 'yaakoubelhaouari040@gmail.com', '$2y$10$zJ/Q72wi/tTKYQ0a6Zq8.eDmHB.LHonVySDETPycqWC5ONJotHPcG', 'executor', '2025-05-23 18:15:39', NULL, NULL),
+(2, 'Test User', 'test@example.com', '$2y$10$W7ub0mKItIITUu2rH03Mde3OLVsNyJkgw4LgedRCY8IwA8/2K1pXu', 'client', '2025-05-23 18:22:29', NULL, NULL),
+(3, 'YAAKOUB ELHAOUARI', 'yaakoubelhaouari00@gmail.com', '$2y$10$Q0Ob0chaaS5T0hSPxoNJQeQyOnNnGaXLYkbH30YmXsikcd/e8crga', 'client', '2025-05-24 10:19:01', NULL, NULL),
+(4, 'ana', 'y@y.com', '$2y$10$7fUnJmpyCUnv9PqNeZyVsu6.A.588ahPDxyBvFxEJJomdZlby27Bm', 'client', '2025-05-27 21:57:23', NULL, NULL),
+(5, 'YAAKOUB ELHAOUARI', 'yacobelhaouariii@gmail.com', '$2y$10$QzOyHn1IyQX7WGey5l6WAug/1R0b7iGdrfnKMiPzrcQbHWw2Q0.8O', 'executor', '2025-05-31 21:35:28', NULL, NULL);
 
 --
--- Indexes for dumped tables
+-- Index pour les tables déchargées
 --
 
 --
--- Indexes for table `bids`
+-- Index pour la table `bids`
 --
 ALTER TABLE `bids`
   ADD PRIMARY KEY (`bid_id`),
@@ -195,13 +223,13 @@ ALTER TABLE `bids`
   ADD KEY `executor_id` (`executor_id`);
 
 --
--- Indexes for table `categories`
+-- Index pour la table `categories`
 --
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`category_id`);
 
 --
--- Indexes for table `messages`
+-- Index pour la table `messages`
 --
 ALTER TABLE `messages`
   ADD PRIMARY KEY (`message_id`),
@@ -210,7 +238,7 @@ ALTER TABLE `messages`
   ADD KEY `task_id` (`task_id`);
 
 --
--- Indexes for table `payments`
+-- Index pour la table `payments`
 --
 ALTER TABLE `payments`
   ADD PRIMARY KEY (`payment_id`),
@@ -219,7 +247,7 @@ ALTER TABLE `payments`
   ADD KEY `payee_id` (`payee_id`);
 
 --
--- Indexes for table `reviews`
+-- Index pour la table `reviews`
 --
 ALTER TABLE `reviews`
   ADD PRIMARY KEY (`review_id`),
@@ -228,7 +256,7 @@ ALTER TABLE `reviews`
   ADD KEY `reviewee_id` (`reviewee_id`);
 
 --
--- Indexes for table `tasks`
+-- Index pour la table `tasks`
 --
 ALTER TABLE `tasks`
   ADD PRIMARY KEY (`task_id`),
@@ -237,7 +265,7 @@ ALTER TABLE `tasks`
   ADD KEY `executor_id` (`executor_id`);
 
 --
--- Indexes for table `task_assignments`
+-- Index pour la table `task_assignments`
 --
 ALTER TABLE `task_assignments`
   ADD PRIMARY KEY (`assignment_id`),
@@ -245,77 +273,91 @@ ALTER TABLE `task_assignments`
   ADD KEY `executor_id` (`executor_id`);
 
 --
--- Indexes for table `users`
+-- Index pour la table `task_cancellations`
+--
+ALTER TABLE `task_cancellations`
+  ADD PRIMARY KEY (`cancellation_id`),
+  ADD KEY `task_id` (`task_id`),
+  ADD KEY `executor_id` (`executor_id`);
+
+--
+-- Index pour la table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id_user`),
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT pour les tables déchargées
 --
 
 --
--- AUTO_INCREMENT for table `bids`
+-- AUTO_INCREMENT pour la table `bids`
 --
 ALTER TABLE `bids`
-  MODIFY `bid_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `bid_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
--- AUTO_INCREMENT for table `categories`
+-- AUTO_INCREMENT pour la table `categories`
 --
 ALTER TABLE `categories`
   MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT for table `messages`
+-- AUTO_INCREMENT pour la table `messages`
 --
 ALTER TABLE `messages`
   MODIFY `message_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `payments`
+-- AUTO_INCREMENT pour la table `payments`
 --
 ALTER TABLE `payments`
   MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `reviews`
+-- AUTO_INCREMENT pour la table `reviews`
 --
 ALTER TABLE `reviews`
   MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `tasks`
+-- AUTO_INCREMENT pour la table `tasks`
 --
 ALTER TABLE `tasks`
-  MODIFY `task_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `task_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
--- AUTO_INCREMENT for table `task_assignments`
+-- AUTO_INCREMENT pour la table `task_assignments`
 --
 ALTER TABLE `task_assignments`
   MODIFY `assignment_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT pour la table `task_cancellations`
+--
+ALTER TABLE `task_cancellations`
+  MODIFY `cancellation_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- Constraints for dumped tables
+-- Contraintes pour les tables déchargées
 --
 
 --
--- Constraints for table `bids`
+-- Contraintes pour la table `bids`
 --
 ALTER TABLE `bids`
   ADD CONSTRAINT `bids_ibfk_1` FOREIGN KEY (`task_id`) REFERENCES `tasks` (`task_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `bids_ibfk_2` FOREIGN KEY (`executor_id`) REFERENCES `users` (`id_user`) ON DELETE CASCADE;
 
 --
--- Constraints for table `messages`
+-- Contraintes pour la table `messages`
 --
 ALTER TABLE `messages`
   ADD CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`sender_id`) REFERENCES `users` (`id_user`) ON DELETE CASCADE,
@@ -323,7 +365,7 @@ ALTER TABLE `messages`
   ADD CONSTRAINT `messages_ibfk_3` FOREIGN KEY (`task_id`) REFERENCES `tasks` (`task_id`) ON DELETE SET NULL;
 
 --
--- Constraints for table `payments`
+-- Contraintes pour la table `payments`
 --
 ALTER TABLE `payments`
   ADD CONSTRAINT `payments_ibfk_1` FOREIGN KEY (`task_id`) REFERENCES `tasks` (`task_id`) ON DELETE CASCADE,
@@ -331,7 +373,7 @@ ALTER TABLE `payments`
   ADD CONSTRAINT `payments_ibfk_3` FOREIGN KEY (`payee_id`) REFERENCES `users` (`id_user`) ON DELETE CASCADE;
 
 --
--- Constraints for table `reviews`
+-- Contraintes pour la table `reviews`
 --
 ALTER TABLE `reviews`
   ADD CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`task_id`) REFERENCES `tasks` (`task_id`) ON DELETE CASCADE,
@@ -339,7 +381,7 @@ ALTER TABLE `reviews`
   ADD CONSTRAINT `reviews_ibfk_3` FOREIGN KEY (`reviewee_id`) REFERENCES `users` (`id_user`) ON DELETE CASCADE;
 
 --
--- Constraints for table `tasks`
+-- Contraintes pour la table `tasks`
 --
 ALTER TABLE `tasks`
   ADD CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `users` (`id_user`) ON DELETE CASCADE,
@@ -347,11 +389,18 @@ ALTER TABLE `tasks`
   ADD CONSTRAINT `tasks_ibfk_3` FOREIGN KEY (`executor_id`) REFERENCES `users` (`id_user`) ON DELETE SET NULL;
 
 --
--- Constraints for table `task_assignments`
+-- Contraintes pour la table `task_assignments`
 --
 ALTER TABLE `task_assignments`
   ADD CONSTRAINT `task_assignments_ibfk_1` FOREIGN KEY (`task_id`) REFERENCES `tasks` (`task_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `task_assignments_ibfk_2` FOREIGN KEY (`executor_id`) REFERENCES `users` (`id_user`) ON DELETE CASCADE;
+
+--
+-- Contraintes pour la table `task_cancellations`
+--
+ALTER TABLE `task_cancellations`
+  ADD CONSTRAINT `task_cancellations_ibfk_1` FOREIGN KEY (`task_id`) REFERENCES `tasks` (`task_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `task_cancellations_ibfk_2` FOREIGN KEY (`executor_id`) REFERENCES `users` (`id_user`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

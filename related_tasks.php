@@ -18,7 +18,7 @@ if ($task_id) {
         (SELECT COUNT(*) FROM tasks t2 
          WHERE t2.category_id = t1.category_id 
          AND t2.task_id != t1.task_id 
-         AND t2.status = 'pending') as related_count
+         AND (t2.status = 'in_progress' OR t2.executor_id IS NOT NULL)) as related_count
         FROM tasks t1
         WHERE t1.task_id = ? AND t1.client_id = ?
     ");
@@ -31,14 +31,21 @@ if ($task_id) {
             SELECT t.*, c.name as category_name, 
                    u.name as executor_name, u.profile_picture as executor_image,
                    u.email as executor_email,
-                   t.status as task_status, t.created_at, t.deadline
+                   t.status as task_status, t.created_at, t.deadline,
+                   (SELECT COUNT(*) FROM bids b WHERE b.task_id = t.task_id AND b.status = 'pending') as pending_bids_count,
+                   (SELECT COUNT(*) FROM bids b WHERE b.task_id = t.task_id AND b.status = 'cancelled' AND b.executor_id = t.executor_id) as has_cancelled_bid,
+                   (SELECT COUNT(*) FROM task_assignments ta WHERE ta.task_id = t.task_id) as has_assignment
             FROM tasks t
             LEFT JOIN categories c ON t.category_id = c.category_id
             LEFT JOIN users u ON t.executor_id = u.id_user
             WHERE t.category_id = ? 
             AND t.task_id != ? 
-            AND t.client_id = ?
-            AND t.executor_id IS NOT NULL
+            AND t.client_id = ? AND (
+                t.status != 'posted' OR 
+                EXISTS (SELECT 1 FROM bids b WHERE b.task_id = t.task_id AND b.status = 'pending') OR
+                EXISTS (SELECT 1 FROM task_assignments ta WHERE ta.task_id = t.task_id)
+            )
+            HAVING has_cancelled_bid = 0 OR has_cancelled_bid IS NULL
             ORDER BY t.created_at DESC
         ");
         $stmt->execute([$task['category_id'], $task_id, $_SESSION['user_id']]);
@@ -48,17 +55,24 @@ if ($task_id) {
         exit();
     }
 } else {
-    // Get only tasks that have related tasks in the same category
+    // Get all client's tasks that have active bids or assignments
     $stmt = $pdo->prepare("
         SELECT t.*, c.name as category_name, 
                u.name as executor_name, u.profile_picture as executor_image,
                u.email as executor_email,
-               t.status as task_status, t.created_at, t.deadline
+               t.status as task_status, t.created_at, t.deadline,
+               (SELECT COUNT(*) FROM bids b WHERE b.task_id = t.task_id AND b.status = 'pending') as pending_bids_count,
+               (SELECT COUNT(*) FROM bids b WHERE b.task_id = t.task_id AND b.status = 'cancelled' AND b.executor_id = t.executor_id) as has_cancelled_bid,
+               (SELECT COUNT(*) FROM task_assignments ta WHERE ta.task_id = t.task_id) as has_assignment
         FROM tasks t
         LEFT JOIN categories c ON t.category_id = c.category_id
         LEFT JOIN users u ON t.executor_id = u.id_user
-        WHERE t.client_id = ?
-        AND t.executor_id IS NOT NULL
+        WHERE t.client_id = ? AND (
+            t.status != 'posted' OR 
+            EXISTS (SELECT 1 FROM bids b WHERE b.task_id = t.task_id AND b.status = 'pending') OR
+            EXISTS (SELECT 1 FROM task_assignments ta WHERE ta.task_id = t.task_id)
+        )
+        HAVING has_cancelled_bid = 0 OR has_cancelled_bid IS NULL
         ORDER BY c.name, t.created_at DESC
     ");
     $stmt->execute([$_SESSION['user_id']]);
@@ -78,6 +92,7 @@ $related_tasks = $stmt->fetchAll();
     <link rel="stylesheet" href="style/related_tasks.css">
     <link rel="stylesheet" href="style/header.css">
     <link rel="stylesheet" href="style/footer.css">
+    <link rel="stylesheet" href="style/related_tasks_bids.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 
@@ -116,10 +131,17 @@ $related_tasks = $stmt->fetchAll();
                                             <i class="fas fa-tag"></i>
                                             <?php echo htmlspecialchars($task['category_name']); ?>
                                         </span>
+                                        <?php if ($task['task_status'] === 'posted' && isset($task['pending_bids_count']) && $task['pending_bids_count'] > 0): ?>
+                                        <span class="card-status has-bids">
+                                            <i class="fas fa-gavel"></i>
+                                            <?php echo $task['pending_bids_count']; ?> Bid<?php echo $task['pending_bids_count'] > 1 ? 's' : ''; ?> Pending
+                                        </span>
+                                        <?php else: ?>
                                         <span class="card-status status-<?php echo strtolower($task['task_status']); ?>">
                                             <i class="fas fa-circle"></i>
                                             <?php echo ucfirst($task['task_status']); ?>
                                         </span>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
 
@@ -132,6 +154,11 @@ $related_tasks = $stmt->fetchAll();
                                         <span>
                                             <i class="fas fa-envelope"></i>
                                             <?php echo htmlspecialchars($task['executor_email']); ?>
+                                        </span>
+                                    <?php elseif (isset($task['pending_bids_count']) && $task['pending_bids_count'] > 0): ?>
+                                        <span class="pending-bids">
+                                            <i class="fas fa-gavel"></i>
+                                            <?php echo $task['pending_bids_count']; ?> pending bid<?php echo $task['pending_bids_count'] > 1 ? 's' : ''; ?>
                                         </span>
                                     <?php endif; ?>
                                     <span>
@@ -153,6 +180,11 @@ $related_tasks = $stmt->fetchAll();
                                     <a href="messages.php?user=<?php echo $task['executor_id']; ?>" class="btn btn-secondary">
                                         <i class="fas fa-message"></i>
                                         Message
+                                    </a>
+                                    <?php elseif (isset($task['pending_bids_count']) && $task['pending_bids_count'] > 0): ?>
+                                    <a href="task_details.php?id=<?php echo $task['task_id']; ?>" class="btn btn-secondary bid-btn">
+                                        <i class="fas fa-gavel"></i>
+                                        Review Bids
                                     </a>
                                     <?php endif; ?>
                                 </div>

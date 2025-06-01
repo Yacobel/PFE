@@ -1,0 +1,42 @@
+/* Styles for bid-related elements in related_tasks.php */
+
+.pending-bids {
+    display: flex;
+    align-items: center;
+    color: #ff9800;
+    font-weight: 500;
+}
+
+.pending-bids i {
+    margin-right: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.bid-btn {
+    background-color: #ff9800;
+    border-color: #ff9800;
+    color: white;
+}
+
+.bid-btn:hover {
+    background-color: #f57c00;
+    border-color: #f57c00;
+}
+
+/* Status badge for posted tasks with bids */
+.card-status.status-posted {
+    background-color: #e3f2fd;
+    color: #1976d2;
+}
+
+/* Add a special status for tasks with bids */
+.card-status.has-bids {
+    background-color: #fff3e0;
+    color: #ff9800;
+}
+
+/* Make the bid count more prominent */
+.task-card:hover .pending-bids {
+    transform: scale(1.05);
+    transition: transform 0.2s ease;
+}
