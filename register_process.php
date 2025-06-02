@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'db.php'; // Include the database connection
+require_once 'config/db.php'; // Include the database connection
 
 // Initialize errors array
 $errors = [];

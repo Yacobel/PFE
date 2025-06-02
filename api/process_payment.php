@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../db.php';
+require_once '../config/db.php';
 
 // Check if user is logged in and is a client
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'client') {
@@ -55,7 +55,7 @@ try {
     $payment_amount = $task['bid_amount'] ? $task['bid_amount'] : $task['budget'];
     
     $stmt = $pdo->prepare("
-        INSERT INTO payments (task_id, client_id, executor_id, amount, payment_date, status)
+        INSERT INTO payments (task_id, payer_id, payee_id, amount, payment_date, status)
         VALUES (?, ?, ?, ?, NOW(), 'completed')
     ");
     $stmt->execute([
@@ -70,7 +70,8 @@ try {
     $stmt = $pdo->prepare("
         UPDATE tasks 
         SET status = 'completed', 
-            completed_at = NOW() 
+            payment_status = 'paid',
+            payment_date = NOW() 
         WHERE task_id = ? 
     ");
     $stmt->execute([$data['task_id']]);

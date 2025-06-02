@@ -8,7 +8,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 // Include database connection
-require_once 'db.php';
+require_once 'config/db.php';
 
 // Handle role switching
 if (isset($_POST['switch_role'])) {

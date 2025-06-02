@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'db.php';
+require_once 'config/db.php';
 
 // Check if user is logged in and is a client
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'client') {
@@ -37,6 +37,24 @@ include 'components/head.php';
                     </a>
                 </div>
             </div>
+            
+            <?php if (isset($_SESSION['success_message'])): ?>
+                <div class="alert alert-success">
+                    <?php 
+                        echo htmlspecialchars($_SESSION['success_message']); 
+                        unset($_SESSION['success_message']);
+                    ?>
+                </div>
+            <?php endif; ?>
+            
+            <?php if (isset($_SESSION['error_message'])): ?>
+                <div class="alert alert-error">
+                    <?php 
+                        echo htmlspecialchars($_SESSION['error_message']); 
+                        unset($_SESSION['error_message']);
+                    ?>
+                </div>
+            <?php endif; ?>
 
             <?php
             // Fetch tasks for the current client
@@ -45,6 +63,7 @@ include 'components/head.php';
                 FROM tasks t 
                 LEFT JOIN categories c ON t.category_id = c.category_id 
                 WHERE t.client_id = ? 
+                AND (t.payment_status IS NULL OR t.payment_status != 'paid')
                 ORDER BY t.created_at DESC
             ");
             $stmt->execute([$_SESSION['user_id']]);
@@ -205,7 +224,7 @@ include 'components/head.php';
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="paymentForm" method="POST" action="process_payment.php">
+                    <form id="paymentForm" method="POST" action="process_payment.php" onsubmit="return redirectToPayment(event)">
                         <input type="hidden" id="payment_task_id" name="task_id">
                         
                         <div class="payment-details">
@@ -257,276 +276,7 @@ include 'components/head.php';
     </div>
 
     <script src="js/main.js"></script>
-    <script>
-        // Image Preview Function
-        function previewImage(input) {
-            const preview = input.parentElement.querySelector('.image-preview');
-            const img = preview.querySelector('img');
-            const placeholder = preview.querySelector('.placeholder');
-
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    img.src = e.target.result;
-                    img.style.display = 'block';
-                    placeholder.style.display = 'none';
-                };
-                reader.readAsDataURL(input.files[0]);
-            } else {
-                img.src = '';
-                img.style.display = 'none';
-                placeholder.style.display = 'block';
-            }
-        }
-
-        // Create Task Modal Functions
-        function openCreateTaskModal() {
-            const modal = document.getElementById('createTaskModal');
-            if (modal) {
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-                
-                // Reset form and clear any previous errors
-                const form = document.getElementById('createTaskForm');
-                if (form) {
-                    form.reset();
-                    const errors = form.querySelectorAll('.alert-error');
-                    errors.forEach(error => error.remove());
-                }
-            }
-        }
-
-        function closeCreateTaskModal() {
-            const modal = document.getElementById('createTaskModal');
-            if (modal) {
-                modal.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            }
-        }
-
-        // Form Submission Handler
-        // Wait for DOM to be fully loaded before attaching event handlers
-        window.addEventListener('load', function() {
-            console.log('DOM fully loaded');
-            const createTaskForm = document.getElementById('createTaskForm');
-            console.log('Form found:', createTaskForm);
-            
-            if (createTaskForm) {
-                createTaskForm.addEventListener('submit', async function(e) {
-                    e.preventDefault();
-                    
-                    // Remove any existing error messages
-                    const existingErrors = document.querySelectorAll('.alert-error');
-                    existingErrors.forEach(error => error.remove());
-
-                    // Show loading state
-                    const submitBtn = document.querySelector('button[form="createTaskForm"]');
-                    if (!submitBtn) {
-                        console.error('Submit button not found');
-                        return;
-                    }
-
-                    const originalText = submitBtn.innerHTML;
-                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating...';
-                    submitBtn.disabled = true;
-
-                    try {
-                        // Validate form data
-                        const formData = new FormData(this);
-                        const requiredFields = ['title', 'description', 'category_id', 'budget', 'deadline'];
-                        const missingFields = [];
-
-                        for (const field of requiredFields) {
-                            if (!formData.get(field) || formData.get(field).trim() === '') {
-                                missingFields.push(field);
-                            }
-                        }
-
-                        if (missingFields.length > 0) {
-                            throw new Error('Please fill in all required fields: ' + missingFields.join(', '));
-                        }
-
-                        // Check if image is selected
-                        const imageInput = document.getElementById('taskImage');
-                        if (!imageInput || !imageInput.files || !imageInput.files[0]) {
-                            throw new Error('Please select an image for the task');
-                        }
-
-                        console.log('Submitting form data:', Object.fromEntries(formData));
-                        
-                        const response = await fetch('api/create_task.php', {
-                            method: 'POST',
-                            body: formData
-                        });
-
-                        const text = await response.text();
-                        console.log('Server response:', text);
-
-                        let data;
-                        try {
-                            data = JSON.parse(text);
-                        } catch (e) {
-                            console.error('Failed to parse response:', text);
-                            throw new Error('Invalid server response');
-                        }
-
-                        if (data.success) {
-                            window.location.reload();
-                        } else {
-                            throw new Error(data.message || 'Error creating task');
-                        }
-                    } catch (error) {
-                        console.error('Error:', error);
-                        const errorDiv = document.createElement('div');
-                        errorDiv.className = 'alert alert-error';
-                        errorDiv.textContent = error.message || 'An error occurred. Please try again.';
-                        
-                        const modalBody = document.querySelector('.modal-body');
-                        if (modalBody) {
-                            modalBody.insertBefore(errorDiv, modalBody.firstChild);
-                        }
-                    } finally {
-                        // Restore button state
-                        submitBtn.innerHTML = originalText;
-                        submitBtn.disabled = false;
-                    }
-                });
-            } else {
-                console.error('Create task form not found');
-            }
-            
-            // Also attach click handler to the submit button as a backup
-            const submitBtn = document.querySelector('button[form="createTaskForm"]');
-            if (submitBtn) {
-                console.log('Submit button found');
-                submitBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    console.log('Submit button clicked');
-                    const form = document.getElementById('createTaskForm');
-                    if (form) {
-                        // Trigger the form submission
-                        const submitEvent = new Event('submit', { cancelable: true });
-                        form.dispatchEvent(submitEvent);
-                    }
-                });
-            } else {
-                console.error('Submit button not found');
-            }
-        });
-
-        // Payment Modal Functions
-        function openPaymentModal(taskId, taskTitle, budget) {
-            document.getElementById('payment_task_id').value = taskId;
-            document.getElementById('payment_task_title').textContent = taskTitle;
-            document.getElementById('payment_amount').textContent = '$' + budget.toFixed(2);
-            
-            document.getElementById('paymentModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-        
-        function closePaymentModal() {
-            document.getElementById('paymentModal').classList.remove('active');
-            document.body.style.overflow = 'auto';
-            
-            // Reset form
-            document.getElementById('paymentForm').reset();
-        }
-        
-        // Edit Task Modal Functions
-        function openEditTaskModal(taskData) {
-            document.getElementById('edit_task_id').value = taskData.id;
-            document.getElementById('edit_title').value = taskData.title;
-            document.getElementById('edit_description').value = taskData.description;
-            document.getElementById('edit_category').value = taskData.category_id;
-            document.getElementById('edit_budget').value = taskData.budget;
-            document.getElementById('edit_deadline').value = taskData.deadline;
-            document.getElementById('edit_location').value = taskData.location || '';
-
-            // Show current image preview
-            const imagePreview = document.getElementById('current_image_preview');
-            if (taskData.image_url) {
-                imagePreview.innerHTML = `
-                    <img src="${taskData.image_url}" alt="Current task image" style="max-width: 100%; max-height: 200px;">
-                `;
-            } else {
-                imagePreview.innerHTML = `<span class="placeholder">No image currently set</span>`;
-            }
-
-            document.getElementById('editTaskModal').classList.add('active');
-        }
-
-        function closeEditTaskModal() {
-            document.getElementById('editTaskModal').classList.remove('active');
-        }
-
-        // Handle form submission
-        document.getElementById('editTaskForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            const formData = new FormData(this);
-
-            fetch('api/update_task.php', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        window.location.reload();
-                    } else {
-                        alert('Error updating task: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Error updating task. Please try again.');
-                });
-        });
-
-        // Preview image when a new one is selected
-        document.getElementById('edit_image').addEventListener('change', function(e) {
-            const preview = document.getElementById('current_image_preview');
-            const file = e.target.files[0];
-
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    preview.innerHTML = `
-                        <img src="${e.target.result}" alt="Preview" style="max-width: 100%; max-height: 200px;">
-                    `;
-                }
-                reader.readAsDataURL(file);
-            }
-        });
-
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal-overlay')) {
-                if (event.target.id === 'editTaskModal') {
-                    closeEditTaskModal();
-                }
-            }
-        }
-
-        // Add this new function for task deletion
-        function deleteTask(taskId) {
-            if (confirm('Are you sure you want to delete this task? This action cannot be undone.')) {
-                fetch('api/delete_task.php?id=' + taskId)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            window.location.reload();
-                        } else {
-                            alert('Error deleting task: ' + data.message);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Error deleting task. Please try again.');
-                    });
-            }
-        }
-    </script>
+    <script src="js/my_tasks.js"></script>
 </body>
 
 </html>

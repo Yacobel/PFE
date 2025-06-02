@@ -139,17 +139,7 @@
     </div>
 
     <script src="js/main.js"></script>
-    <script>
-        // Toggle password visibility
-        document.getElementById('togglePassword').addEventListener('click', function() {
-            const password = document.getElementById('password');
-            if (password.type === 'password') {
-                password.type = 'text';
-            } else {
-                password.type = 'password';
-            }
-        });
-    </script>
+    <script src="js/login.js"></script>
 </body>
 
 </html>

@@ -392,7 +392,11 @@ body::before {
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(76, 229, 149, 0.2);
 }
-
+.btn-primary i{
+  font-size: 20px;
+  color: #12192B;
+  transition: alle 0.3s ease;
+}
 .btn-secondary {
   background: rgba(76, 229, 149, 0.1);
   color: var(--primary);
@@ -404,6 +408,10 @@ body::before {
   border-color: var(--primary);
   transform: translateY(-2px);
 }
+.btn-primary:hover i{
+  color: #4ce595;
+}
+
 
 .btn-success {
   background: var(--primary);

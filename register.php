@@ -174,36 +174,7 @@
     </div>
 
     <script src="js/main.js"></script>
-    <script>
-        // Toggle password visibility
-        document.getElementById('togglePassword').addEventListener('click', function() {
-            const password = document.getElementById('password');
-            if (password.type === 'password') {
-                password.type = 'text';
-            } else {
-                password.type = 'password';
-            }
-        });
-
-        document.getElementById('toggleConfirmPassword').addEventListener('click', function() {
-            const confirmPassword = document.getElementById('confirmPassword');
-            if (confirmPassword.type === 'password') {
-                confirmPassword.type = 'text';
-            } else {
-                confirmPassword.type = 'password';
-            }
-        });
-
-        // Phone checkbox
-        document.getElementById('phoneCheck').addEventListener('change', function() {
-            const phoneInput = this.nextElementSibling;
-            if (this.checked) {
-                phoneInput.setAttribute('required', 'required');
-            } else {
-                phoneInput.removeAttribute('required');
-            }
-        });
-    </script>
+    <script src="js/register.js"></script>
 </body>
 
 </html>

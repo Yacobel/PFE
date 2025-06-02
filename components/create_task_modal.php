@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../db.php';
+require_once __DIR__ . '/../config/db.php';
 ?>
 <!-- Create Task Modal -->
 <div class="modal-overlay" id="createTaskModal">
@@ -17,7 +17,7 @@ require_once __DIR__ . '/../db.php';
                     ?>
                 </div>
             <?php endif; ?>
-            <form method="POST" id="createTaskForm" enctype="multipart/form-data" novalidate>
+            <form method="POST" id="createTaskForm" action="api/create_task.php" enctype="multipart/form-data" novalidate>
                 <div class="form-group">
                     <label for="taskTitle">Task Title</label>
                     <input type="text" id="taskTitle" name="title" class="form-control" placeholder="Enter a clear title for your task" required>
@@ -74,7 +74,7 @@ require_once __DIR__ . '/../db.php';
             <button type="button" class="btn btn-secondary" onclick="closeCreateTaskModal()">
                 <i class="fas fa-times"></i> Cancel
             </button>
-            <button type="submit" class="btn btn-primary" form="createTaskForm">
+            <button type="submit" class="btn btn-primary" form="createTaskForm" onclick="document.getElementById('createTaskForm').submit();">
                 <i class="fas fa-plus"></i> Create Task
             </button>
         </div>

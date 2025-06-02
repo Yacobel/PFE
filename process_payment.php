@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'db.php';
+require_once 'config/db.php';
 
 // Check if user is logged in and is a client
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'client') {
@@ -159,110 +159,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="en">
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <style>
-        .payment-container {
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 30px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        }
-        .payment-header {
-            margin-bottom: 25px;
-            text-align: center;
-        }
-        .payment-header h1 {
-            color: #2c3e50;
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-        .payment-header p {
-            color: #7f8c8d;
-            font-size: 16px;
-        }
-        .task-details {
-            background-color: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-        }
-        .task-details h3 {
-            margin-top: 0;
-            color: #2c3e50;
-        }
-        .detail-row {
-            display: flex;
-            margin-bottom: 10px;
-        }
-        .detail-row i {
-            width: 25px;
-            color: #3498db;
-            margin-right: 10px;
-        }
-        .payment-form {
-            margin-top: 25px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: #2c3e50;
-        }
-        .form-control {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-        .btn-pay {
-            background-color: #27ae60;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
-            width: 100%;
-            transition: background-color 0.3s;
-        }
-        .btn-pay:hover {
-            background-color: #219653;
-        }
-        .btn-cancel {
-            background-color: #e74c3c;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 10px;
-            transition: background-color 0.3s;
-        }
-        .btn-cancel:hover {
-            background-color: #c0392b;
-        }
-        .card-row {
-            display: flex;
-            gap: 15px;
-        }
-        .card-row .form-group {
-            flex: 1;
-        }
-        .payment-amount {
-            font-size: 24px;
-            font-weight: bold;
-            color: #27ae60;
-            text-align: center;
-            margin: 20px 0;
-        }
-    </style>
+    <link rel="stylesheet" href="style/payment.css">
 </head>
 <body>
     <?php include 'components/header.php'; ?>
@@ -298,7 +195,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </div>
 
-            <form class="payment-form" method="POST" action="process_payment.php">
+            <form class="payment-form" method="POST" action="process_payment.php?task_id=<?php echo $task_id; ?>">
                 <input type="hidden" name="task_id" value="<?php echo $task_id; ?>">
                 
                 <div class="form-group">
@@ -327,7 +224,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <i class="fas fa-lock"></i> Pay $<?php echo number_format($payment_amount, 2); ?>
                 </button>
                 
-                <a href="dashboard.php" class="btn-cancel" style="display: block; text-align: center; text-decoration: none;">
+                <a href="dashboard.php" class="btn-cancel">
                     <i class="fas fa-times"></i> Cancel
                 </a>
             </form>

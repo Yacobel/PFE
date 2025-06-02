@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'db.php';
+require_once 'config/db.php';
 
 // Check if user is logged in and is a client
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'client') {
@@ -18,7 +18,8 @@ if ($task_id) {
         (SELECT COUNT(*) FROM tasks t2 
          WHERE t2.category_id = t1.category_id 
          AND t2.task_id != t1.task_id 
-         AND (t2.status = 'in_progress' OR t2.executor_id IS NOT NULL)) as related_count
+         AND (t2.status = 'in_progress' OR t2.executor_id IS NOT NULL)
+         AND (t2.payment_status IS NULL OR t2.payment_status != 'paid')) as related_count
         FROM tasks t1
         WHERE t1.task_id = ? AND t1.client_id = ?
     ");
@@ -31,19 +32,21 @@ if ($task_id) {
             SELECT t.*, c.name as category_name, 
                    u.name as executor_name, u.profile_picture as executor_image,
                    u.email as executor_email,
-                   t.status as task_status, t.created_at, t.deadline,
+                   t.status as task_status, t.created_at, t.deadline, t.payment_status,
                    (SELECT COUNT(*) FROM bids b WHERE b.task_id = t.task_id AND b.status = 'pending') as pending_bids_count,
                    (SELECT COUNT(*) FROM bids b WHERE b.task_id = t.task_id AND b.status = 'cancelled' AND b.executor_id = t.executor_id) as has_cancelled_bid,
-                   (SELECT COUNT(*) FROM task_assignments ta WHERE ta.task_id = t.task_id) as has_assignment
+                   (SELECT COUNT(*) FROM bids b WHERE b.task_id = t.task_id AND b.status = 'accepted') as has_assignment
             FROM tasks t
             LEFT JOIN categories c ON t.category_id = c.category_id
             LEFT JOIN users u ON t.executor_id = u.id_user
             WHERE t.category_id = ? 
             AND t.task_id != ? 
-            AND t.client_id = ? AND (
+            AND t.client_id = ? 
+            AND (t.payment_status IS NULL OR t.payment_status != 'paid')
+            AND (
                 t.status != 'posted' OR 
                 EXISTS (SELECT 1 FROM bids b WHERE b.task_id = t.task_id AND b.status = 'pending') OR
-                EXISTS (SELECT 1 FROM task_assignments ta WHERE ta.task_id = t.task_id)
+                EXISTS (SELECT 1 FROM bids b WHERE b.task_id = t.task_id AND b.status = 'accepted')
             )
             HAVING has_cancelled_bid = 0 OR has_cancelled_bid IS NULL
             ORDER BY t.created_at DESC
@@ -60,17 +63,19 @@ if ($task_id) {
         SELECT t.*, c.name as category_name, 
                u.name as executor_name, u.profile_picture as executor_image,
                u.email as executor_email,
-               t.status as task_status, t.created_at, t.deadline,
+               t.status as task_status, t.created_at, t.deadline, t.payment_status,
                (SELECT COUNT(*) FROM bids b WHERE b.task_id = t.task_id AND b.status = 'pending') as pending_bids_count,
                (SELECT COUNT(*) FROM bids b WHERE b.task_id = t.task_id AND b.status = 'cancelled' AND b.executor_id = t.executor_id) as has_cancelled_bid,
-               (SELECT COUNT(*) FROM task_assignments ta WHERE ta.task_id = t.task_id) as has_assignment
+               (SELECT COUNT(*) FROM bids b WHERE b.task_id = t.task_id AND b.status = 'accepted') as has_assignment
         FROM tasks t
         LEFT JOIN categories c ON t.category_id = c.category_id
         LEFT JOIN users u ON t.executor_id = u.id_user
-        WHERE t.client_id = ? AND (
+        WHERE t.client_id = ? 
+        AND (t.payment_status IS NULL OR t.payment_status != 'paid')
+        AND (
             t.status != 'posted' OR 
             EXISTS (SELECT 1 FROM bids b WHERE b.task_id = t.task_id AND b.status = 'pending') OR
-            EXISTS (SELECT 1 FROM task_assignments ta WHERE ta.task_id = t.task_id)
+            EXISTS (SELECT 1 FROM bids b WHERE b.task_id = t.task_id AND b.status = 'accepted')
         )
         HAVING has_cancelled_bid = 0 OR has_cancelled_bid IS NULL
         ORDER BY c.name, t.created_at DESC

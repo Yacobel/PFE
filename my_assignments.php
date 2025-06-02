@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'db.php';
+require_once 'config/db.php';
 
 // Check if user is logged in and is an executor
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'executor') {
@@ -17,15 +17,16 @@ include 'components/head.php';
 
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-
     <link rel="stylesheet" href="./style/my_assignments.css">
 </head>
 
 <body>
-    <?php include 'components/header.php'; ?>
+ 
 
-    <div class="container">
-        <div class="assignments-container">
+    <main class="container">
+    <?php include 'components/header.php'; ?>
+        <div class="dashborde-container">
+            <div class="assignments-container">
             <div class="assignments-header">
                 <h1><i class="fas fa-clipboard-check"></i> My Assignments</h1>
                 <p>Manage your accepted tasks and update their status</p>
@@ -123,8 +124,9 @@ include 'components/head.php';
                     </a>
                 </div>
             <?php endif; ?>
+            </div>
         </div>
-    </div>
+    </main>
 
     <!-- Cancellation Modal -->
     <div id="cancellationModal" class="modal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; overflow:auto; background-color:rgba(0,0,0,0.4);">
@@ -141,94 +143,8 @@ include 'components/head.php';
         </div>
     </div>
 
-    <script>
-        // Get the modal
-        var modal = document.getElementById("cancellationModal");
-        var span = document.getElementsByClassName("close")[0];
-
-        // Show the cancellation modal
-        function showCancellationModal(taskId) {
-            document.getElementById("taskIdToCancel").value = taskId;
-            document.getElementById("cancellationReason").value = "";
-            modal.style.display = "block";
-        }
-
-        // Close the modal
-        function closeModal() {
-            modal.style.display = "none";
-        }
-
-        // When the user clicks on <span> (x), close the modal
-        span.onclick = function() {
-            closeModal();
-        }
-
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                closeModal();
-            }
-        }
-
-        // Confirm cancellation and submit the form
-        function confirmCancellation() {
-            var taskId = document.getElementById("taskIdToCancel").value;
-            var reason = document.getElementById("cancellationReason").value;
-
-            fetch('api/update_task_status.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    task_id: taskId,
-                    status: 'cancelled',
-                    reason: reason
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    window.location.reload();
-                } else {
-                    alert('Error: ' + data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred while cancelling the task');
-            });
-
-            closeModal();
-        }
-
-        function updateTaskStatus(taskId, newStatus) {
-            if (confirm('Are you sure you want to update this task\'s status?')) {
-                fetch('api/update_task_status.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            task_id: taskId,
-                            status: newStatus
-                        })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            window.location.reload();
-                        } else {
-                            alert('Error: ' + data.message);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('An error occurred while updating the task status');
-                    });
-            }
-        }
-    </script>
+    <script src="js/main.js"></script>
+    <script src="js/my_assignments.js"></script>
 
 </body>
 

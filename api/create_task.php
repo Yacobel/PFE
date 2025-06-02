@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../db.php';
+require_once '../config/db.php';
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -112,7 +112,10 @@ try {
     
     $stmt->execute();
 
-    echo json_encode(['success' => true, 'message' => 'Task created successfully']);
+    // Set success message and redirect instead of returning JSON
+    $_SESSION['success_message'] = 'Task created successfully!';
+    header('Location: ../my_tasks.php');
+    exit;
 
 } catch (PDOException $e) {
     error_log('Database Error: ' . $e->getMessage());

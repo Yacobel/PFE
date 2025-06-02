@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'db.php';
+require_once 'config/db.php';
 
 // Check if task ID is provided
 if (!isset($_GET['id'])) {
@@ -25,7 +25,8 @@ try {
                u1.registration_date as client_member_since,
                u2.name as executor_name, u2.email as executor_email,
                u2.profile_picture as executor_image,
-               u2.registration_date as executor_member_since
+               u2.registration_date as executor_member_since,
+               (SELECT b.bid_amount FROM bids b WHERE b.task_id = t.task_id AND b.status = 'accepted' LIMIT 1) as bid_amount
         FROM tasks t 
         LEFT JOIN categories c ON t.category_id = c.category_id
         LEFT JOIN users u1 ON t.client_id = u1.id_user
@@ -80,7 +81,7 @@ try {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
     <link rel="stylesheet" href="./style/header.css">
-   
+    <link rel="stylesheet" href="./style/task_details.css">
 </head>
 
 <body>
@@ -88,6 +89,7 @@ try {
 
     <main class="container">
     <?php include 'components/header.php'; ?>
+    <div class="dashborde-container">
         <div class="task-hero">
             <h1><?php echo htmlspecialchars($task['title']); ?></h1>
             <div class="task-meta">
@@ -444,223 +446,23 @@ try {
             </form>
         </div>
     </div>
+    </div>
 
+    <script src="js/main.js"></script>
+    <script src="js/task_details.js"></script>
     <script>
-        // Task Actions
-        function acceptTask(taskId) {
-            if (confirm('Are you sure you want to accept this task?')) {
-                fetch('api/accept_task.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            task_id: taskId
-                        })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            alert('Task accepted successfully!');
-                            window.location.reload();
-                        } else {
-                            alert('Error: ' + data.message);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('An error occurred while accepting the task');
-                    });
-            }
-        }
-
-        function rejectTask(taskId) {
-            if (confirm('Are you sure you want to reject this task?')) {
-                fetch('api/reject_task.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            task_id: taskId
-                        })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            alert('Task rejected successfully');
-                            window.location.href = 'taskes.php';
-                        } else {
-                            alert('Error: ' + data.message);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('An error occurred while rejecting the task');
-                    });
-            }
-        }
-
-        // Modal Functions
-        function openMessageModal() {
-            document.getElementById('messageModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-            // Set the recipient to the client by default
-            document.getElementById('recipient_id').value = <?php echo $task['client_id']; ?>;
-        }
-        
-        function openMessageModalWithRecipient(recipientId) {
-            document.getElementById('messageModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-            // Set the specific recipient
-            document.getElementById('recipient_id').value = recipientId;
-        }
-
-        function closeMessageModal() {
-            document.getElementById('messageModal').classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-
-        // Bid Form Submission
-        if (document.getElementById('bidForm')) {
-            document.getElementById('bidForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                const taskId = document.getElementById('task_id').value;
-                const bidAmount = document.getElementById('bid_amount').value;
-                const proposalText = document.getElementById('proposal_text').value;
-                
-                fetch('api/accept_task.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        task_id: taskId,
-                        bid_amount: bidAmount,
-                        proposal_text: proposalText
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('Your bid has been submitted successfully!');
-                        window.location.reload();
-                    } else {
-                        alert('Error: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('An error occurred while submitting your bid');
-                });
-            });
-        }
-        
-        // Message Form Submission
-        document.getElementById('messageForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const message = document.getElementById('message').value;
-            const recipientId = document.getElementById('recipient_id').value;
-
-            fetch('api/send_message.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        task_id: <?php echo $task_id; ?>,
-                        recipient_id: recipientId,
-                        message: message
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('Message sent successfully!');
-                        closeMessageModal();
-                    } else {
-                        alert('Error: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('An error occurred while sending the message');
-                });
-        });
-
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal-overlay')) {
-                closeMessageModal();
-            }
-        }
-
-        // Close modal on escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && document.getElementById('messageModal').classList.contains('active')) {
-                closeMessageModal();
+        // Set task_id for JavaScript to use
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add a hidden input for task_id if it doesn't exist
+            if (!document.getElementById('task_id')) {
+                const hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.id = 'task_id';
+                hiddenInput.name = 'task_id';
+                hiddenInput.value = '<?php echo $task_id; ?>';
+                document.body.appendChild(hiddenInput);
             }
         });
-        
-        // Process Payment Function
-        function processPayment(taskId) {
-            if (confirm('Are you sure you want to confirm task completion and process payment? This action cannot be undone.')) {
-                fetch('api/process_payment.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        task_id: taskId
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        // Show payment success modal
-                        alert('Payment processed successfully! The task has been marked as completed.');
-                        window.location.reload();
-                    } else {
-                        alert('Error: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('An error occurred while processing the payment');
-                });
-            }
-        }
-        
-        // Cancel Task Function
-        function cancelTask(taskId) {
-            if (confirm('Are you sure you want to cancel your assignment for this task? This will allow the client to select another executor.')) {
-                const reason = document.getElementById('cancel_reason').value;
-                
-                fetch('api/cancel_task.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        task_id: taskId,
-                        reason: reason
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('Task assignment cancelled successfully. The client can now select another executor.');
-                        window.location.href = 'my_assignments.php';
-                    } else {
-                        alert('Error: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('An error occurred while cancelling the task');
-                });
-            }
-        }
     </script>
 
 </body>
