@@ -54,7 +54,7 @@ try {
         ");
         $stmt->execute([$task_id]);
     }
-    // If task is cancelled, update status in task_assignments and make task available again
+    // If task is cancelled, update status in task_assignments, update bid statuses, and make task available again
     elseif ($new_status === 'cancelled') {
         // Begin transaction to ensure all updates are completed together
         $pdo->beginTransaction();
@@ -68,6 +68,45 @@ try {
             ");
             $stmt->execute([$task_id]);
             
+            // Get the bid ID for this task and executor
+            $stmt = $pdo->prepare("
+                SELECT bid_id 
+                FROM bids 
+                WHERE task_id = ? 
+                AND executor_id = ?
+            ");
+            $stmt->execute([$task_id, $_SESSION['user_id']]);
+            $bid = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            if ($bid) {
+                // Update the executor's bid status to 'cancelled'
+                $stmt = $pdo->prepare("UPDATE bids SET status = 'cancelled' WHERE bid_id = ?");
+                $stmt->execute([$bid['bid_id']]);
+                
+                // Verify the update was successful
+                $stmt = $pdo->prepare("SELECT status FROM bids WHERE bid_id = ?");
+                $stmt->execute([$bid['bid_id']]);
+                $finalStatus = $stmt->fetchColumn();
+                
+                if ($finalStatus !== 'cancelled') {
+                    // Log error if bid status update failed
+                    error_log("Failed to update bid status to cancelled for bid_id: {$bid['bid_id']}. Current status: $finalStatus");
+                } else {
+                    error_log("Successfully updated bid status to cancelled for bid_id: {$bid['bid_id']}");
+                }
+                
+                // Reset ALL other bids for this task back to pending
+                $stmt = $pdo->prepare("
+                    UPDATE bids
+                    SET status = 'pending'
+                    WHERE task_id = ? 
+                    AND executor_id != ?
+                ");
+                $stmt->execute([$task_id, $_SESSION['user_id']]);
+            } else {
+                error_log("No bid found for task_id: $task_id and executor_id: {$_SESSION['user_id']}");
+            }
+            
             // Reset the task status to 'posted' and clear executor_id to make it available again
             $stmt = $pdo->prepare("
                 UPDATE tasks 
@@ -75,6 +114,36 @@ try {
                 WHERE task_id = ?
             ");
             $stmt->execute([$task_id]);
+            
+            // Add cancellation reason if provided
+            if (isset($data['reason'])) {
+                $reason = trim($data['reason']);
+            } else {
+                $reason = 'No reason provided';
+            }
+            
+            // Check if task_cancellations table exists before inserting
+            $tableExists = false;
+            try {
+                $stmt = $pdo->query("SHOW TABLES LIKE 'task_cancellations'");
+                $tableExists = $stmt->rowCount() > 0;
+            } catch (Exception $e) {
+                error_log("Error checking for task_cancellations table: " . $e->getMessage());
+            }
+            
+            if ($tableExists) {
+                try {
+                    $stmt = $pdo->prepare("
+                        INSERT INTO task_cancellations (task_id, executor_id, cancellation_date, reason)
+                        VALUES (?, ?, NOW(), ?)
+                    ");
+                    $stmt->execute([$task_id, $_SESSION['user_id'], $reason]);
+                    error_log("Added cancellation record to task_cancellations table");
+                } catch (Exception $e) {
+                    // Log error but continue with the process
+                    error_log("Error inserting into task_cancellations: " . $e->getMessage());
+                }
+            }
             
             // Commit the transaction
             $pdo->commit();

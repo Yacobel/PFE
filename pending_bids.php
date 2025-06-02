@@ -38,53 +38,16 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pending Bids - Task Platform</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="stylesheet" href="style/dashboard.css">
-    <link rel="stylesheet" href="style/related_tasks.css">
-    <link rel="stylesheet" href="style/related_tasks_bids.css">
     <link rel="stylesheet" href="style/header.css">
-    <link rel="stylesheet" href="style/footer.css">
-    <style>
-        .pending-bids-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-        
-        .bid-count-badge {
-            background-color: #ff9800;
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-weight: 600;
-            margin-left: 0.5rem;
-        }
-        
-        .bid-price-range {
-            font-weight: 500;
-            color: #4a6cf7;
-            margin-top: 0.5rem;
-        }
-        
-        .latest-bid {
-            font-size: 0.85rem;
-            color: #666;
-            margin-top: 0.25rem;
-        }
-        
-        .bid-card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-    </style>
+    <link rel="stylesheet" href="style/pending_bids.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
-    <?php include 'components/header.php'; ?>
+    
 
     <div class="container">
+    <?php include 'components/header.php'; ?>
         <div class="dashboard-container">
             <div class="pending-bids-header">
                 <div>
@@ -160,8 +123,6 @@ try {
             <?php endif; ?>
         </div>
     </div>
-
-    <?php include 'components/footer.php'; ?>
 </body>
 
 </html>

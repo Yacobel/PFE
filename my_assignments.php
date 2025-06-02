@@ -101,7 +101,7 @@ include 'components/head.php';
                                 <?php endif; ?>
 
                                 <?php if ($task['status'] !== 'completed' && $task['status'] !== 'cancelled'): ?>
-                                    <button onclick="updateTaskStatus(<?php echo $task['task_id']; ?>, 'cancelled')" class="btn btn-danger">
+                                    <button onclick="showCancellationModal(<?php echo $task['task_id']; ?>)" class="btn btn-danger">
                                         <i class="fas fa-times"></i> Cancel Task
                                     </button>
                                 <?php endif; ?>
@@ -126,7 +126,82 @@ include 'components/head.php';
         </div>
     </div>
 
+    <!-- Cancellation Modal -->
+    <div id="cancellationModal" class="modal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; overflow:auto; background-color:rgba(0,0,0,0.4);">
+        <div class="modal-content" style="background-color:#fefefe; margin:15% auto; padding:20px; border:1px solid #888; width:50%; border-radius:5px; box-shadow:0 4px 8px rgba(0,0,0,0.1);">
+            <span class="close" style="color:#aaa; float:right; font-size:28px; font-weight:bold; cursor:pointer;">&times;</span>
+            <h2 style="margin-top:0;">Cancel Task</h2>
+            <p>Please provide a reason for cancelling this task:</p>
+            <textarea id="cancellationReason" style="width:100%; padding:10px; margin-bottom:15px; border:1px solid #ddd; border-radius:4px; min-height:100px;"></textarea>
+            <input type="hidden" id="taskIdToCancel">
+            <div style="text-align:right;">
+                <button onclick="closeModal()" style="background-color:#ccc; border:none; padding:10px 15px; margin-right:10px; border-radius:4px; cursor:pointer;">Cancel</button>
+                <button onclick="confirmCancellation()" style="background-color:#f44336; color:white; border:none; padding:10px 15px; border-radius:4px; cursor:pointer;">Confirm Cancellation</button>
+            </div>
+        </div>
+    </div>
+
     <script>
+        // Get the modal
+        var modal = document.getElementById("cancellationModal");
+        var span = document.getElementsByClassName("close")[0];
+
+        // Show the cancellation modal
+        function showCancellationModal(taskId) {
+            document.getElementById("taskIdToCancel").value = taskId;
+            document.getElementById("cancellationReason").value = "";
+            modal.style.display = "block";
+        }
+
+        // Close the modal
+        function closeModal() {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            closeModal();
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        // Confirm cancellation and submit the form
+        function confirmCancellation() {
+            var taskId = document.getElementById("taskIdToCancel").value;
+            var reason = document.getElementById("cancellationReason").value;
+
+            fetch('api/update_task_status.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    task_id: taskId,
+                    status: 'cancelled',
+                    reason: reason
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.reload();
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while cancelling the task');
+            });
+
+            closeModal();
+        }
+
         function updateTaskStatus(taskId, newStatus) {
             if (confirm('Are you sure you want to update this task\'s status?')) {
                 fetch('api/update_task_status.php', {

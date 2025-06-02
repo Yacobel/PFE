@@ -88,18 +88,18 @@ $related_tasks = $stmt->fetchAll();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Related Tasks</title>
-    <link rel="stylesheet" href="style/dashboard.css">
-    <link rel="stylesheet" href="style/related_tasks.css">
+    
     <link rel="stylesheet" href="style/header.css">
-    <link rel="stylesheet" href="style/footer.css">
-    <link rel="stylesheet" href="style/related_tasks_bids.css">
+    <link rel="stylesheet" href="style/related_tasks.css">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 
 <body>
-    <?php include 'components/header.php'; ?>
+
 
     <div class="container">
+    <?php include 'components/header.php'; ?>
         <div class="dashboard-container">
             <div class="assignments-header">
                 <h1>
@@ -172,10 +172,18 @@ $related_tasks = $stmt->fetchAll();
                                 </div>
 
                                 <div class="card-actions">
+                                    <?php if ($task['task_status'] === 'completed'): ?>
+                                    <a href="process_payment.php?task_id=<?php echo $task['task_id']; ?>" class="btn btn-success">
+                                        <i class="fas fa-credit-card"></i>
+                                        Pay Now
+                                    </a>
+                                    <?php else: ?>
                                     <a href="task_details.php?id=<?php echo $task['task_id']; ?>" class="btn btn-primary">
                                         <i class="fas fa-eye"></i>
                                         View Details
                                     </a>
+                                    <?php endif; ?>
+                                    
                                     <?php if ($task['executor_id']): ?>
                                     <a href="messages.php?user=<?php echo $task['executor_id']; ?>" class="btn btn-secondary">
                                         <i class="fas fa-message"></i>
@@ -196,7 +204,7 @@ $related_tasks = $stmt->fetchAll();
         </div>
     </div>
 
-    <?php include 'components/footer.php'; ?>
+
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

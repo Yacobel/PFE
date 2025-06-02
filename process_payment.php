@@ -8,6 +8,46 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'client') {
     exit;
 }
 
+// Get task ID from URL parameter
+$task_id = isset($_GET['task_id']) ? intval($_GET['task_id']) : 0;
+
+// Validate task ID
+if ($task_id <= 0) {
+    $_SESSION['error_message'] = "Invalid task ID.";
+    header("Location: dashboard.php");
+    exit;
+}
+
+// Get task details
+$stmt = $pdo->prepare("
+    SELECT t.*, u.id_user as executor_id, u.name as executor_name, u.email as executor_email,
+           b.bid_amount, b.status as bid_status
+    FROM tasks t
+    LEFT JOIN users u ON t.executor_id = u.id_user
+    LEFT JOIN bids b ON t.task_id = b.task_id AND b.executor_id = t.executor_id
+    WHERE t.task_id = ? AND t.client_id = ? AND t.status = 'completed'
+");
+$stmt->execute([$task_id, $_SESSION['user_id']]);
+$task = $stmt->fetch();
+
+if (!$task) {
+    $_SESSION['error_message'] = "Task not found or not eligible for payment.";
+    header("Location: dashboard.php");
+    exit;
+}
+
+// Check if payment has already been made
+$stmt = $pdo->prepare("SELECT payment_id FROM payments WHERE task_id = ? AND status = 'completed'");
+$stmt->execute([$task_id]);
+if ($stmt->rowCount() > 0) {
+    $_SESSION['error_message'] = "Payment has already been processed for this task.";
+    header("Location: dashboard.php");
+    exit;
+}
+
+// Set payment amount (use bid amount if available, otherwise use budget)
+$payment_amount = $task['bid_amount'] ? $task['bid_amount'] : $task['budget'];
+
 // Check if form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get form data
@@ -58,7 +98,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             INSERT INTO payments (task_id, client_id, executor_id, amount, payment_date, status)
             VALUES (?, ?, ?, ?, NOW(), 'completed')
         ");
-        $stmt->execute([$task_id, $_SESSION['user_id'], $task['executor_id'], $task['budget']]);
+        $stmt->execute([$task_id, $_SESSION['user_id'], $task['executor_id'], $payment_amount]);
+        
+        // Update the accepted bid to 'done' status
+        $stmt = $pdo->prepare("
+            UPDATE bids
+            SET status = 'done'
+            WHERE task_id = ?
+            AND executor_id = ?
+            AND status = 'accepted'
+        ");
+        $stmt->execute([$task_id, $task['executor_id']]);
+        
+        // Verify the update was successful
+        $stmt = $pdo->prepare("SELECT status FROM bids WHERE task_id = ? AND executor_id = ?");
+        $stmt->execute([$task_id, $task['executor_id']]);
+        $finalStatus = $stmt->fetchColumn();
+        
+        if ($finalStatus !== 'done') {
+            // Log error if bid status update failed
+            error_log("Failed to update bid status to 'done' for task_id: {$task_id}. Current status: $finalStatus");
+        }
+        
+        // Now that the task is completed and paid, reject all other bids
+        $stmt = $pdo->prepare("
+            UPDATE bids
+            SET status = 'rejected'
+            WHERE task_id = ?
+            AND executor_id != ?
+            AND status = 'pending'
+        ");
+        $stmt->execute([$task_id, $task['executor_id']]);
 
         // Commit transaction
         $pdo->commit();
@@ -66,8 +136,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Set success message
         $_SESSION['success_message'] = "Payment successful! The executor has been paid for completing the task.";
         
-        // Redirect back to my tasks page
-        header("Location: my_tasks.php");
+        // Redirect back to dashboard
+        header("Location: dashboard.php");
         exit;
     } catch (Exception $e) {
         // Roll back transaction on error
@@ -81,7 +151,191 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 } else {
-    // If not POST request, redirect to my tasks page
-    header("Location: my_tasks.php");
-    exit;
+    // Display payment form
+    $pageTitle = "Process Payment";
+    include 'components/head.php';
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        .payment-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        .payment-header {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .payment-header h1 {
+            color: #2c3e50;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        .payment-header p {
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+        .task-details {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+        .task-details h3 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        .detail-row {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        .detail-row i {
+            width: 25px;
+            color: #3498db;
+            margin-right: 10px;
+        }
+        .payment-form {
+            margin-top: 25px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .btn-pay {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+        .btn-pay:hover {
+            background-color: #219653;
+        }
+        .btn-cancel {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        .btn-cancel:hover {
+            background-color: #c0392b;
+        }
+        .card-row {
+            display: flex;
+            gap: 15px;
+        }
+        .card-row .form-group {
+            flex: 1;
+        }
+        .payment-amount {
+            font-size: 24px;
+            font-weight: bold;
+            color: #27ae60;
+            text-align: center;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <?php include 'components/header.php'; ?>
+
+    <div class="container">
+        <div class="payment-container">
+            <div class="payment-header">
+                <h1><i class="fas fa-credit-card"></i> Process Payment</h1>
+                <p>Complete your payment to finalize the task</p>
+            </div>
+
+            <div class="task-details">
+                <h3><?php echo htmlspecialchars($task['title']); ?></h3>
+                <div class="detail-row">
+                    <i class="fas fa-user"></i>
+                    <span>Executor: <?php echo htmlspecialchars($task['executor_name']); ?></span>
+                </div>
+                <div class="detail-row">
+                    <i class="fas fa-envelope"></i>
+                    <span>Email: <?php echo htmlspecialchars($task['executor_email']); ?></span>
+                </div>
+                <div class="detail-row">
+                    <i class="fas fa-calendar"></i>
+                    <span>Deadline: <?php echo date('M d, Y', strtotime($task['deadline'])); ?></span>
+                </div>
+                <div class="detail-row">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Status: <?php echo ucfirst($task['status']); ?></span>
+                </div>
+                
+                <div class="payment-amount">
+                    Payment Amount: $<?php echo number_format($payment_amount, 2); ?>
+                </div>
+            </div>
+
+            <form class="payment-form" method="POST" action="process_payment.php">
+                <input type="hidden" name="task_id" value="<?php echo $task_id; ?>">
+                
+                <div class="form-group">
+                    <label for="card_holder">Card Holder Name</label>
+                    <input type="text" id="card_holder" name="card_holder" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="card_number">Card Number</label>
+                    <input type="text" id="card_number" name="card_number" class="form-control" placeholder="XXXX XXXX XXXX XXXX" required>
+                </div>
+                
+                <div class="card-row">
+                    <div class="form-group">
+                        <label for="expiry_date">Expiry Date</label>
+                        <input type="text" id="expiry_date" name="expiry_date" class="form-control" placeholder="MM/YY" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cvv">CVV</label>
+                        <input type="text" id="cvv" name="cvv" class="form-control" placeholder="XXX" required>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn-pay">
+                    <i class="fas fa-lock"></i> Pay $<?php echo number_format($payment_amount, 2); ?>
+                </button>
+                
+                <a href="dashboard.php" class="btn-cancel" style="display: block; text-align: center; text-decoration: none;">
+                    <i class="fas fa-times"></i> Cancel
+                </a>
+            </form>
+        </div>
+    </div>
+
+    <?php include 'components/footer.php'; ?>
+</body>
+</html>
+<?php
 }

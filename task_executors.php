@@ -68,165 +68,22 @@ try {
     <title>Review Executors - Task Platform</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="stylesheet" href="style/dashboard.css">
-    <link rel="stylesheet" href="style/task_details.css">
-    <link rel="stylesheet" href="style/bids.css">
     <link rel="stylesheet" href="style/header.css">
-    <link rel="stylesheet" href="style/footer.css">
-    <style>
-        .task-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .task-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-        
-        .task-info span {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.25rem 0.75rem;
-            background-color: #f5f5f5;
-            border-radius: 4px;
-            font-size: 0.9rem;
-        }
-        
-        .executor-card {
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        
-        .executor-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        
-        .executor-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 1rem;
-        }
-        
-        .executor-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        
-        .executor-avatar {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            background-color: #f0f0f0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-        
-        .executor-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .executor-avatar i {
-            font-size: 2rem;
-            color: #777;
-        }
-        
-        .executor-details h3 {
-            margin: 0 0 0.5rem;
-            font-size: 1.25rem;
-        }
-        
-        .executor-details p {
-            margin: 0 0 0.25rem;
-            font-size: 0.9rem;
-            color: #666;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .executor-stats {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        
-        .stat-item {
-            padding: 0.5rem 1rem;
-            background-color: #f5f5f5;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .rating {
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
-        
-        .rating i {
-            color: #ffc107;
-        }
-        
-        .bid-details {
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid #eee;
-        }
-        
-        .bid-amount {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #4a6cf7;
-            margin-bottom: 0.5rem;
-        }
-        
-        .bid-proposal {
-            margin: 1rem 0;
-            padding: 1rem;
-            background-color: #f9f9f9;
-            border-radius: 6px;
-            border-left: 3px solid #4a6cf7;
-        }
-        
-        .executor-actions {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-    </style>
+    <link rel="stylesheet" href="style/task_executors.css">
 </head>
 
 <body>
-    <?php include 'components/header.php'; ?>
-
+    
+    
     <main class="container">
+    <?php include 'components/header.php'; ?>
+    
         <?php if (isset($error_message)): ?>
             <div class="error-message">
                 <?php echo htmlspecialchars($error_message); ?>
             </div>
         <?php else: ?>
+            <div class="dashboard-container">
             <div class="task-header">
                 <div>
                     <h1><?php echo htmlspecialchars($task['title']); ?></h1>
@@ -345,8 +202,8 @@ try {
             </form>
         </div>
     </div>
+    </div>
 
-    <?php include 'components/footer.php'; ?>
 
     <script>
         // Accept Bid

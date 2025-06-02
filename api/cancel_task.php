@@ -55,15 +55,9 @@ try {
         throw new Exception('No bid found for this task');
     }
     
-    // CRITICAL FIX: First convert the column to VARCHAR temporarily to reset any enum constraints
-    $pdo->exec("ALTER TABLE bids MODIFY COLUMN status VARCHAR(20) DEFAULT 'pending'");
-    
-    // Now directly update the status using the bid_id
-    $stmt = $pdo->prepare("UPDATE bids SET status = ? WHERE bid_id = ?");
-    $stmt->execute(['cancelled', $bid['bid_id']]);
-    
-    // Convert back to enum with all needed values
-    $pdo->exec("ALTER TABLE bids MODIFY COLUMN status ENUM('pending','accepted','rejected','cancelled','done') DEFAULT 'pending'");
+    // Update the bid status to cancelled directly without modifying the schema
+    $stmt = $pdo->prepare("UPDATE bids SET status = 'cancelled' WHERE bid_id = ?");
+    $stmt->execute([$bid['bid_id']]);
     
     // Verify the update was successful
     $stmt = $pdo->prepare("SELECT status FROM bids WHERE bid_id = ?");
@@ -71,17 +65,9 @@ try {
     $finalStatus = $stmt->fetchColumn();
     
     if ($finalStatus !== 'cancelled') {
-        // If still not updated, try a direct SQL approach
-        $pdo->exec("UPDATE bids SET status = 'cancelled' WHERE bid_id = {$bid['bid_id']}");
-        
-        // Check again
-        $stmt = $pdo->prepare("SELECT status FROM bids WHERE bid_id = ?");
-        $stmt->execute([$bid['bid_id']]);
-        $finalStatus = $stmt->fetchColumn();
-        
-        if ($finalStatus !== 'cancelled') {
-            throw new Exception("Failed to update bid status to cancelled. Current status: $finalStatus");
-        }
+        // If update failed, log the error and throw exception
+        error_log("Failed to update bid status to cancelled for bid_id: {$bid['bid_id']}. Current status: $finalStatus");
+        throw new Exception("Failed to update bid status to cancelled. Current status: $finalStatus");
     }
     
     error_log("Successfully updated bid status to cancelled for bid_id: {$bid['bid_id']}");
@@ -106,11 +92,32 @@ try {
 
     // Add cancellation reason if provided
     $reason = isset($data['reason']) ? trim($data['reason']) : 'No reason provided';
-    $stmt = $pdo->prepare("
-        INSERT INTO task_cancellations (task_id, executor_id, cancellation_date, reason)
-        VALUES (?, ?, NOW(), ?)
-    ");
-    $stmt->execute([$data['task_id'], $_SESSION['user_id'], $reason]);
+    
+    // Check if task_cancellations table exists before inserting
+    $tableExists = false;
+    try {
+        $stmt = $pdo->query("SHOW TABLES LIKE 'task_cancellations'");
+        $tableExists = $stmt->rowCount() > 0;
+    } catch (Exception $e) {
+        error_log("Error checking for task_cancellations table: " . $e->getMessage());
+    }
+    
+    if ($tableExists) {
+        try {
+            $stmt = $pdo->prepare("
+                INSERT INTO task_cancellations (task_id, executor_id, cancellation_date, reason)
+                VALUES (?, ?, NOW(), ?)
+            ");
+            $stmt->execute([$data['task_id'], $_SESSION['user_id'], $reason]);
+            error_log("Added cancellation record to task_cancellations table");
+        } catch (Exception $e) {
+            // Log error but continue with the process
+            error_log("Error inserting into task_cancellations: " . $e->getMessage());
+        }
+    } else {
+        // Log warning but continue with the process
+        error_log("Warning: task_cancellations table does not exist. Cancellation reason not saved.");
+    }
 
     // Commit transaction
     $pdo->commit();

@@ -78,17 +78,16 @@ try {
     <title><?php echo htmlspecialchars($task['title']); ?> - Task Details</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="stylesheet" href="style/task_details.css">
-    <link rel="stylesheet" href="style/user_sections.css">
-    <link rel="stylesheet" href="./style/footer.css">
+
     <link rel="stylesheet" href="./style/header.css">
-    <link rel="stylesheet" href="./style/bids.css">
+   
 </head>
 
 <body>
-    <?php include 'components/header.php'; ?>
+
 
     <main class="container">
+    <?php include 'components/header.php'; ?>
         <div class="task-hero">
             <h1><?php echo htmlspecialchars($task['title']); ?></h1>
             <div class="task-meta">
@@ -664,7 +663,6 @@ try {
         }
     </script>
 
-    <?php include 'components/footer.php'; ?>
 </body>
 
 </html>
