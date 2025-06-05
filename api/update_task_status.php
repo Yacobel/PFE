@@ -45,27 +45,19 @@ try {
     $stmt = $pdo->prepare("UPDATE tasks SET status = ? WHERE task_id = ?");
     $stmt->execute([$new_status, $task_id]);
 
-    // If task is completed, update completion date in task_assignments
+    // If task is completed, update status in tasks table
     if ($new_status === 'completed') {
-        $stmt = $pdo->prepare("
-            UPDATE task_assignments 
-            SET status = 'completed', completion_date = NOW() 
-            WHERE task_id = ?
-        ");
+        $stmt = $pdo->prepare("UPDATE tasks SET status = 'completed' WHERE task_id = ?");
         $stmt->execute([$task_id]);
     }
-    // If task is cancelled, update status in task_assignments, update bid statuses, and make task available again
+    // If task is cancelled, update status in tasks table and reset bids
     elseif ($new_status === 'cancelled') {
         // Begin transaction to ensure all updates are completed together
         $pdo->beginTransaction();
         
         try {
-            // Update task_assignments status to cancelled
-            $stmt = $pdo->prepare("
-                UPDATE task_assignments 
-                SET status = 'cancelled'
-                WHERE task_id = ?
-            ");
+            // Update tasks table status to cancelled
+            $stmt = $pdo->prepare("UPDATE tasks SET status = 'cancelled' WHERE task_id = ?");
             $stmt->execute([$task_id]);
             
             // Get the bid ID for this task and executor
@@ -153,13 +145,9 @@ try {
             throw $e;
         }
     }
-    // If task is in progress, update status in task_assignments
+    // If task is in progress, update status in tasks table
     elseif ($new_status === 'in_progress') {
-        $stmt = $pdo->prepare("
-            UPDATE task_assignments 
-            SET status = 'in_progress'
-            WHERE task_id = ?
-        ");
+        $stmt = $pdo->prepare("UPDATE tasks SET status = 'in_progress' WHERE task_id = ?");
         $stmt->execute([$task_id]);
     }
 
