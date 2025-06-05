@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 
 <head>
   <?php
-  $pageTitle = "Home";
+  $pageTitle = "الرئيسية";
   include 'components/head.php';
   ?>
   <link rel="stylesheet" href="./style/style.css">
@@ -25,25 +25,24 @@
       <div class="hero-info">
         <div class="rating">
           <p>
-            Rated <span>4.9 ★</span> by Freelance Experts
-            <img src="./style/images/rating.png" alt="Rating" />
+            من عند خبراء الفريلانس <span>4.9 ★</span> تقييمنــا
+            <img src="./style/images/rating.png" alt="تقييم" />
           </p>
         </div>
         <div class="header-hero">
           <div class="headline">
-            <h1>Get Your <span>Tasks</span> Done Anytime, Anywhere</h1>
+            <h1>خلي <span>المهام</span> يتدارو فأي وقت وفأي بلاصة</h1>
           </div>
           <div class="description">
             <p>
-              Post any task you need help with, and let skilled people in your
-              area accept and complete it for you.
+              زيد خدمتك، وخلي الناس القريبين ليك لي عندهم المهارات ياخدوها وينفذوها ليك.
             </p>
           </div>
         </div>
 
         <div class="hero-btn">
-          <a href="./register.php">Create Your Task Now
-            <img src="./style/images/Clip path group.png" alt="Arrow icon" />
+          <a href="./register.php">زيد خدمتك دابا!
+            <img src="./style/images/Clip path group.png" alt="آيقونة السهم" />
           </a>
         </div>
       </div>
@@ -52,325 +51,274 @@
     <!-- Video Explanation Section -->
     <div class="video-explain">
       <div class="img">
-        <!-- Video content will go here -->
+        <!-- غادي يكون هنا فيديو الشرح -->
       </div>
     </div>
 
     <!-- Solutions Section -->
     <div class="solution">
       <div class="our-solution">
-        <p>Our Solutions</p>
+        <p>الحلول ديالنا:</p>
       </div>
       <div class="headline">
-        <h2>A Smarter Way to Get Things Done, From Start to Finish</h2>
+        <h2>طريقة ذكية باش تدير المهام ديالك من الأول حتى للآخر</h2>
         <p>
-          Quickly describe what you need, set your location and deadline, and
-          post your task. No complicated steps — just clarity and control.
+          وصف الخدمة ديالك بسرعة، حدد المدينة والوقت، وزيدها فالموقع. بلا ما تدوخ، كلشي واضح وساهل.
         </p>
       </div>
       <div class="cards">
         <div class="card">
           <div class="card-icon">
-            <img src="./style/images/1.png" alt="Simple Task Posting" />
+            <img src="./style/images/1.png" alt="نشر المهمة بسهولة" />
           </div>
-          <h3>Simple Task Posting</h3>
+          <h3>نشر المهمة بسهولة</h3>
           <p>
-            Easily describe your task and set your preferences in minutes.
+            فدقايق، كتب شنو خاصك وخلي الناس تعرف الشروط ديالك.
           </p>
         </div>
         <div class="card">
           <div class="card-icon">
-            <img src="./style/images/1.png" alt="Quick Matching" />
+            <img src="./style/images/1.png" alt="مطابقة سريعة" />
           </div>
-          <h3>Quick Matching</h3>
-          <p>Get connected with skilled taskers in your area quickly.</p>
+          <h3>مطابقة سريعة</h3>
+          <p>كاتلقى ناس قريبين ليك ومهرة باش يديرو خدمتك بسرعة.</p>
         </div>
         <div class="card">
           <div class="card-icon">
-            <img src="./style/images/1.png" alt="Secure Payments" />
+            <img src="./style/images/1.png" alt="دفع آمن" />
           </div>
-          <h3>Secure Payments</h3>
-          <p>Pay only when your task is completed to your satisfaction.</p>
+          <h3>دفع آمن</h3>
+          <p>ما كتخلص حتى تكمل الخدمة و تكون راضي عليها.</p>
         </div>
       </div>
     </div>
 
-    <!-- Advantages Section -->
-    <div class="advantage">
-      <div class="our-advantage">
-        <p>Our Advantages</p>
+
+   <!-- Advantages Section -->
+<div class="advantage">
+  <div class="our-advantage">
+    <p>علاش تختار منصتنا؟</p>
+  </div>
+  <div class="headline">
+    <h2>علاش آلاف الناس كيعتمدوا علينا كل نهار؟</h2>
+    <p>
+      المنصة ديالنا كتوفر ليك طريقة سهلة وذكية باش تلقى أو تعرض خدمات في أي مدينة فالمغرب، بأمان وفعالية.
+    </p>
+  </div>
+
+  <div class="advantage-cards">
+    <div class="card1">
+      <div class="images">
+        <img
+          src="./style/images/verification.png"
+          alt="Icon التحقق من المستخدمين" />
       </div>
-      <div class="headline">
-        <h2>Why Thousands of Users Trust Us Every Day</h2>
+      <div class="info-card">
+        <h3>مستخدمين متحقق منهم</h3>
         <p>
-          Skill is designed to enhance your learning journey and advance your
-          career. With top-tier resources and tailored support, we provide
-          everything you need to achieve your objectives and beyond.
+          كندير تحقق من الهوية باش نضمنو الأمان والثقة بين الناس اللي كيطلبو وكيعرضو الخدمات.
         </p>
       </div>
+    </div>
 
-      <div class="advantage-cards">
-        <div class="card1">
-          <div class="images">
-            <img
-              src="./style/images/verification.png"
-              alt="Learn from the Best Icon" />
-          </div>
-          <div class="info-card">
-            <h3>Learn from the Best</h3>
-            <p>
-              Benefit from the expertise of top-notch instructors and industry
-              professionals.
-            </p>
-          </div>
-        </div>
-        <div class="card2">
-          <div class="images">
-            <img src="./style/images/$.svg" alt="Affordable Learning Icon" />
-          </div>
-          <div class="info-card">
-            <h3>Affordable Learning</h3>
-            <p>
-              Access high-quality courses at a price that fits your budget.
-            </p>
-          </div>
-        </div>
-        <div class="card3">
-          <div class="images">
-            <img src="./style/images/f.svg" alt="Join Our Community Icon" />
-          </div>
-          <div class="info-card">
-            <h3>Join Our Community</h3>
-            <p>
-              Connect with fellow learners, share experiences, and grow
-              together.
-            </p>
-          </div>
-        </div>
-        <div class="card4">
-          <div class="images">
-            <img
-              src="./style/images/contact.svg"
-              alt="Unlock Your Career Potential Icon" />
-          </div>
-          <div class="info-card">
-            <h3>Unlock Your Career Potential</h3>
-            <p>
-              Gain the skills and knowledge to advance your career and open
-              new opportunities.
-            </p>
-          </div>
-        </div>
-        <div class="card5">
-          <div class="images">
-            <img
-              src="./style/images/location.svg"
-              alt="Study Anytime, Anywhere Icon" />
-          </div>
-          <div class="info-card">
-            <h3>Study Anytime, Anywhere</h3>
-            <p>
-              Enjoy the flexibility to learn at your own pace, whenever and
-              wherever you want.
-            </p>
-          </div>
-        </div>
+    <div class="card2">
+      <div class="images">
+        <img src="./style/images/$.svg" alt="Icon الأسعار المناسبة" />
+      </div>
+      <div class="info-card">
+        <h3>ثمن مناسب للجميع</h3>
+        <p>
+          تفاوض مباشرة مع الشخص اللي غادي يدير الخدمة، واختار العرض اللي يريحك.
+        </p>
       </div>
     </div>
+
+    <div class="card3">
+      <div class="images">
+        <img src="./style/images/f.svg" alt="Icon المجتمع" />
+      </div>
+      <div class="info-card">
+        <h3>مجتمع متعاون</h3>
+        <p>
+          تواصل مع الناس فمدينتك، شارك التجارب ديالك، وخدم يد في يد مع محترفين.
+        </p>
+      </div>
+    </div>
+
+    <div class="card4">
+      <div class="images">
+        <img
+          src="./style/images/contact.svg"
+          alt="Icon الفرص الجديدة" />
+      </div>
+      <div class="info-card">
+        <h3>فرص جديدة للخدمة</h3>
+        <p>
+          سواء كنت كتشوف على خدمة ولا عندك مهارة، المنصة كتفتح ليك بيبان جديدة.
+        </p>
+      </div>
+    </div>
+
+    <div class="card5">
+      <div class="images">
+        <img
+          src="./style/images/location.svg"
+          alt="Icon الخدمة في أي بلاصة" />
+      </div>
+      <div class="info-card">
+        <h3>خدمة فين ما كنتي</h3>
+        <p>
+          تقدر تطلب أو تعرض خدمة فمدينة أخرى، بلا ما تكون حاضر، وكلشي كيتم عبر المنصة.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
 
     <!-- Services Section -->
-    <div class="our-services">
-      <div class="services-button-container">
-        <button class="services-button">
-          <img src="./style/images/aboute.png" alt="Services icon" />
-          Our Services
-        </button>
-      </div>
+<div class="our-services">
+  <div class="services-button-container">
+    <button class="services-button">
+      <img src="./style/images/aboute.png" alt="Services icon" />
+      الخدمات المتوفرة
+    </button>
+  </div>
 
-      <div class="heading-section">
-        <h2 class="main-heading">
-          Find Help for Anything, Anytime Explore Our Most Popular Services
-        </h2>
-        <p class="sub-heading">
-          We understand the value of your time, which is why we select only
-          the most impactful courses. Each one is designed to provide the
-          expertise and tools essential for achieving your goals.
+  <div class="heading-section">
+    <h2 class="main-heading">
+      لقا المساعدة في أي خدمة، ف أي وقت! استكشف الخدمات الأكثر طلباً
+    </h2>
+    <p class="sub-heading">
+      حنا عارفين أن الوقت ديالك ثمين، وهادشي علاش كنجمعو لك أفضل الخدمات بطريقة سهلة وآمنة باش توصل لحل سريع وفعّال.
+    </p>
+  </div>
+
+  <div class="services-grid">
+    <!-- Service Card 1 -->
+    <div class="service-card">
+      <div class="card-image">
+        <img src="./style/images/Gradient+Image.png" alt="خدمات التنظيف" />
+      </div>
+      <div class="card-content">
+        <h3 class="card-title">خدمات التنظيف</h3>
+        <div class="price-container">
+          <span class="current-price">ابتداءً من 100 درهم</span>
+        </div>
+        <p class="card-description">
+          تنظيف شامل، ترتيب يومي، أو تنظيف عند الخروج من الشقة.
         </p>
-      </div>
 
-      <div class="services-grid">
-        <!-- Service Card 1 -->
-        <div class="service-card">
-          <div class="card-image">
-            <img
-              src="./style/images/Gradient+Image.png"
-              alt="Delivery & Errands" />
+        <div class="card-details">
+          <div class="detail-item">
+            <!-- Icon: Clock -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+              viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <span>6+ ساعات عمل</span>
           </div>
-          <div class="card-content">
-            <h3 class="card-title">Delivery & Errands</h3>
-            <div class="price-container">
-              <span class="current-price">$9.99</span>
-            </div>
-            <p class="card-description">
-              Deep cleaning, regular tidying, or moving-out services.
-            </p>
 
-            <div class="card-details">
-              <div class="detail-item">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <polyline points="12 6 12 12 16 14"></polyline>
-                </svg>
-                <span>6+ Hours of work</span>
-              </div>
-
-              <div class="detail-item">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round">
-                  <line x1="18" y1="20" x2="18" y2="10"></line>
-                  <line x1="12" y1="20" x2="12" y2="4"></line>
-                  <line x1="6" y1="20" x2="6" y2="14"></line>
-                </svg>
-                <span>Beginner</span>
-              </div>
-            </div>
-
-            <button class="browse-button">Browse Work</button>
+          <div class="detail-item">
+            <!-- Icon: Bar Chart -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+              viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="20" x2="18" y2="10"></line>
+              <line x1="12" y1="20" x2="12" y2="4"></line>
+              <line x1="6" y1="20" x2="6" y2="14"></line>
+            </svg>
+            <span>مبتدئ</span>
           </div>
         </div>
 
-        <!-- Service Card 2 -->
-        <div class="service-card">
-          <div class="card-image">
-            <img
-              src="./style/images/Gradient+Image (1).png"
-              alt="Delivery & Errands" />
-          </div>
-          <div class="card-content">
-            <h3 class="card-title">Delivery & Errands</h3>
-            <div class="price-container">
-              <span class="current-price">$10.00</span>
-            </div>
-            <p class="card-description">
-              Grocery runs, package delivery, or forgotten items.
-            </p>
-
-            <div class="card-details">
-              <div class="detail-item">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <polyline points="12 6 12 12 16 14"></polyline>
-                </svg>
-                <span>15+ Hours of Work</span>
-              </div>
-
-              <div class="detail-item">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round">
-                  <line x1="18" y1="20" x2="18" y2="10"></line>
-                  <line x1="12" y1="20" x2="12" y2="4"></line>
-                  <line x1="6" y1="20" x2="6" y2="14"></line>
-                </svg>
-                <span>Beginner To Intermediate</span>
-              </div>
-            </div>
-
-            <button class="browse-button">Browse Work</button>
-          </div>
-        </div>
-
-        <!-- Service Card 3 -->
-        <div class="service-card">
-          <div class="card-image">
-            <img
-              src="./style/images/Gradient+Image.png"
-              alt="Moving Assistance" />
-          </div>
-          <div class="card-content">
-            <h3 class="card-title">Moving Assistance</h3>
-            <div class="price-container">
-              <span class="current-price">$20.00</span>
-            </div>
-            <p class="card-description">
-              Packing, lifting, or full relocation support.
-            </p>
-
-            <div class="card-details">
-              <div class="detail-item">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <polyline points="12 6 12 12 16 14"></polyline>
-                </svg>
-                <span>3+ Hours of Work</span>
-              </div>
-
-              <div class="detail-item">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round">
-                  <line x1="18" y1="20" x2="18" y2="10"></line>
-                  <line x1="12" y1="20" x2="12" y2="4"></line>
-                  <line x1="6" y1="20" x2="6" y2="14"></line>
-                </svg>
-                <span>Beginner</span>
-              </div>
-            </div>
-
-            <button class="browse-button">Browse Work</button>
-          </div>
-        </div>
+        <button class="browse-button">شوف الخدمات</button>
       </div>
     </div>
+
+    <!-- نفس الهيكل للبطاقات الأخرى -->
+    <!-- Service Card 2 -->
+    <div class="service-card">
+      <div class="card-image">
+        <img src="./style/images/Gradient+Image (1).png" alt="التوصيل وقضاء الحاجيات" />
+      </div>
+      <div class="card-content">
+        <h3 class="card-title">التوصيل وقضاء الحاجيات</h3>
+        <div class="price-container">
+          <span class="current-price">ابتداءً من 90 درهم</span>
+        </div>
+        <p class="card-description">
+          جلب المشتريات، توصيل الطرود، أو أشياء منسية.
+        </p>
+
+        <div class="card-details">
+          <div class="detail-item">
+            <!-- Icon: Clock -->
+            <svg xmlns="http://www.w3.org/2000/svg" ...>
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <span>15+ ساعة عمل</span>
+          </div>
+
+          <div class="detail-item">
+            <!-- Icon: Bar Chart -->
+            <svg xmlns="http://www.w3.org/2000/svg" ...>
+              <line x1="18" y1="20" x2="18" y2="10"></line>
+              <line x1="12" y1="20" x2="12" y2="4"></line>
+              <line x1="6" y1="20" x2="6" y2="14"></line>
+            </svg>
+            <span>من مبتدئ حتى متوسط</span>
+          </div>
+        </div>
+
+        <button class="browse-button">شوف الخدمات</button>
+      </div>
+    </div>
+
+    <!-- Service Card 3 -->
+    <div class="service-card">
+      <div class="card-image">
+        <img src="./style/images/Gradient+Image.png" alt="مساعدة في التنقل" />
+      </div>
+      <div class="card-content">
+        <h3 class="card-title">مساعدة في التنقل</h3>
+        <div class="price-container">
+          <span class="current-price">ابتداءً من 200 درهم</span>
+        </div>
+        <p class="card-description">
+          التغليف، الحمل، أو المساعدة في الانتقال الكامل.
+        </p>
+
+        <div class="card-details">
+          <div class="detail-item">
+            <!-- Icon: Clock -->
+            <svg xmlns="http://www.w3.org/2000/svg" ...>
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <span>3+ ساعات عمل</span>
+          </div>
+
+          <div class="detail-item">
+            <!-- Icon: Bar Chart -->
+            <svg xmlns="http://www.w3.org/2000/svg" ...>
+              <line x1="18" y1="20" x2="18" y2="10"></line>
+              <line x1="12" y1="20" x2="12" y2="4"></line>
+              <line x1="6" y1="20" x2="6" y2="14"></line>
+            </svg>
+            <span>مبتدئ</span>
+          </div>
+        </div>
+
+        <button class="browse-button">شوف الخدمات</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
     <!-- Testimonials Section -->
     <div class="testimonials-container">
