@@ -31,7 +31,7 @@ body::before {
   width: 100%;
   height: 100%;
   background-image: radial-gradient(circle closest-side, #12192b00, #12192be6);
-} 
+}
 .container {
   position: relative;
   width: 90%;
@@ -51,15 +51,6 @@ body::before {
   margin-left: auto;
   margin-right: auto;
 }
-
-
-
-
-
-
-
-
-
 
 .user-info {
   background: rgba(18, 25, 43, 0.6);
@@ -92,7 +83,13 @@ body::before {
   color: var(--primary);
   font-size: 2rem;
 }
-
+.rool {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+}
 .user-role {
   display: inline-flex;
   align-items: center;
@@ -115,16 +112,13 @@ body::before {
 }
 
 .user-info p {
-  margin: 1.2rem 0;
   color: #b5b6c2;
   font-size: 1.1rem;
   display: flex;
   align-items: center;
   gap: 1rem;
   padding: 1rem;
-  border-radius: 12px;
   background: rgba(18, 25, 43, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.05);
   transition: all 0.3s ease;
 }
 
@@ -139,29 +133,13 @@ body::before {
   font-weight: 600;
 }
 
-/* .user-info i {
-  color: #4ce595;
-  font-size: 1.2rem;
-  width: 24px;
-  text-align: center;
-} */
-
 
 
 .btn:hover {
-  background: transparent;
-  border-color: #4ce595;
-  color: #4ce595;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(76, 229, 149, 0.2);
+  color: #64748b;
 }
 
 
-
-
-.role-switch-form {
-  margin-top: 2rem;
-}
 
 .btn-switch {
   background: transparent;
@@ -178,11 +156,7 @@ body::before {
   transition: all 0.3s ease;
 }
 
-.btn-switch:hover {
-  background: rgba(76, 229, 149, 0.1);
-  border-color: var(--primary);
-  transform: translateY(-2px);
-}
+
 
 .btn-switch i {
   font-size: 1.1rem;
@@ -256,8 +230,7 @@ body::before {
   margin: 0;
   color: var(--text-secondary);
   font-size: 0.95rem;
-} 
-
+}
 
 .success-message,
 .error-message {
@@ -285,7 +258,7 @@ body::before {
 .success-message i,
 .error-message i {
   font-size: 1.2rem;
-} 
+}
 
 .close-btn {
   margin-left: auto;
@@ -312,7 +285,6 @@ body::before {
     opacity: 1;
   }
 }
-
 
 @media (max-width: 768px) {
   .container {
@@ -439,8 +411,6 @@ body::before {
   align-items: center;
   justify-content: center;
 }
-
-
 
 .form-group {
   margin-bottom: 1.5rem;
@@ -584,5 +554,4 @@ input[type="file"].form-control::-webkit-file-upload-button:hover {
 .btn-secondary:hover {
   background: rgba(76, 229, 149, 0.1);
   border-color: var(--primary);
-} 
-
+}

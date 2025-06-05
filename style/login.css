@@ -1,4 +1,9 @@
 /* Base Styles */
+
+@font-face {
+  font-family: "Magnetik";
+  src: url("../fonts/66ac75fe25e658bf498cb053_Magnetik-Regular.otf");
+}
 * {
   margin: 0;
   padding: 0;
@@ -9,11 +14,6 @@
   list-style: none;
   border: none;
   outline: none;
-}
-
-@font-face {
-  font-family: "Magnetik";
-  src: url("../fonts/66ac75fe25e658bf498cb053_Magnetik-Regular.otf");
 }
 
 body {

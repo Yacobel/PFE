@@ -5,7 +5,7 @@ if (session_status() === PHP_SESSION_NONE) {
 ?>
 <!-- Navigation Bar -->
 <div class="nav-bar">
-    <div class="logo"><a href="index.php">TASK</a></div>
+    <div class="logo"><a href="index.php">الخدمة</a></div>
     <div class="icon">
         <i class="fa-solid fa-bars"></i>
     </div>
@@ -13,29 +13,32 @@ if (session_status() === PHP_SESSION_NONE) {
         <ul>
             <li>
                 <a href="taskes.php">
-                    <img src="./style/images/task.png" alt="Task icon" />Task</a>
+                    <img src="./style/images/task.png" alt="رمز الخدمة" />الخدمة
+                </a>
             </li>
             <li>
-                <a href="dashboard.php"><img
-                        src="./style/images/dash.png"
-                        alt="Dashboard icon" />Dashboard</a>
+                <a href="dashboard.php">
+                    <img src="./style/images/dash.png" alt="رمز لوحة التحكم" />لوحة التحكم
+                </a>
             </li>
             <li>
-                <a href="#"><img src="./style/images/aboute.png" alt="About icon" />About
-                    Us</a>
+                <a href="#">
+                    <img src="./style/images/aboute.png" alt="رمز حولنا" />عنا
+                </a>
             </li>
         </ul>
     </div>
     <div class="join-nav">
         <?php if (isset($_SESSION['user_id'])): ?>
             <a href="logout.php" class="logout-btn">
-                <i class="fas fa-sign-out-alt"></i> Log Out
+                <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
             </a>
         <?php else: ?>
-            <a href="./register.php">Join Now</a>
+            <a href="./register.php">سجل دابا</a>
         <?php endif; ?>
     </div>
 </div>
+
 
 <script>
     // Add mobile navigation and sticky header functionality
@@ -47,7 +50,7 @@ if (session_status() === PHP_SESSION_NONE) {
         navIcon.addEventListener('click', function() {
             navBar.classList.toggle('mobile');
         });
-        
+
         // Sticky header on scroll
         window.addEventListener('scroll', function() {
             if (window.scrollY > 100) {

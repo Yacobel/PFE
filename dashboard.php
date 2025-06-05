@@ -80,52 +80,25 @@ include 'components/head.php';
 
             <div class="user-info">
                 <h1><i class="fas fa-user-circle"></i> Welcome, <?php echo isset($_SESSION['name']) ? htmlspecialchars($_SESSION['name']) : 'User'; ?>!</h1>
-                <p class="user-role">
-                    <i class="fas fa-user-tag"></i>
-                    You are currently in <span><?php echo isset($_SESSION['role']) ? ucfirst(htmlspecialchars($_SESSION['role'])) : 'Default'; ?></span> mode
-                </p>
-
-                <div class="role-switch-form">
-                    <form method="post">
-                        <button type="submit" name="switch_role" class="btn btn-switch">
-                            <i class="fas fa-sync"></i> Switch to <?php echo isset($_SESSION['role']) && $_SESSION['role'] === 'client' ? 'Executor' : 'Client'; ?> Mode
-                        </button>
-                    </form>
+                <div class="rool">
+                    <p class="user-role">
+                        <i class="fas fa-user-tag"></i>
+                        You are currently in <span><?php echo isset($_SESSION['role']) ? ucfirst(htmlspecialchars($_SESSION['role'])) : 'Default'; ?></span> mode
+                    </p>
+                    <div class="role-switch-form">
+                        <form method="post">
+                            <button type="submit" name="switch_role" class="btn btn-switch">
+                                <i class="fas fa-sync"></i> Switch to <?php echo isset($_SESSION['role']) && $_SESSION['role'] === 'client' ? 'Executor' : 'Client'; ?> Mode
+                            </button>
+                        </form>
+                    </div>
                 </div>
+
+
             </div>
 
             <?php if ($_SESSION['role'] === 'client'): ?>
                 <div class="main-actions">
-                    <a href="my_tasks.php" class="action-card">
-                        <div class="action-icon">
-                            <i class="fas fa-tasks"></i>
-                        </div>
-                        <div class="action-content">
-                            <h3>My Tasks</h3>
-                            <p>View and manage your posted tasks</p>
-                        </div>
-                    </a>
-                    
-                    <a href="pending_bids.php" class="action-card">
-                        <div class="action-icon">
-                            <i class="fas fa-gavel"></i>
-                        </div>
-                        <div class="action-content">
-                            <h3>Pending Bids</h3>
-                            <p>Review and accept bids from executors</p>
-                        </div>
-                    </a>
-
-                    <a href="messages.php" class="action-card">
-                        <div class="action-icon">
-                            <i class="fas fa-comments"></i>
-                        </div>
-                        <div class="action-content">
-                            <h3>Messages</h3>
-                            <p>Chat with task executors</p>
-                        </div>
-                    </a>
-
                     <button onclick="openCreateTaskModal()" class="action-card">
                         <div class="action-icon">
                             <i class="fas fa-plus-circle"></i>
@@ -135,7 +108,25 @@ include 'components/head.php';
                             <p>Post a new task for executors</p>
                         </div>
                     </button>
+                    <a href="my_tasks.php" class="action-card">
+                        <div class="action-icon">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <div class="action-content">
+                            <h3>My Tasks</h3>
+                            <p>View and manage your posted tasks</p>
+                        </div>
+                    </a>
 
+                    <a href="pending_bids.php" class="action-card">
+                        <div class="action-icon">
+                            <i class="fas fa-gavel"></i>
+                        </div>
+                        <div class="action-content">
+                            <h3>Pending Bids</h3>
+                            <p>Review and accept bids from executors</p>
+                        </div>
+                    </a>
                     <a href="related_tasks.php" class="action-card">
                         <div class="action-icon">
                             <i class="fas fa-link"></i>
@@ -143,6 +134,15 @@ include 'components/head.php';
                         <div class="action-content">
                             <h3>Related Tasks</h3>
                             <p>View tasks with similar categories</p>
+                        </div>
+                    </a>
+                    <a href="messages.php" class="action-card">
+                        <div class="action-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <div class="action-content">
+                            <h3>Messages</h3>
+                            <p>Chat with task executors</p>
                         </div>
                     </a>
                 </div>
