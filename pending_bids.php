@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once 'config/languages.php';
 require_once 'config/db.php';
 
 // Check if user is logged in and is a client
@@ -31,31 +32,36 @@ try {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?php echo $lang; ?>" dir="<?php echo $lang === 'ar' ? 'rtl' : 'ltr'; ?>">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pending Bids - Task Platform</title>
+    <title><?php echo __("pending_bids"); ?> - <?php echo __("task_platform"); ?></title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style/header.css">
     <link rel="stylesheet" href="style/pending_bids.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+   
 </head>
 
 <body>
-    
+    <!-- Language Switcher -->
+    <div class="language-selector">
+        <a href="?lang=en" class="<?php echo $lang === 'en' ? 'active' : ''; ?>">En</a>
+        <a href="?lang=ar" class="<?php echo $lang === 'ar' ? 'active' : ''; ?>">Ar</a>
+    </div>
 
     <div class="container">
-    <?php include 'components/header.php'; ?>
+        <?php include 'components/header.php'; ?>
         <div class="dashboard-container">
             <div class="pending-bids-header">
                 <div>
-                    <h1><i class="fas fa-gavel"></i> Pending Bids</h1>
-                    <p>Review and accept bids for your tasks</p>
+                    <h1><i class="fas fa-gavel"></i> <?php echo __("pending_bids"); ?></h1>
+                    <p><?php echo __("review_bids"); ?></p>
                 </div>
                 <a href="dashboard.php" class="btn btn-primary">
-                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                    <i class="fas fa-arrow-left"></i> <?php echo __("back_to_dashboard"); ?>
                 </a>
             </div>
 
@@ -66,8 +72,8 @@ try {
             <?php elseif (empty($tasks_with_bids)): ?>
                 <div class="empty-state">
                     <i class="fas fa-gavel"></i>
-                    <h2>No Pending Bids</h2>
-                    <p>You don't have any tasks with pending bids at the moment.</p>
+                    <h2><?php echo __("no_pending_bids"); ?></h2>
+                    <p><?php echo __("no_pending_bids_message"); ?></p>
                 </div>
             <?php else: ?>
                 <div class="task-grid">
@@ -95,25 +101,25 @@ try {
                                         <?php endif; ?>
                                     </div>
                                     <div class="latest-bid">
-                                        <i class="fas fa-clock"></i> Latest bid: <?php echo date('M j, Y, g:i a', strtotime($task['latest_bid_date'])); ?>
+                                        <i class="fas fa-clock"></i> <?php echo __("latest_bid"); ?>: <?php echo date('M j, Y, g:i a', strtotime($task['latest_bid_date'])); ?>
                                     </div>
                                 </div>
 
                                 <div class="card-details">
                                     <span>
                                         <i class="fas fa-calendar"></i>
-                                        Due: <?php echo date('M j, Y', strtotime($task['deadline'])); ?>
+                                        <?php echo __("due"); ?>: <?php echo date('M j, Y', strtotime($task['deadline'])); ?>
                                     </span>
                                     <span>
                                         <i class="fas fa-money-bill-wave"></i>
-                                        Budget: $<?php echo number_format($task['budget'], 2); ?>
+                                        <?php echo __("budget"); ?>: $<?php echo number_format($task['budget'], 2); ?>
                                     </span>
                                 </div>
 
                                 <div class="card-actions">
                                     <a href="task_executors.php?id=<?php echo $task['task_id']; ?>" class="btn btn-primary">
                                         <i class="fas fa-eye"></i>
-                                        Review Bids
+                                        <?php echo __("review_bids"); ?>
                                     </a>
                                 </div>
                             </div>

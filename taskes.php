@@ -1,10 +1,13 @@
+<?php
+require_once 'config/languages.php';
+?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?php echo $lang; ?>" dir="<?php echo $lang === 'ar' ? 'rtl' : 'ltr'; ?>">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tasks - Task Platform</title>
+    <title><?php echo __("tasks"); ?> - <?php echo __("task_platform"); ?></title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
         integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
@@ -12,9 +15,16 @@
     <link rel="stylesheet" href="./style/header.css">
     <link rel="stylesheet" href="./style/footer.css">
     <link rel="stylesheet" href="./style/taskes.css">
+    
 </head>
 
 <body>
+    <!-- Language Switcher -->
+    <div class="language-selector">
+        <a href="?lang=en" class="<?php echo $lang === 'en' ? 'active' : ''; ?>">En</a>
+        <a href="?lang=ar" class="<?php echo $lang === 'ar' ? 'active' : ''; ?>">Ar</a>
+    </div>
+
     <div class="main-container">
         <!-- Include Header Component -->
         <?php include 'components/header.php'; ?>
@@ -78,8 +88,8 @@
                 if (count($tasks) > 0) {
             ?>
                     <div class="tasks-header">
-                        <h1>Available Courses</h1>
-                        <p>Browse through courses that match your skills and interests</p>
+                        <h1><?php echo __("available_courses"); ?></h1>
+                        <p><?php echo __("browse_courses_message"); ?></p>
                     </div>
 
                     <div class="task-grid">
@@ -102,13 +112,13 @@
                                         <span class="card-category"><?php echo $category; ?></span>
                                         <h3 class="card-title"><?php echo $title; ?></h3>
                                         <?php if (isset($row['creator_name'])): ?>
-                                        <span class="card-creator">Posted by: <?php echo htmlspecialchars($row['creator_name']); ?></span>
+                                        <span class="card-creator"><?php echo __("posted_by"); ?>: <?php echo htmlspecialchars($row['creator_name']); ?></span>
                                         <?php endif; ?>
                                     </div>
                                     
                                     <!-- Show action button -->
                                     <a href="task_details.php?id=<?php echo $row['task_id']; ?>" class="see-task-btn">
-                                        <i class="fas fa-eye"></i> See Details
+                                        <i class="fas fa-eye"></i> <?php echo __("see_details"); ?>
                                     </a>
                                 </div>
                             </div>
@@ -124,14 +134,14 @@
                         <div class="empty-icon">
                             <i class="fas fa-tasks"></i>
                         </div>
-                        <h2>No courses available</h2>
-                        <p>There are currently no courses available. Please check back later.</p>
+                        <h2><?php echo __("no_courses_available"); ?></h2>
+                        <p><?php echo __("no_courses_message"); ?></p>
                     </div>
             <?php
                 }
             } catch (PDOException $e) {
                 // Handle database errors
-                echo '<div class="error-message">Database error: ' . htmlspecialchars($e->getMessage()) . '</div>';
+                echo '<div class="error-message">' . __("database_error") . ': ' . htmlspecialchars($e->getMessage()) . '</div>';
             }
 
             // PDO connection is automatically closed when the script ends

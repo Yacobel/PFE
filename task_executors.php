@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once 'config/languages.php';
 require_once 'config/db.php';
 
 // Check if user is logged in and is a client
@@ -10,7 +11,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'client') {
 
 // Check if task ID is provided
 if (!isset($_GET['id'])) {
-    header("Location: pending_bids.php?error=" . urlencode("No task ID provided"));
+    header("Location: pending_bids.php?error=" . urlencode(__("no_task_id")));
     exit;
 }
 
@@ -18,7 +19,7 @@ $task_id = $_GET['id'];
 
 // Validate task ID is numeric
 if (!is_numeric($task_id)) {
-    header("Location: pending_bids.php?error=" . urlencode("Invalid task ID format"));
+    header("Location: pending_bids.php?error=" . urlencode(__("invalid_task_id")));
     exit;
 }
 
@@ -34,7 +35,7 @@ try {
     $task = $stmt->fetch();
     
     if (!$task) {
-        header("Location: pending_bids.php?error=" . urlencode("Task not found or you don't have permission to view it"));
+        header("Location: pending_bids.php?error=" . urlencode(__("task_not_found")));
         exit;
     }
     
@@ -55,25 +56,30 @@ try {
     $bids = $stmt->fetchAll();
     
 } catch (PDOException $e) {
-    $error_message = "Database error: " . $e->getMessage();
+    $error_message = __("database_error");
 }
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?php echo $lang; ?>" dir="<?php echo $lang === 'ar' ? 'rtl' : 'ltr'; ?>">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Review Executors - Task Platform</title>
+    <title><?php echo __("review_executors"); ?> - <?php echo __("task_platform"); ?></title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="style/header.css">
     <link rel="stylesheet" href="style/task_executors.css">
+    
 </head>
 
 <body>
-    
+    <!-- Language Switcher -->
+    <div class="language-selector">
+        <a href="?id=<?php echo $task_id; ?>&lang=en" class="<?php echo $lang === 'en' ? 'active' : ''; ?>">En</a>
+        <a href="?id=<?php echo $task_id; ?>&lang=ar" class="<?php echo $lang === 'ar' ? 'active' : ''; ?>">Ar</a>
+    </div>
     
     <main class="container">
     <?php include 'components/header.php'; ?>
@@ -89,24 +95,24 @@ try {
                     <h1><?php echo htmlspecialchars($task['title']); ?></h1>
                     <div class="task-info">
                         <span><i class="fas fa-tag"></i> <?php echo htmlspecialchars($task['category_name']); ?></span>
-                        <span><i class="fas fa-dollar-sign"></i> Budget: $<?php echo number_format($task['budget'], 2); ?></span>
-                        <span><i class="fas fa-gavel"></i> <?php echo count($bids); ?> Bid<?php echo count($bids) != 1 ? 's' : ''; ?></span>
+                        <span><i class="fas fa-dollar-sign"></i> <?php echo __("budget"); ?>: $<?php echo number_format($task['budget'], 2); ?></span>
+                        <span><i class="fas fa-gavel"></i> <?php echo count($bids); ?> <?php echo __("bids"); ?></span>
                     </div>
                 </div>
                 <a href="pending_bids.php" class="btn btn-secondary">
-                    <i class="fas fa-arrow-left"></i> Back to Pending Bids
+                    <i class="fas fa-arrow-left"></i> <?php echo __("back_to_pending_bids"); ?>
                 </a>
             </div>
 
             <?php if (empty($bids)): ?>
                 <div class="empty-state">
                     <i class="fas fa-gavel"></i>
-                    <h2>No Bids Yet</h2>
-                    <p>There are no bids for this task yet. Check back later.</p>
+                    <h2><?php echo __("no_bids_yet"); ?></h2>
+                    <p><?php echo __("no_bids_message"); ?></p>
                 </div>
             <?php else: ?>
-                <h2><i class="fas fa-user-tie"></i> Executors Who Bid on Your Task</h2>
-                <p>Review executor profiles and select the best fit for your task</p>
+                <h2><i class="fas fa-user-tie"></i> <?php echo __("executors_who_bid"); ?></h2>
+                <p><?php echo __("review_executors_message"); ?></p>
                 
                 <div class="executors-list">
                     <?php foreach ($bids as $bid): ?>
@@ -115,7 +121,7 @@ try {
                                 <div class="executor-info">
                                     <div class="executor-avatar">
                                         <?php if ($bid['profile_picture']): ?>
-                                            <img src="<?php echo htmlspecialchars($bid['profile_picture']); ?>" alt="Executor Profile">
+                                            <img src="<?php echo htmlspecialchars($bid['profile_picture']); ?>" alt="<?php echo __("executor_profile"); ?>">
                                         <?php else: ?>
                                             <i class="fas fa-user-tie"></i>
                                         <?php endif; ?>
@@ -123,12 +129,12 @@ try {
                                     <div class="executor-details">
                                         <h3><?php echo htmlspecialchars($bid['name']); ?></h3>
                                         <p><i class="fas fa-envelope"></i> <?php echo htmlspecialchars($bid['email']); ?></p>
-                                        <p><i class="fas fa-calendar"></i> Member since <?php echo date('M Y', strtotime($bid['registration_date'])); ?></p>
+                                        <p><i class="fas fa-calendar"></i> <?php echo __("member_since"); ?> <?php echo date('M Y', strtotime($bid['registration_date'])); ?></p>
                                         
                                         <div class="executor-stats">
                                             <div class="stat-item">
                                                 <i class="fas fa-check-circle"></i>
-                                                <span><?php echo $bid['completed_tasks']; ?> Completed Tasks</span>
+                                                <span><?php echo $bid['completed_tasks']; ?> <?php echo __("completed_tasks"); ?></span>
                                             </div>
                                             <?php if ($bid['avg_rating']): ?>
                                                 <div class="stat-item">
@@ -136,7 +142,7 @@ try {
                                                         <i class="fas fa-star"></i>
                                                         <span><?php echo number_format($bid['avg_rating'], 1); ?></span>
                                                     </div>
-                                                    <span>Rating</span>
+                                                    <span><?php echo __("rating"); ?></span>
                                                 </div>
                                             <?php endif; ?>
                                         </div>
@@ -149,7 +155,7 @@ try {
                             
                             <?php if (!empty($bid['proposal_text'])): ?>
                                 <div class="bid-proposal">
-                                    <h4><i class="fas fa-quote-left"></i> Proposal</h4>
+                                    <h4><i class="fas fa-quote-left"></i> <?php echo __("proposal"); ?></h4>
                                     <p><?php echo nl2br(htmlspecialchars($bid['proposal_text'])); ?></p>
                                 </div>
                             <?php endif; ?>
@@ -157,20 +163,20 @@ try {
                             <div class="executor-actions">
                                 <?php if ($bid['status'] === 'pending'): ?>
                                     <button class="btn-primary" onclick="acceptBid(<?php echo $bid['bid_id']; ?>, <?php echo $task_id; ?>)">
-                                        <i class="fas fa-check"></i> Accept Bid
+                                        <i class="fas fa-check"></i> <?php echo __("accept_bid"); ?>
                                     </button>
                                 <?php elseif ($bid['status'] === 'accepted'): ?>
                                     <div class="bid-status accepted">
-                                        <i class="fas fa-check-circle"></i> Accepted
+                                        <i class="fas fa-check-circle"></i> <?php echo __("accepted"); ?>
                                     </div>
                                 <?php elseif ($bid['status'] === 'rejected'): ?>
                                     <div class="bid-status rejected">
-                                        <i class="fas fa-times-circle"></i> Rejected
+                                        <i class="fas fa-times-circle"></i> <?php echo __("rejected"); ?>
                                     </div>
                                 <?php endif; ?>
                                 
                                 <button class="btn-message" onclick="openMessageModal(<?php echo $bid['id_user']; ?>)">
-                                    <i class="fas fa-comment"></i> Message Executor
+                                    <i class="fas fa-comment"></i> <?php echo __("message_executor"); ?>
                                 </button>
                             </div>
                         </div>
@@ -184,26 +190,25 @@ try {
     <div id="messageModal" class="modal-overlay">
         <div class="modal-container">
             <div class="modal-header">
-                <h2><i class="fas fa-comment"></i> Send Message</h2>
+                <h2><i class="fas fa-comment"></i> <?php echo __("send_message"); ?></h2>
                 <button class="modal-close" onclick="closeMessageModal()">×</button>
             </div>
             <form id="messageForm">
                 <input type="hidden" id="recipient_id" name="recipient_id" value="">
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="message">Your Message</label>
-                        <textarea id="message" name="message" placeholder="Type your message here..." required></textarea>
+                        <label for="message"><?php echo __("your_message"); ?></label>
+                        <textarea id="message" name="message" placeholder="<?php echo __("type_message_here"); ?>" required></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn-secondary" onclick="closeMessageModal()">Cancel</button>
-                    <button type="submit" class="btn-primary">Send Message</button>
+                    <button type="button" class="btn-secondary" onclick="closeMessageModal()"><?php echo __("cancel"); ?></button>
+                    <button type="submit" class="btn-primary"><?php echo __("send_message"); ?></button>
                 </div>
             </form>
         </div>
     </div>
     </div>
-
 
     <script src="js/main.js"></script>
     <script src="js/task_executors.js"></script>

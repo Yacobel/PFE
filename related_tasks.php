@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once 'config/languages.php';
 require_once 'config/db.php';
 
 // Check if user is logged in and is a client
@@ -87,41 +88,45 @@ $related_tasks = $stmt->fetchAll();
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?php echo $lang; ?>" dir="<?php echo $lang === 'ar' ? 'rtl' : 'ltr'; ?>">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Related Tasks</title>
+    <title><?php echo __("related_tasks"); ?> - <?php echo __("task_platform"); ?></title>
     
     <link rel="stylesheet" href="style/header.css">
     <link rel="stylesheet" href="style/related_tasks.css">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
 </head>
 
 <body>
-
+    <!-- Language Switcher -->
+    <div class="language-selector">
+        <a href="?lang=en" class="<?php echo $lang === 'en' ? 'active' : ''; ?>">En</a>
+        <a href="?lang=ar" class="<?php echo $lang === 'ar' ? 'active' : ''; ?>">Ar</a>
+    </div>
 
     <div class="container">
-    <?php include 'components/header.php'; ?>
+        <?php include 'components/header.php'; ?>
         <div class="dashboard-container">
             <div class="assignments-header">
                 <h1>
                     <i class="fas fa-link"></i>
-                    <?php echo $task_id ? 'Related Tasks' : 'All Tasks by Category'; ?>
+                    <?php echo $task_id ? __("related_tasks") : __("all_tasks_by_category"); ?>
                 </h1>
-                <p>View tasks with similar categories and their progress</p>
+                <p><?php echo __("view_tasks_progress"); ?></p>
             </div>
 
             <?php if (empty($related_tasks)): ?>
                 <div class="empty-state">
                     <i class="fas fa-tasks"></i>
-                    <h2>No Related Tasks Found</h2>
-                    <p>There are no other tasks in this category yet.</p>
+                    <h2><?php echo __("no_related_tasks"); ?></h2>
+                    <p><?php echo __("no_related_tasks_message"); ?></p>
                     <a href="dashboard.php" class="btn btn-primary">
                         <i class="fas fa-arrow-left"></i>
-                        Back to Dashboard
+                        <?php echo __("back_to_dashboard"); ?>
                     </a>
                 </div>
             <?php else: ?>
@@ -139,12 +144,12 @@ $related_tasks = $stmt->fetchAll();
                                         <?php if ($task['task_status'] === 'posted' && isset($task['pending_bids_count']) && $task['pending_bids_count'] > 0): ?>
                                         <span class="card-status has-bids">
                                             <i class="fas fa-gavel"></i>
-                                            <?php echo $task['pending_bids_count']; ?> Bid<?php echo $task['pending_bids_count'] > 1 ? 's' : ''; ?> Pending
+                                            <?php echo $task['pending_bids_count']; ?> <?php echo __("bids_pending"); ?>
                                         </span>
                                         <?php else: ?>
                                         <span class="card-status status-<?php echo strtolower($task['task_status']); ?>">
                                             <i class="fas fa-circle"></i>
-                                            <?php echo ucfirst($task['task_status']); ?>
+                                            <?php echo __($task['task_status']); ?>
                                         </span>
                                         <?php endif; ?>
                                     </div>
@@ -163,16 +168,16 @@ $related_tasks = $stmt->fetchAll();
                                     <?php elseif (isset($task['pending_bids_count']) && $task['pending_bids_count'] > 0): ?>
                                         <span class="pending-bids">
                                             <i class="fas fa-gavel"></i>
-                                            <?php echo $task['pending_bids_count']; ?> pending bid<?php echo $task['pending_bids_count'] > 1 ? 's' : ''; ?>
+                                            <?php echo $task['pending_bids_count']; ?> <?php echo __("pending_bids"); ?>
                                         </span>
                                     <?php endif; ?>
                                     <span>
                                         <i class="fas fa-calendar"></i>
-                                        Due: <?php echo date('M j, Y', strtotime($task['deadline'])); ?>
+                                        <?php echo __("due"); ?>: <?php echo date('M j, Y', strtotime($task['deadline'])); ?>
                                     </span>
                                     <span>
                                         <i class="fas fa-clock"></i>
-                                        Created: <?php echo date('M j, Y', strtotime($task['created_at'])); ?>
+                                        <?php echo __("created"); ?>: <?php echo date('M j, Y', strtotime($task['created_at'])); ?>
                                     </span>
                                 </div>
 
@@ -180,24 +185,24 @@ $related_tasks = $stmt->fetchAll();
                                     <?php if ($task['task_status'] === 'completed'): ?>
                                     <a href="process_payment.php?task_id=<?php echo $task['task_id']; ?>" class="btn btn-success">
                                         <i class="fas fa-credit-card"></i>
-                                        Pay Now
+                                        <?php echo __("pay_now"); ?>
                                     </a>
                                     <?php else: ?>
                                     <a href="task_details.php?id=<?php echo $task['task_id']; ?>" class="btn btn-primary">
                                         <i class="fas fa-eye"></i>
-                                        View Details
+                                        <?php echo __("view_details"); ?>
                                     </a>
                                     <?php endif; ?>
                                     
                                     <?php if ($task['executor_id']): ?>
                                     <a href="messages.php?user=<?php echo $task['executor_id']; ?>" class="btn btn-secondary">
                                         <i class="fas fa-message"></i>
-                                        Message
+                                        <?php echo __("message"); ?>
                                     </a>
                                     <?php elseif (isset($task['pending_bids_count']) && $task['pending_bids_count'] > 0): ?>
                                     <a href="task_details.php?id=<?php echo $task['task_id']; ?>" class="btn btn-secondary bid-btn">
                                         <i class="fas fa-gavel"></i>
-                                        Review Bids
+                                        <?php echo __("review_bids"); ?>
                                     </a>
                                     <?php endif; ?>
                                 </div>
@@ -208,8 +213,6 @@ $related_tasks = $stmt->fetchAll();
             <?php endif; ?>
         </div>
     </div>
-
-
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

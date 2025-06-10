@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?php echo $lang; ?>" dir="<?php echo $lang === 'ar' ? 'rtl' : 'ltr'; ?>">
 
 <head>
     <?php
     session_start();
     $pageTitle = "Register";
+    require_once 'config/languages.php';
     include 'components/head.php';
     ?>
     <style>
@@ -34,8 +35,7 @@
 
 <body>
     <div class="container">
-        <!-- Particle effect overlay -->
-        <div class="particles"></div>
+        
 
         <!-- Include Header Component -->
         <?php include 'components/header.php'; ?>
@@ -45,9 +45,9 @@
             <div class="main-content">
                 <!-- Left Column - Registration Form -->
                 <div class="signup-container">
-                    <h1>Create Account</h1>
+                    <h1><?php echo __('create_account'); ?></h1>
                     <p class="welcome-text">
-                        Join Task Platform and start posting or completing tasks today!
+                        <?php echo __('join_message'); ?>
                     </p>
 
                     <?php
@@ -57,19 +57,19 @@
 
                         switch ($_GET['error']) {
                             case 'email_exists':
-                                echo 'This email address is already registered. Please use another email or log in.';
+                                echo __('email_exists_error');
                                 break;
                             case 'validation':
-                                echo 'Please check your input and try again.';
+                                echo __('validation_error');
                                 break;
                             case 'system':
-                                echo 'A system error occurred. Please try again later.';
+                                echo __('system_error');
                                 break;
                             case 'insert_failed':
-                                echo 'Registration failed. Please try again later.';
+                                echo __('registration_failed');
                                 break;
                             default:
-                                echo 'An error occurred during registration. Please try again.';
+                                echo __('general_error');
                         }
 
                         echo '</div>';
@@ -88,7 +88,7 @@
 
                     // Display success message if registration is successful
                     if (isset($_GET['success'])) {
-                        echo '<div class="success-message">Registration successful! You can now log in.</div>';
+                        echo '<div class="success-message">' . __('registration_success') . '</div>';
                     }
                     ?>
 
@@ -100,29 +100,29 @@
                             <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
                             <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
                         </svg>
-                        Sign Up With Google
+                        <?php echo __('sign_up_with_google'); ?>
                     </button>
 
                     <!-- Divider -->
                     <div class="divider">
                         <div class="divider-line"></div>
-                        <span class="divider-text">Or</span>
+                        <span class="divider-text"><?php echo __('or'); ?></span>
                         <div class="divider-line"></div>
                     </div>
 
                     <!-- Registration Form -->
                     <form action="register_process.php" method="post" class="signup-form">
                         <div class="form-row">
-                            <input type="text" name="firstName" placeholder="First Name" class="form-input half" required>
-                            <input type="text" name="lastName" placeholder="Last Name" class="form-input half" required>
+                            <input type="text" name="firstName" placeholder="<?php echo __('first_name'); ?>" class="form-input half" required>
+                            <input type="text" name="lastName" placeholder="<?php echo __('last_name'); ?>" class="form-input half" required>
                         </div>
-                        <input type="email" name="email" placeholder="Enter Your Email" class="form-input" required>
+                        <input type="email" name="email" placeholder="<?php echo __('enter_email'); ?>" class="form-input" required>
                         <div class="phone-input">
                             <input type="checkbox" id="phoneCheck" class="phone-checkbox">
-                            <input type="tel" name="phoneNumber" placeholder="Enter Your Phone Number" class="form-input">
+                            <input type="tel" name="phoneNumber" placeholder="<?php echo __('enter_phone'); ?>" class="form-input">
                         </div>
                         <div class="password-input">
-                            <input type="password" id="password" name="password" placeholder="Enter Your Password" class="form-input" required>
+                            <input type="password" id="password" name="password" placeholder="<?php echo __('enter_password'); ?>" class="form-input" required>
                             <button type="button" id="togglePassword" class="password-toggle">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
@@ -131,7 +131,7 @@
                             </button>
                         </div>
                         <div class="password-input">
-                            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Your Password" class="form-input" required>
+                            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="<?php echo __('confirm_password'); ?>" class="form-input" required>
                             <button type="button" id="toggleConfirmPassword" class="password-toggle">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
@@ -140,12 +140,12 @@
                             </button>
                         </div>
                         <div class="password-requirements">
-                            <p>A minimum of 8 characters.</p>
-                            <p>At least one number</p>
-                            <p>At least one uppercase letter</p>
+                            <p><?php echo __('min_characters'); ?></p>
+                            <p><?php echo __('one_number'); ?></p>
+                            <p><?php echo __('one_uppercase'); ?></p>
                         </div>
-                        <button type="submit" class="btn btn-signup">Create Account</button>
-                        <button type="button" onclick="window.location.href='login.php'" class="btn btn-login">Already have an account? Log In</button>
+                        <button type="submit" class="btn btn-signup"><?php echo __('create_account'); ?></button>
+                        <button type="button" onclick="window.location.href='login.php'" class="btn btn-login"><?php echo __('already_have_account'); ?></button>
                     </form>
                 </div>
 

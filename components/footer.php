@@ -3,6 +3,7 @@
 if (!ob_get_level()) {
     ob_start();
 }
+require_once __DIR__ . '/../config/languages.php';
 ?>
 <!-- Footer -->
 <link rel="stylesheet" href="./style/footer.css">
@@ -15,7 +16,7 @@ if (!ob_get_level()) {
                     <a href="/">skill.</a>
                 </div>
                 <p class="footer-description">
-                    Morocco's first platform by creators, for creators. We teach the strategies that turn your passion into profit through expert courses and growth tactics.
+                    <?php echo __("footer_description"); ?>
                 </p>
                 <div class="contact-info">
                     <div class="contact-item">
@@ -25,7 +26,7 @@ if (!ob_get_level()) {
                             </svg>
                         </div>
                         <div>
-                            <p class="contact-label">Have a question?</p>
+                            <p class="contact-label"><?php echo __("have_question"); ?></p>
                             <p class="contact-value">+212667100710</p>
                         </div>
                     </div>
@@ -37,7 +38,7 @@ if (!ob_get_level()) {
                             </svg>
                         </div>
                         <div>
-                            <p class="contact-label">Contact us at</p>
+                            <p class="contact-label"><?php echo __("contact_us_at"); ?></p>
                             <p class="contact-value">get@task.ma</p>
                         </div>
                     </div>
@@ -46,65 +47,29 @@ if (!ob_get_level()) {
 
             <!-- Right Column - Newsletter -->
             <div class="footer-column">
-                <h3 class="footer-heading">Newsletter</h3>
+                <h3 class="footer-heading"><?php echo __("newsletter"); ?></h3>
                 <p class="footer-description">
-                    Be the first one to know about discounts, offers and events weekly in your mailbox.
-                    <br>
-                    Unsubscribe whenever you like with one click.
+                    <?php echo __("newsletter_description"); ?>
                 </p>
                 <div class="newsletter-form">
-                    <input type="email" placeholder="Enter your email" class="newsletter-input">
-                    <button class="btn btn-primary newsletter-btn">Submit</button>
+                    <input type="email" placeholder="<?php echo __("enter_email"); ?>" class="newsletter-input">
+                    <button class="btn btn-primary newsletter-btn"><?php echo __("submit"); ?></button>
                 </div>
             </div>
         </div>
 
-        <!-- Bottom Links - Modified to be in one line -->
+        <!-- Bottom Links -->
         <div class="footer-bottom">
-            <!-- All links in one line -->
             <div class="footer-nav">
-                <a href="/about" class="footer-link">About Us</a>
-                <a href="/contact" class="footer-link">Contact Us</a>
-                <a href="/terms" class="footer-link">Terms Of Service</a>
-                <a href="/privacy" class="footer-link">Privacy Policy</a>
+                <a href="/about" class="footer-link"><?php echo __("about_us"); ?></a>
+                <a href="/contact" class="footer-link"><?php echo __("contact_us"); ?></a>
+                <a href="/terms" class="footer-link"><?php echo __("terms_of_service"); ?></a>
+                <a href="/privacy" class="footer-link"><?php echo __("privacy_policy"); ?></a>
             </div>
 
             <div class="footer-end">
-                <p class="copyright">© 2024, All Rights Reserved</p>
+                <p class="copyright"><?php echo __("copyright"); ?></p>
 
-                <!-- Social icons at the end -->
-                <!-- <div class="social-links">
-                    <a href="#" class="social-link">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
-                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-                        </svg>
-                    </a>
-                    <a href="#" class="social-link">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
-                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                        </svg>
-                    </a>
-                    <a href="#" class="social-link">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
-                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                            <rect x="2" y="9" width="4" height="12"></rect>
-                            <circle cx="4" cy="4" r="2"></circle>
-                        </svg>
-                    </a>
-                    <a href="#" class="social-link">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
-                            <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
-                            <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
-                        </svg>
-                    </a>
-                </div> -->
-
-                <div class="language-selector">
-                    <button class="language-btn active">En</button>
-                    <button class="language-btn">Ar</button>
-                </div>
             </div>
         </div>
     </div>

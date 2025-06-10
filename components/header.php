@@ -2,10 +2,11 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+require_once __DIR__ . '/../config/languages.php';
 ?>
 <!-- Navigation Bar -->
 <div class="nav-bar">
-    <div class="logo"><a href="index.php">الخدمة</a></div>
+    <div class="logo"><a href="index.php"><?php echo __("home"); ?></a></div>
     <div class="icon">
         <i class="fa-solid fa-bars"></i>
     </div>
@@ -13,17 +14,17 @@ if (session_status() === PHP_SESSION_NONE) {
         <ul>
             <li>
                 <a href="taskes.php">
-                    <img src="./style/images/task.png" alt="رمز الخدمة" />الخدمة
+                    <img src="./style/images/task.png" alt="<?php echo __("tasks"); ?>" /><?php echo __("tasks"); ?>
                 </a>
             </li>
             <li>
                 <a href="dashboard.php">
-                    <img src="./style/images/dash.png" alt="رمز لوحة التحكم" />لوحة التحكم
+                    <img src="./style/images/dash.png" alt="<?php echo __("dashboard"); ?>" /><?php echo __("dashboard"); ?>
                 </a>
             </li>
             <li>
                 <a href="#">
-                    <img src="./style/images/aboute.png" alt="رمز حولنا" />عنا
+                    <img src="./style/images/aboute.png" alt="<?php echo __("about_us"); ?>" /><?php echo __("about_us"); ?>
                 </a>
             </li>
         </ul>
@@ -31,10 +32,10 @@ if (session_status() === PHP_SESSION_NONE) {
     <div class="join-nav">
         <?php if (isset($_SESSION['user_id'])): ?>
             <a href="logout.php" class="logout-btn">
-                <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
+                <i class="fas fa-sign-out-alt"></i> <?php echo __("logout"); ?>
             </a>
         <?php else: ?>
-            <a href="./register.php">سجل دابا</a>
+            <a href="./register.php"><?php echo __("register"); ?></a>
         <?php endif; ?>
     </div>
 </div>
