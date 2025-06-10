@@ -550,14 +550,8 @@
             </div>
           </div>
         </div>
-
-        <!-- Testimonial 10 -->
-        
-
       </div>
     </div>
-
-
 
     <!-- How It Works Section -->
     <div class="how-it-works">
