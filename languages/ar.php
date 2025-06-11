@@ -10,7 +10,7 @@ $translations = [
     'settings' => 'الإعدادات',
     
     // Navigation
-    'home' => 'الصفحة الرئيسية',
+    'home' => "S-Task",
     'tasks' => 'المهام',
     'my_tasks' => 'مهامي',
     'my_assignments' => 'المهام المسندة إلي',
@@ -458,12 +458,12 @@ $translations = [
     'message_executor' => 'مراسلة المنفذ',
 
     // Tasks Page
-    'available_courses' => 'الدورات المتاحة',
-    'browse_courses_message' => 'تصفح الدورات التي تناسب مهاراتك واهتماماتك',
+    'available_courses' => 'المهام المتاحة',
+    'browse_courses_message' => 'تصفح المهام التي تناسب مهاراتك واهتماماتك',
     'posted_by' => 'نشر بواسطة',
     'see_details' => 'عرض التفاصيل',
-    'no_courses_available' => 'لا توجد دورات متاحة',
-    'no_courses_message' => 'لا توجد دورات متاحة حالياً. يرجى التحقق لاحقاً.',
+    'no_courses_available' => 'لا توجد مهام متاحة',
+    'no_courses_message' => 'لا توجد مهام متاحة حالياً. يرجى التحقق لاحقاً.',
 
     // Dashboard Page
     'welcome_to_platform' => 'مرحباً بك في منصة المهام',

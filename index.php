@@ -528,7 +528,7 @@ require_once 'config/languages.php';
       </p>
 
       <div class="form-card">
-        <div class="form-logo">skill.</div>
+        <div class="form-logo">S-Task.</div>
         <form>
           <div class="form-row">
             <div class="form-col">

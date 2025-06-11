@@ -28,6 +28,10 @@
 
         <!-- Include Header Component -->
         <?php include 'components/header.php'; ?>
+        <div class="language-selector">
+        <a href="?lang=en" class="<?php echo $lang === 'en' ? 'active' : ''; ?>">En</a>
+        <a href="?lang=ar" class="<?php echo $lang === 'ar' ? 'active' : ''; ?>">Ar</a>
+    </div>
 
         <!-- Main Content -->
         <main>

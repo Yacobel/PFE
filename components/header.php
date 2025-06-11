@@ -22,11 +22,7 @@ require_once __DIR__ . '/../config/languages.php';
                     <img src="./style/images/dash.png" alt="<?php echo __("dashboard"); ?>" /><?php echo __("dashboard"); ?>
                 </a>
             </li>
-            <li>
-                <a href="#">
-                    <img src="./style/images/aboute.png" alt="<?php echo __("about_us"); ?>" /><?php echo __("about_us"); ?>
-                </a>
-            </li>
+            
         </ul>
     </div>
     <div class="join-nav">
