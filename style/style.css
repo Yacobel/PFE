@@ -22,7 +22,7 @@
   position: absolute;
   top: 20px;
   left: 50%;
-  width: 90%;
+  width: 80%;
   max-width: 1400px;
   margin: 0px auto;
   transform: translateX(-50%);
@@ -249,10 +249,6 @@
 }
 
 .hero-section {
-  background-image: url(./images/herosection.png);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
   height: 100vh;
   position: relative;
   display: flex;
@@ -273,7 +269,7 @@
   width: 100%;
   left: 0;
   top: 0;
-  background-image: radial-gradient(circle closest-side, #12192b00, #12192be6);
+  background-color: #12192b;
 }
 
 .hero-info {
@@ -284,33 +280,6 @@
   gap: 30px;
   height: 100%;
   padding: 100px 0px 0px 0px;
-}
-
-.rating p {
-  display: flex;
-  padding: 10px 20px;
-  border: 1px solid white;
-  width: fit-content;
-  border-radius: 30px;
-  gap: 10px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.rating p img {
-  width: 100px;
-  object-fit: contain;
-}
-
-.rating p {
-  font-size: 18px;
-  font-weight: 400;
-  color: #949ca6;
-}
-
-.rating p span {
-  display: block;
-  color: #4ce595;
 }
 
 .header-hero {
@@ -342,56 +311,12 @@
   color: #949ca6;
 }
 
-.video-explain {
-  height: 100vh;
-  width: 100%;
-  background-image: url(./images/Untitled\ design.png);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-}
-
-.video-explain::after {
-  position: absolute;
-  content: "";
-  top: 0;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  box-shadow: 0 0px 200px 200px #00feae69, 0 10px 10px #00feae69,
-    0 22px 13px #00feae21, 0 39px 18px #00feae03, 0 62px 17px #00feae66;
-}
-
-.video-explain .img {
-  position: relative;
-  width: 80%;
-  height: 80%;
-  background-color: red;
-  border-radius: 20px;
-  z-index: 10;
-}
-
-.video-explain .img img {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  background-color: red;
-  border-radius: 20px;
-}
-
 .solution,
 .advantage,
 .our-services {
   height: auto;
   width: 100%;
-  background-image: url(./images/Untitled\ design.png);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
+
   position: relative;
   overflow: hidden;
 }
@@ -445,7 +370,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 30px;
-  width: 90%;
+  width: 80%;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 40px;
@@ -533,7 +458,7 @@
   grid-template-rows: repeat(4, 1fr);
   gap: 30px;
   position: relative;
-  width: 90%;
+  width: 80%;
   margin: 40px auto;
   padding: 20px 0;
   isolation: isolate;
@@ -578,7 +503,6 @@
   isolation: isolate;
 }
 
-/* Fix for card interactions */
 .advantage-cards [class^="card"] {
   transform-style: flat;
   backface-visibility: hidden;
@@ -642,11 +566,11 @@
 .advantage-cards .card3 h3,
 .advantage-cards .card4 h3,
 .advantage-cards .card5 h3 {
-  font-size: 24px;
+  font-size: 31px;
   font-weight: 500;
   color: white;
-  margin-bottom: 15px;
-  padding: 10px 30px;
+
+  padding: 30px;
 }
 
 .advantage-cards .card1 p,
@@ -654,7 +578,7 @@
 .advantage-cards .card3 p,
 .advantage-cards .card4 p,
 .advantage-cards .card5 p {
-  font-size: 16px;
+  font-size: 18px;
   color: #949ca6;
   line-height: 1.6;
   margin: 0;
@@ -715,7 +639,6 @@
   }
 }
 
-/* Services Button */
 .services-button-container {
   display: flex;
   justify-content: center;
@@ -745,7 +668,6 @@
   margin-right: 0.5rem;
 }
 
-/* Heading Section */
 .heading-section {
   text-align: center;
   max-width: 800px;
@@ -770,19 +692,17 @@
   line-height: 1.61111;
 }
 
-/* Service Cards Grid */
 .services-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 30px;
   position: relative;
-  width: 90%;
+  width: 80%;
   margin: 40px auto;
   padding: 20px 0;
   isolation: isolate;
 }
 
-/* Service Card */
 .service-card {
   width: 100%;
   display: flex;
@@ -803,7 +723,6 @@
   isolation: isolate;
 }
 
-/* Fix to prevent service cards from affecting each other */
 .services-grid > * {
   transform-style: flat;
   backface-visibility: hidden;
@@ -918,7 +837,6 @@
   box-shadow: 0px 0px 5px 7px #00feae38;
 }
 
-/* Responsive styles */
 @media (max-width: 1200px) {
   .services-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -965,10 +883,7 @@
 .container {
   padding: 6rem 4rem;
   position: relative;
-  background-image: url(./images/Untitled\ design.png);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
+
   overflow: hidden;
 }
 
@@ -979,10 +894,9 @@
   width: 100%;
   left: 0;
   top: 0;
-  background-image: radial-gradient(circle closest-side, #12192b00, #12192be6);
+  background-color: #12192b;
 }
 
-/* Header Section */
 .header {
   display: flex;
   justify-content: space-between;
@@ -994,7 +908,6 @@
   z-index: 1;
 }
 
-/* Logo and counter */
 .branding {
   position: relative;
   z-index: 1;
@@ -1022,7 +935,6 @@
   font-weight: 500;
 }
 
-/* User avatars */
 .users {
   display: flex;
   align-items: center;
@@ -1073,7 +985,6 @@
   line-height: 1.6;
 }
 
-/* Testimonial grid */
 .testimonial-grid {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
@@ -1100,7 +1011,6 @@
   z-index: 2;
 }
 
-/* Testimonial card */
 .testimonial-card {
   background-color: rgba(18, 25, 43, 0.8);
   backdrop-filter: blur(20px);
@@ -1117,8 +1027,6 @@
   overflow: hidden;
 }
 
-/* Add scale effect for middle section */
-.testimonial-card:nth-child(3),
 .testimonial-card:nth-child(4),
 .testimonial-card:nth-child(5) {
   transform: scale(1.05);
@@ -1132,7 +1040,6 @@
   z-index: 1;
 }
 
-/* Add fade-out effect for last cards */
 .testimonial-card:nth-last-child(-n + 3) {
   opacity: 0.85;
   transform: translateY(10px) scale(0.95);
@@ -1147,15 +1054,6 @@
   opacity: 0.5;
   transform: translateY(30px) scale(0.85);
 }
-
-/* Removing hover effect */
-/* .testimonial-card:hover {
-    transform: translateY(-5px) scale(1.05) !important;
-    border-color: #4ce595;
-    box-shadow: 0 10px 30px rgba(76, 229, 149, 0.15);
-    opacity: 1 !important;
-    z-index: 3;
-} */
 
 .testimonial-card::before {
   content: '"';
@@ -1192,7 +1090,6 @@
   z-index: 1;
 }
 
-/* Star rating */
 .rating {
   display: flex;
   margin-bottom: 1.25rem;
@@ -1204,7 +1101,6 @@
   font-size: 1.1rem;
 }
 
-/* User info */
 .user-info {
   display: flex;
   justify-content: space-between;
@@ -1247,7 +1143,6 @@
   object-fit: cover;
 }
 
-/* Responsive styles */
 @media (min-width: 768px) {
   .testimonial-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -1268,7 +1163,6 @@
   }
 }
 
-/* Animation for cards */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -1316,10 +1210,7 @@
 .testimonials-container {
   padding: 6rem 4rem;
   position: relative;
-  background-image: url(./images/Untitled\ design.png);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
+
   overflow: hidden;
 }
 
@@ -1330,18 +1221,13 @@
   width: 100%;
   left: 0;
   top: 0;
-  background-image: radial-gradient(circle closest-side, #12192b00, #12192be6);
+  background-color: #12192b;
 }
-
-/* Rest of testimonials CSS remains the same */
 
 .how-it-works {
   padding: 6rem 4rem;
   position: relative;
-  background-image: url(./images/Untitled\ design.png);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
+
   overflow: hidden;
 }
 
@@ -1352,10 +1238,9 @@
   width: 100%;
   left: 0;
   top: 0;
-  background-image: radial-gradient(circle closest-side, #12192b00, #12192be6);
+  background-color: #12192b;
 }
 
-/* Header styles for How It Works section */
 .how-it-works .header {
   text-align: center;
   margin-bottom: 4rem;
@@ -1403,7 +1288,6 @@
   margin: 0 auto;
 }
 
-/* Responsive styles for header */
 @media (max-width: 768px) {
   .how-it-works .title {
     font-size: 36px;
@@ -1414,22 +1298,18 @@
   }
 }
 
-/* The rest of how-it-works styles remain the same */
-
-/* Cards container in how-it-works */
 .how-it-works .cards-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: stretch;
   gap: 32px;
-  width: 100%;
+  width: 90%;
   max-width: 1200px;
   margin: 0 auto 3rem auto;
   isolation: isolate;
 }
 
-/* Card styles for how-it-works */
 .how-it-works .card {
   display: flex;
   flex-direction: column;
@@ -1504,7 +1384,6 @@
   margin: 0;
 }
 
-/* Responsive styles for how-it-works cards */
 @media (max-width: 996px) {
   .how-it-works .cards-container {
     flex-direction: column;
@@ -1547,33 +1426,6 @@
   }
 }
 
-.Earth {
-  width: 100%;
-  background-image: url(./images/Untitled\ design.png);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  position: relative;
-  overflow: hidden;
-  padding: 6rem 4rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.Earth::before {
-  position: absolute;
-  content: "";
-  height: 100%;
-  width: 100%;
-  left: 0;
-  top: 0;
-  background-image: radial-gradient(circle closest-side, #12192b00, #12192be6);
-  z-index: 1;
-}
-
-/* Content styles */
 .content {
   position: relative;
   z-index: 10;
@@ -1582,7 +1434,6 @@
   padding: 0 20px;
 }
 
-/* Button styles */
 .button {
   display: inline-flex;
   align-items: center;
@@ -1613,43 +1464,6 @@
   font-size: 16px;
 }
 
-/* Heading styles */
-.Earth h1 {
-  margin-top: 0;
-  font-size: 60px;
-  font-weight: 500;
-  line-height: 1.4;
-  color: white;
-  margin-bottom: 24px;
-  max-width: 800px;
-}
-
-/* Paragraph styles */
-.Earth p {
-  color: #949ca6;
-  text-align: center;
-  font-size: 20px;
-  font-weight: 500;
-  line-height: 1.61111;
-  max-width: 600px;
-  margin: 0 auto 60px;
-}
-
-/* Earth image container */
-.earth-container {
-  width: 100vw;
-  z-index: 1;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-
-.earth-container img {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-}
-
 .curved-line {
   position: absolute;
   width: 100%;
@@ -1669,7 +1483,6 @@
   bottom: 60px;
 }
 
-/* Media queries for responsiveness */
 @media (max-width: 768px) {
   .Earth h1 {
     font-size: 36px;
@@ -1696,10 +1509,7 @@
 .Quistion {
   height: auto;
   width: 100%;
-  background-image: url(./images/Untitled\ design.png);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
+
   position: relative;
   overflow: hidden;
   padding: 6rem 4rem;
@@ -1716,11 +1526,10 @@
   width: 100%;
   left: 0;
   top: 0;
-  background-image: radial-gradient(circle closest-side, #12192b00, #12192be6);
+  background-color: #12192b;
   z-index: 1;
 }
 
-/* Notification banner */
 .notification {
   display: inline-block;
   padding: 10px 20px;
@@ -1741,7 +1550,6 @@
   color: #4ce595;
 }
 
-/* Headings and text */
 .heading {
   text-align: center;
   font-size: 60px;
@@ -1771,7 +1579,6 @@
   z-index: 10;
 }
 
-/* Form card */
 .form-card {
   background-color: rgba(18, 25, 43, 0.8);
   border: 1px solid rgba(148, 156, 166, 0.2);
@@ -1792,7 +1599,6 @@
   border-color: #4ce595;
 }
 
-/* Logo in form */
 .form-logo {
   text-align: center;
   margin-bottom: 2rem;
@@ -1803,7 +1609,6 @@
   z-index: 10;
 }
 
-/* Form elements */
 .form-group {
   margin-bottom: 1.5rem;
 }
@@ -1848,7 +1653,6 @@ textarea {
   min-height: 120px;
 }
 
-/* Phone input with country code */
 .phone-input {
   display: flex;
 }
@@ -1869,7 +1673,6 @@ textarea {
   border-radius: 0 10px 10px 0;
 }
 
-/* Submit button */
 .submit-btn {
   width: 100%;
   background-color: #4ce595;
@@ -1889,7 +1692,6 @@ textarea {
   box-shadow: 0px 0px 8px 10px #00feae38;
 }
 
-/* Responsive styles */
 @media (max-width: 768px) {
   .Quistion {
     padding: 4rem 2rem;
@@ -1911,10 +1713,7 @@ textarea {
 .FAQ {
   height: auto;
   width: 100%;
-  background-image: url(./images/Untitled\ design.png);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
+
   position: relative;
   overflow: hidden;
   padding: 6rem 4rem;
@@ -1931,7 +1730,7 @@ textarea {
   width: 100%;
   left: 0;
   top: 0;
-  background-image: radial-gradient(circle closest-side, #12192b00, #12192be6);
+  background-color: #12192b;
   z-index: 1;
 }
 
@@ -2246,7 +2045,6 @@ textarea {
   font-weight: 500;
 }
 
-/* Social icons */
 .social-icons {
   display: flex;
   gap: 1rem;
@@ -2273,7 +2071,6 @@ textarea {
   box-shadow: 0 10px 20px rgba(76, 229, 149, 0.2);
 }
 
-/* Newsletter section */
 .footer-right {
   max-width: 500px;
   margin-left: auto;
@@ -2336,7 +2133,6 @@ textarea {
   box-shadow: 0px 0px 10px 4px rgba(0, 254, 174, 0.3);
 }
 
-/* Footer links section */
 .footer-links {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -2376,7 +2172,6 @@ textarea {
   transform: translateX(5px);
 }
 
-/* Footer navigation */
 .footer-nav {
   padding-top: 2rem;
   display: flex;
@@ -2422,7 +2217,6 @@ textarea {
   font-size: 0.95rem;
 }
 
-/* Footer styling - Updated styles for consistent layout */
 .footer-bottom {
   display: flex;
   flex-direction: column;
@@ -2515,47 +2309,46 @@ textarea {
   border-color: #00feae;
 }
 
-/* RTL Support */
 [dir="rtl"] {
-    text-align: right;
+  text-align: right;
 }
 
 [dir="rtl"] .language-selector {
-    flex-direction: column;
+  flex-direction: column;
 }
 
 [dir="rtl"] .hero-btn img {
-    transform: scaleX(-1);
+  transform: scaleX(-1);
 }
 
 [dir="rtl"] .card-icon {
-    margin-right: 0;
-    margin-left: 15px;
+  margin-right: 0;
+  margin-left: 15px;
 }
 
 [dir="rtl"] .advantage-cards .info-card {
-    padding-right: 20px;
-    padding-left: 0;
+  padding-right: 20px;
+  padding-left: 0;
 }
 
 [dir="rtl"] .services-button img {
-    margin-right: 0;
-    margin-left: 10px;
+  margin-right: 0;
+  margin-left: 10px;
 }
 
 [dir="rtl"] .service-card .card-details .detail-item {
-    margin-right: 0;
-    margin-left: 15px;
+  margin-right: 0;
+  margin-left: 15px;
 }
 
 [dir="rtl"] .service-card .browse-button {
-    margin-right: 0;
-    margin-left: auto;
+  margin-right: 0;
+  margin-left: auto;
 }
 .language-selector {
   position: fixed;
   top: 90%;
-  transform: translate(-50% ,-50%);
+  transform: translate(-50%, -50%);
   right: 20px;
   z-index: 1000;
   display: flex;
@@ -2572,16 +2365,13 @@ textarea {
   text-decoration: none;
   transition: all 0.3s ease;
 }
-
 .language-selector a:hover {
   background: rgba(255, 255, 255, 0.2);
 }
-
 .language-selector a.active {
   background: rgba(255, 255, 255, 0.3);
   border-color: rgba(255, 255, 255, 0.4);
 }
-
 [dir="rtl"] .language-selector {
   left: 40px;
   right: auto;

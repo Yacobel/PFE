@@ -78,9 +78,7 @@ include 'components/head.php';
                 <div class="welcome-banner" id="welcomeBanner">
                     <div>
                         <h2><?php echo __("welcome_to_platform"); ?>, <?php echo isset($_SESSION['name']) ? htmlspecialchars($_SESSION['name']) : __("user"); ?>! 👋</h2>
-                        <p><?php echo __("account_created_message"); ?></p>
-                    </div>
-                    <button class="close-btn" onclick="document.getElementById('welcomeBanner').style.display='none';">×</button>
+                        
                 </div>
             <?php endif; ?>
 

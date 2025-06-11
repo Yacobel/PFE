@@ -14,15 +14,13 @@
 }
 
 body {
-  background: url(./images/herosection.png);
-  background-size: cover;
-  background-position: center;
-  background-size: cover;
+ 
   min-height: 100vh;
   color: #fff;
   margin: 0;
   padding: 0;
   font-family: "Magnetik", system-ui, -apple-system, sans-serif;
+  background-color: var(--secondary);
 }
 
 body::before {
