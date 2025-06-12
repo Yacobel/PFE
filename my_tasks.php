@@ -106,9 +106,9 @@ include 'components/head.php';
                             <div class="card-actions">
                                 <?php if ($task['status'] === 'completed'): ?>
                                 <!-- Payment button for completed tasks -->
-                                <button onclick="openPaymentModal(<?php echo $task['task_id']; ?>, '<?php echo htmlspecialchars($task['title']); ?>', <?php echo $task['budget']; ?>)" class="btn btn-success">
+                                <a href="process_payment.php?task_id=<?php echo $task['task_id']; ?>" class="btn btn-success">
                                     <i class="fas fa-credit-card"></i> <?php echo __("pay_executor"); ?>
-                                </button>
+                                </a>
                                 <?php else: ?>
                                 <!-- Edit button for non-completed tasks -->
                                 <button onclick="openEditTaskModal(<?php echo htmlspecialchars(json_encode([

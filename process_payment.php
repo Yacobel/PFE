@@ -82,25 +82,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             throw new Exception("Task not found or not eligible for payment.");
         }
 
-        // In a real application, you would integrate with a payment gateway here
-        // For this demo, we'll simulate a successful payment
+        // 1. First, verify the task is still eligible for payment
+        $stmt = $pdo->prepare("SELECT status, payment_status FROM tasks WHERE task_id = ? FOR UPDATE");
+        $stmt->execute([$task_id]);
+        $currentTask = $stmt->fetch();
+        
+        if (!$currentTask || $currentTask['status'] !== 'completed') {
+            throw new Exception("Task is not in a valid state for payment.");
+        }
+        
+        if ($currentTask['payment_status'] === 'paid') {
+            throw new Exception("Payment has already been processed for this task.");
+        }
 
-        // Update task payment status
+        // 2. Record the payment in the payments table first
+        $transaction_id = 'PAY-' . uniqid(); // Generate a unique transaction ID
+        $stmt = $pdo->prepare("
+            INSERT INTO payments (
+                task_id, 
+                payer_id, 
+                payee_id, 
+                amount, 
+                status, 
+                payment_date, 
+                transaction_id
+            ) VALUES (?, ?, ?, ?, 'completed', NOW(), ?)
+        ");
+        $stmt->execute([
+            $task_id, 
+            $_SESSION['user_id'], 
+            $task['executor_id'], 
+            $payment_amount,
+            $transaction_id
+        ]);
+        
+        // 3. Update the task payment status
         $stmt = $pdo->prepare("
             UPDATE tasks
-            SET payment_status = 'paid', payment_date = NOW()
+            SET payment_status = 'paid',
+                status = 'completed'
             WHERE task_id = ?
         ");
         $stmt->execute([$task_id]);
-
-        // Record the payment in the payments table
-        $stmt = $pdo->prepare("
-            INSERT INTO payments (task_id, client_id, executor_id, amount, payment_date, status)
-            VALUES (?, ?, ?, ?, NOW(), 'completed')
-        ");
-        $stmt->execute([$task_id, $_SESSION['user_id'], $task['executor_id'], $payment_amount]);
         
-        // Update the accepted bid to 'done' status
+        // 4. Update the accepted bid to 'done' status
         $stmt = $pdo->prepare("
             UPDATE bids
             SET status = 'done'
@@ -110,17 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ");
         $stmt->execute([$task_id, $task['executor_id']]);
         
-        // Verify the update was successful
-        $stmt = $pdo->prepare("SELECT status FROM bids WHERE task_id = ? AND executor_id = ?");
-        $stmt->execute([$task_id, $task['executor_id']]);
-        $finalStatus = $stmt->fetchColumn();
-        
-        if ($finalStatus !== 'done') {
-            // Log error if bid status update failed
-            error_log("Failed to update bid status to 'done' for task_id: {$task_id}. Current status: $finalStatus");
-        }
-        
-        // Now that the task is completed and paid, reject all other bids
+        // 5. Reject all other pending bids for this task
         $stmt = $pdo->prepare("
             UPDATE bids
             SET status = 'rejected'
@@ -129,12 +144,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             AND status = 'pending'
         ");
         $stmt->execute([$task_id, $task['executor_id']]);
-
-        // Commit transaction
+        
+        // 6. Verify all updates were successful
+        $stmt = $pdo->prepare("SELECT payment_status FROM tasks WHERE task_id = ?");
+        $stmt->execute([$task_id]);
+        $updatedStatus = $stmt->fetchColumn();
+        
+        if ($updatedStatus !== 'paid') {
+            throw new Exception("Failed to update task payment status.");
+        }
+        
+        // If we got here, everything is good - commit the transaction
         $pdo->commit();
-
+        
         // Set success message
-        $_SESSION['success_message'] = "Payment successful! The executor has been paid for completing the task.";
+        $_SESSION['success_message'] = "Payment successful! The payment has been processed and marked as done.";
         
         // Redirect back to dashboard
         header("Location: dashboard.php");

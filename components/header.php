@@ -22,6 +22,11 @@ require_once __DIR__ . '/../config/languages.php';
                     <img src="./style/images/dash.png" alt="<?php echo __("dashboard"); ?>" /><?php echo __("dashboard"); ?>
                 </a>
             </li>
+            <li>
+                <a href="profile.php">
+                    <img src="./style/images/dash.png" alt="<?php echo __("dashboard"); ?>" /><?php echo __("dashboard"); ?>
+                </a>
+            </li>
             
         </ul>
     </div>
