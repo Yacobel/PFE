@@ -1247,3 +1247,101 @@ body {
 .btn-lang-switch:hover i {
   transform: scale(1.1);
 }
+.language-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.language-selector .language-btn {
+  padding: 4px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: none;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.language-selector .language-btn:hover {
+  background-color: #f0f0f0;
+}
+
+.language-selector .language-btn.active {
+  background-color: #00feae;
+  color: white;
+  border-color: #00feae;
+}
+
+/* RTL Support */
+[dir="rtl"] {
+    text-align: right;
+}
+
+[dir="rtl"] .language-selector {
+    flex-direction: column;
+}
+
+[dir="rtl"] .hero-btn img {
+    transform: scaleX(-1);
+}
+
+[dir="rtl"] .card-icon {
+    margin-right: 0;
+    margin-left: 15px;
+}
+
+[dir="rtl"] .advantage-cards .info-card {
+    padding-right: 20px;
+    padding-left: 0;
+}
+
+[dir="rtl"] .services-button img {
+    margin-right: 0;
+    margin-left: 10px;
+}
+
+[dir="rtl"] .service-card .card-details .detail-item {
+    margin-right: 0;
+    margin-left: 15px;
+}
+
+[dir="rtl"] .service-card .browse-button {
+    margin-right: 0;
+    margin-left: auto;
+}
+.language-selector {
+  position: fixed;
+  top: 90%;
+  transform: translate(-50% ,-50%);
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.language-selector a {
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  color: white;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.language-selector a:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.language-selector a.active {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+[dir="rtl"] .language-selector {
+  left: 40px;
+  right: auto;
+}
