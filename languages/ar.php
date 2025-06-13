@@ -20,8 +20,7 @@ $translations = [
     'from_experts' => 'من خبراء العمل الحر',
     'our_rating' => 'تقييمنا',
     'rating' => 'التقييم',
-    'hero_title' => 'دع <span>المهام</span> تُنجز في أي وقت وأي مكان',
-    'hero_description' => 'أضف خدمتك، واجعل الأشخاص القريبين منك الذين يمتلكون المهارات يقومون بتنفيذها لك.',
+    'hero_title' => 'دع <span>المهام</span> تُنجExecutorقومون بتنفيذها لك.',
     'add_service_now' => 'أضف خدمتك الآن!',
     'arrow_icon' => 'أيقونة السهم',
 
@@ -103,7 +102,7 @@ $translations = [
 
     // User roles
     'client' => 'عميل',
-    'freelancer' => 'مستقل',
+    'executor' => 'منفذ',
     'admin' => 'مدير',
 
     // Form labels

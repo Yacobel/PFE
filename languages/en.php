@@ -103,7 +103,7 @@ $translations = [
 
     // User roles
     'client' => 'Client',
-    'freelancer' => 'Freelancer',
+    'executor' => 'Executor',
     'admin' => 'Administrator',
 
     // Form labels

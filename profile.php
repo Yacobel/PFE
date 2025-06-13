@@ -264,15 +264,18 @@ include 'components/head.php';
                         id="profilePicture"
                         onerror="this.onerror=null; this.src='<?php echo $default_src; ?>';">
                     <?php if (isset($user['status'])): ?>
-                        <span class="status-badge <?php echo htmlspecialchars($user['status']); ?>">
-                            <?php echo ucfirst(htmlspecialchars($user['status'])); ?>
-                        </span>
+                        <div class="status-container">
+                            <span class="status-label"><?php echo __('Account Status'); ?>:</span>
+                            <span class="status-badge <?php echo htmlspecialchars($user['status']); ?>">
+                                <?php echo ucfirst(htmlspecialchars($user['status'])); ?>
+                            </span>
+                        </div>
                     <?php endif; ?>
                 </div>
                 <div class="profile-info">
                     <h1><?php echo isset($user['name']) ? htmlspecialchars($user['name']) : __('User'); ?></h1>
                     <?php if (isset($user['role'])): ?>
-                        <p class="role"><?php echo $user['role'] === 'client' ? __('Client') : __('Freelancer'); ?></p>
+                        <p class="role"><?php echo __($user['role']); ?></p>
                     <?php endif; ?> <?php if (isset($user['role']) && $user['role'] === 'executor'): ?>
                         <div class="rating">
                             <?php for ($i = 1; $i <= 5; $i++): ?>
@@ -289,9 +292,7 @@ include 'components/head.php';
                         </a>
 
                         <!-- Language Switch Button -->
-                        <a href="?lang=<?php echo $_SESSION['lang'] === 'en' ? 'ar' : 'en'; ?>" class="btn btn-lang-switch">
-                            <i class="fas fa-language"></i> <?php echo $_SESSION['lang'] === 'en' ? __('Arabic') : __('English'); ?>
-                        </a>
+                        
                     </div>
                 </div>
             </div> <!-- Profile Stats -->
