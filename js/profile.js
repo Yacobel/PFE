@@ -1,74 +1,63 @@
-// Handle edit profile form submission
-document.addEventListener('DOMContentLoaded', function() {
-    const editForm = document.getElementById('editProfileForm');
-    if (editForm) {
-        // Add submit event listener to the form
-        editForm.addEventListener('submit', handleFormSubmit);
-        
-        // Also handle click on the submit button in case form submission is triggered differently
-        const submitBtn = editForm.querySelector('button[type="submit"]');
-        if (submitBtn) {
-            submitBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                handleFormSubmit(e);
-            });
-        }
-    }
-});
-
-function handleFormSubmit(e) {
-    e.preventDefault();
-    
+// Save profile function
+function saveProfile() {
     const form = document.getElementById('editProfileForm');
-    if (!form) return;
+    const saveBtn = document.getElementById('saveProfileBtn');
     
-    const formData = new FormData(form);
-    const submitBtn = form.querySelector('button[type="submit"]');
-    const originalBtnText = submitBtn ? submitBtn.innerHTML : '';
+    if (!form || !saveBtn) return;
     
     // Show loading state
-    if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
-    }
+    const originalBtnText = saveBtn.innerHTML;
+    saveBtn.disabled = true;
+    saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+    
+    // Create FormData object
+    const formData = new FormData(form);
     
     // Log form data for debugging
+    console.log('Form data:');
     for (let [key, value] of formData.entries()) {
         console.log(`${key}: ${value}`);
     }
     
+    // Submit form using fetch
     fetch('api/update_profile.php', {
         method: 'POST',
         body: formData
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            throw new Error('Network response was not ok');
         }
         return response.json();
     })
     .then(data => {
-        console.log('Response data:', data);
+        console.log('Success:', data);
         if (data.success) {
-            showNotification('Profile updated successfully', 'success');
+            showNotification('Profile updated successfully!', 'success');
+            
+            // Update profile picture if it was changed
+            if (data.profile_picture) {
+                const profilePic = document.getElementById('profilePicture');
+                if (profilePic) {
+                    // Add timestamp to prevent caching
+                    const timestamp = new Date().getTime();
+                    profilePic.src = data.profile_picture + (data.profile_picture.includes('?') ? '&' : '?') + 't=' + timestamp;
+                }
+            }
+            
+            // Reload the page after a short delay
             setTimeout(() => {
-                window.location.href = data.redirect || 'profile.php';
+                window.location.reload();
             }, 1500);
         } else {
-            showNotification(data.message || 'Failed to update profile', 'error');
-            if (submitBtn) {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = originalBtnText;
-            }
+            throw new Error(data.message || 'Failed to update profile');
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        showNotification('An error occurred: ' + error.message, 'error');
-        if (submitBtn) {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = originalBtnText;
-        }
+        showNotification('Error: ' + error.message, 'error');
+        saveBtn.disabled = false;
+        saveBtn.innerHTML = originalBtnText;
     });
 }
 

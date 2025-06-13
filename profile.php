@@ -14,6 +14,10 @@ $stmt = $pdo->prepare("SELECT * FROM users WHERE id_user = ?");
 $stmt->execute([$user_id]);
 $user = $stmt->fetch();
 
+// Debug: Check user data and profile picture path
+error_log('User profile_picture from DB: ' . ($user['profile_picture'] ?? 'NULL'));
+error_log('DOCUMENT_ROOT: ' . $_SERVER['DOCUMENT_ROOT']);
+
 if (!$user) {
     $_SESSION['error_message'] = "User not found.";
     header("Location: dashboard.php");
@@ -60,7 +64,138 @@ include 'components/head.php';
             <!-- Profile Header -->
             <div class="profile-header">
                 <div class="profile-avatar">
-                    <img src="<?php echo !empty($user['profile_picture']) ? htmlspecialchars($user['profile_picture']) : 'images/default-avatar.png'; ?>" alt="Profile Picture">
+                    <?php 
+                    // Default avatar path (relative to web root)
+                    $default_avatar = '/PFE/images/default-avatar.png';
+                    $profile_pic = $default_avatar;
+                    
+                    // Debug information
+                    $debug_info = [];
+                    $debug_info[] = 'Starting profile picture processing';
+                    
+                    try {
+                        // Ensure default avatar exists
+                        $default_avatar_path = rtrim(str_replace('\\', '/', $_SERVER['DOCUMENT_ROOT']), '/') . '/' . ltrim($default_avatar, '/');
+                        $default_avatar_dir = dirname($default_avatar_path);
+                        
+                        $debug_info[] = 'Default avatar path: ' . $default_avatar_path;
+                        
+                        // Create default avatar directory if it doesn't exist
+                        if (!is_dir($default_avatar_dir)) {
+                            $debug_info[] = 'Creating directory: ' . $default_avatar_dir;
+                            if (!@mkdir($default_avatar_dir, 0777, true) && !is_dir($default_avatar_dir)) {
+                                throw new Exception('Failed to create directory: ' . $default_avatar_dir);
+                            }
+                            $debug_info[] = 'Directory created successfully';
+                        }
+                        
+                        // Check if default avatar exists, if not, create a blank one
+                        if (!file_exists($default_avatar_path)) {
+                            $debug_info[] = 'Default avatar not found, creating blank one';
+                            $blank_image = imagecreatetruecolor(200, 200);
+                            $bg_color = imagecolorallocate($blank_image, 221, 221, 221);
+                            imagefill($blank_image, 0, 0, $bg_color);
+                            
+                            // Save the image
+                            imagepng($blank_image, $default_avatar_path);
+                            imagedestroy($blank_image);
+                            $debug_info[] = 'Default avatar created at: ' . $default_avatar_path;
+                        }
+                    } catch (Exception $e) {
+                        $debug_info[] = 'Error setting up default avatar: ' . $e->getMessage();
+                        error_log('Profile Picture Error: ' . $e->getMessage());
+                    }
+                    
+                    try {
+                        if (!empty($user['profile_picture'])) {
+                            $debug_info[] = 'Original profile_picture: ' . $user['profile_picture'];
+                            
+                            // If it's a full URL
+                            if (strpos($user['profile_picture'], 'http') === 0) {
+                                $profile_pic = $user['profile_picture'];
+                                $debug_info[] = 'Using HTTP URL: ' . $profile_pic;
+                            } 
+                            // Handle local paths
+                            else {
+                                // Clean up the path
+                                $clean_path = ltrim($user['profile_picture'], '/');
+                                
+                                // If path already starts with PFE, use as is, otherwise prepend /PFE/
+                                if (strpos($clean_path, 'PFE/') === 0 || strpos($clean_path, 'PFE\\') === 0) {
+                                    $profile_pic = '/' . ltrim(str_replace('\\', '/', $clean_path), '/');
+                                } else {
+                                    $profile_pic = '/PFE/' . ltrim($clean_path, '/');
+                                }
+                                
+                                $debug_info[] = 'Processed path: ' . $profile_pic;
+                                
+                                // Check if file exists on server
+                                $full_path = str_replace('//', '/', rtrim($_SERVER['DOCUMENT_ROOT'], '/') . '/' . ltrim($profile_pic, '/'));
+                                $debug_info[] = 'Checking file at: ' . $full_path;
+                                
+                                if (file_exists($full_path) && is_file($full_path)) {
+                                    $debug_info[] = 'File exists and is readable';
+                                    // Ensure the file is readable
+                                    if (!is_readable($full_path)) {
+                                        throw new Exception('File exists but is not readable');
+                                    }
+                                    
+                                    // Verify it's a valid image
+                                    $image_info = @getimagesize($full_path);
+                                    if ($image_info === false) {
+                                        throw new Exception('File is not a valid image');
+                                    }
+                                    
+                                    $debug_info[] = 'Image type: ' . ($image_info['mime'] ?? 'unknown');
+                                } else {
+                                    throw new Exception('File does not exist or is not readable');
+                                }
+                            }
+                        } else {
+                            $debug_info[] = 'No profile_picture in user data, using default';
+                            $profile_pic = $default_avatar;
+                        }
+                    } catch (Exception $e) {
+                        $debug_info[] = 'Error processing profile picture: ' . $e->getMessage();
+                        error_log('Profile Picture Error: ' . $e->getMessage());
+                        $profile_pic = $default_avatar;
+                    }
+                    
+                    // Final check to ensure we have a valid image
+                    try {
+                        if ($profile_pic !== $default_avatar) {
+                            $final_path = strpos($profile_pic, 'http') === 0 
+                                ? $profile_pic 
+                                : rtrim($_SERVER['DOCUMENT_ROOT'], '/') . '/' . ltrim($profile_pic, '/');
+                            
+                            $debug_info[] = 'Final validation path: ' . $final_path;
+                            
+                            if (!file_exists($final_path) || !is_file($final_path) || !is_readable($final_path)) {
+                                throw new Exception('Final validation failed: File not accessible');
+                            }
+                            
+                            // Verify it's an image one more time
+                            if (@getimagesize($final_path) === false) {
+                                throw new Exception('Final validation failed: Not a valid image');
+                            }
+                        }
+                    } catch (Exception $e) {
+                        $debug_info[] = 'Final validation error: ' . $e->getMessage();
+                        $profile_pic = $default_avatar;
+                    }
+                    
+                    // Log debug info for troubleshooting
+                    error_log("Profile Picture Debug: " . implode(" | ", $debug_info));
+                    
+                    // Add cache buster to prevent caching issues
+                    $cache_buster = '?v=' . time();
+                    $img_src = htmlspecialchars($profile_pic, ENT_QUOTES, 'UTF-8') . $cache_buster;
+                    $default_src = htmlspecialchars($default_avatar, ENT_QUOTES, 'UTF-8') . $cache_buster;
+                    ?>
+                    <img src="<?php echo $img_src; ?>" 
+                         alt="Profile Picture" 
+                         id="profilePicture" 
+                         onerror="this.onerror=null; this.src='<?php echo $default_src; ?>';">
                     <?php if (isset($user['status'])): ?>
                     <span class="status-badge <?php echo htmlspecialchars($user['status']); ?>">
                         <?php echo ucfirst(htmlspecialchars($user['status'])); ?>
@@ -134,7 +269,7 @@ include 'components/head.php';
                 
                 <div class="detail-row">
                     <i class="fas fa-user-shield"></i>
-                    <span>Account Status: <span class="status-badge <?php echo $user['status']; ?>"><?php echo ucfirst($user['status']); ?></span></span>
+                    <span>Account Status: <span class="status-badge <?php echo !empty($user['status']) ? htmlspecialchars($user['status']) : 'active'; ?>"><?php echo !empty($user['status']) ? ucfirst(htmlspecialchars($user['status'])) : 'Active'; ?></span></span>
                 </div>
                 
                 <div class="detail-row">
@@ -148,16 +283,35 @@ include 'components/head.php';
                 <button onclick="openEditProfileModal()" class="btn btn-primary">
                     <i class="fas fa-edit"></i> Edit Profile
                 </button>
-                <a href="change_password.php" class="btn btn-secondary">
+                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#changePasswordModal">
                     <i class="fas fa-key"></i> Change Password
-                </a>
+                </button>
             </div>
         </div>
     </div>
 
     <?php include 'components/footer.php'; ?>
     <?php include 'components/edit_profile_modal.php'; ?>
+    <?php include 'components/change_password_modal.php'; ?>
     
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/profile.js"></script>
+    <script src="js/change_password.js"></script>
+    
+    <style>
+        .toggle-password {
+            cursor: pointer;
+            padding: 0.375rem 0.75rem;
+        }
+        .password-strength {
+            height: 5px;
+            margin-top: 5px;
+            border-radius: 2px;
+        }
+        .invalid-password {
+            border-color: #dc3545;
+        }
+    </style>
 </body>
 </html>
