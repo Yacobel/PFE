@@ -14,6 +14,37 @@
   --transition: all 0.3s ease;
 }
 
+/* Language Selector */
+.language-selector {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+  justify-content: flex-end;
+}
+
+.language-selector a {
+  color: #6c757d;
+  text-decoration: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.language-selector a:hover {
+  color: var(--primary);
+  background: rgba(76, 229, 149, 0.1);
+}
+
+.language-selector a.active {
+  color: #fff;
+  background: var(--primary);
+}
+
+[dir="rtl"] .language-selector {
+  justify-content: flex-start;
+}
+
 /* Base Styles */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
