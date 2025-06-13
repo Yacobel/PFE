@@ -12,7 +12,7 @@ if (!isset($user) && isset($_SESSION['user_id'])) {
 <div class="modal-overlay" id="editProfileModal">
     <div class="modal-container">
         <div class="modal-header">
-            <h2><i class="fas fa-user-edit"></i> Edit Profile</h2>
+            <h2><i class="fas fa-user-edit"></i> <?php echo __('edit_profile'); ?></h2>
             <button class="modal-close" onclick="closeEditProfileModal()">×</button>
         </div>
         <div class="modal-body">
@@ -27,21 +27,27 @@ if (!isset($user) && isset($_SESSION['user_id'])) {
             
             <form id="editProfileForm" method="POST" action="api/update_profile.php" enctype="multipart/form-data" novalidate>
                 <div class="form-group">
-                    <label for="name">Full Name</label>
+                    <label for="name"><?php echo __('name'); ?></label>
                     <input type="text" id="name" name="name" class="form-control" 
                            value="<?php echo htmlspecialchars($user['name'] ?? ''); ?>" 
-                           placeholder="Enter your full name" required>
+                           placeholder="<?php echo __('enter_your_full_name'); ?>" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="email">Email</label>
+                    <label for="email"><?php echo __('email'); ?></label>
                     <input type="email" id="email" name="email" class="form-control" 
                            value="<?php echo htmlspecialchars($user['email'] ?? ''); ?>" 
-                           placeholder="Enter your email address" required>
+                           placeholder="<?php echo __('enter_your_email'); ?>" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="profile_picture">Profile Picture</label>
+                    <label for="bio"><?php echo __('biography'); ?></label>
+                    <textarea id="bio" name="bio" class="form-control" 
+                              rows="4" placeholder="<?php echo __('tell_us_about_yourself'); ?>"><?php echo htmlspecialchars($user['bio'] ?? ''); ?></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="profile_picture"><?php echo __('profile_picture'); ?></label>
                     <div class="image-upload-container">
                         <input type="file" id="profile_picture" name="profile_picture" class="form-control" 
                                accept="image/*" onchange="previewProfileImage(this)">
@@ -52,23 +58,23 @@ if (!isset($user) && isset($_SESSION['user_id'])) {
                                 if (strpos($preview_pic, 'http') !== 0 && strpos($preview_pic, '/') !== 0) {
                                     $preview_pic = '/' . ltrim($preview_pic, '/');
                                 }
-                                echo '<img src="' . htmlspecialchars($preview_pic) . '?t=' . time() . '" alt="Current Profile" onerror="this.onerror=null; this.parentElement.innerHTML=\'<span class=\'placeholder\'>No image selected</span>\'">';
+                                echo '<img src="' . htmlspecialchars($preview_pic) . '?t=' . time() . '" alt="' . __('current_profile') . '" onerror="this.onerror=null; this.parentElement.innerHTML=\'<span class=\'placeholder\'>' . __('no_image_selected') . '</span>\'">';
                             } else {
-                                echo '<span class="placeholder">No image selected</span>';
+                                echo '<span class="placeholder">' . __('no_image_selected') . '</span>';
                             }
                             ?>
                         </div>
                     </div>
-                    <small class="text-muted">Accepted formats: JPG, PNG, GIF. Max size: 5MB</small>
+                    <small class="text-muted"><?php echo __('accepted_formats'); ?>: JPG, PNG, GIF. <?php echo __('max_size'); ?>: 5MB</small>
                 </div>
             </form>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" onclick="closeEditProfileModal()">
-                <i class="fas fa-times"></i> Cancel
+                <i class="fas fa-times"></i> <?php echo __('cancel'); ?>
             </button>
             <button type="button" class="btn btn-primary" id="saveProfileBtn" onclick="saveProfile()">
-                <i class="fas fa-save"></i> Save Changes
+                <i class="fas fa-save"></i> <?php echo __('save_changes'); ?>
             </button>
         </div>
     </div>

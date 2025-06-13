@@ -173,8 +173,11 @@ try {
     }
 
     // Update user data in the database
-    $sql = "UPDATE users SET name = ?, email = ?";
-    $params = [$name, $email];
+    // Get bio from POST data
+    $bio = trim($_POST['bio'] ?? '');
+    
+    $sql = "UPDATE users SET name = ?, email = ?, bio = ?";
+    $params = [$name, $email, $bio];
     
     // Add profile picture to update if available
     if ($relative_path !== null) {
@@ -218,24 +221,65 @@ try {
         'profile_picture' => $profilePicture,
         'redirect' => 'profile.php'
     ];
-} catch (Exception $e) {
-    $code = $e->getCode() ?: 400;
+} catch (PDOException $e) {
+    // Handle database errors specifically
+    $code = is_numeric($e->getCode()) && $e->getCode() >= 100 && $e->getCode() < 600 
+        ? (int)$e->getCode() 
+        : 500; // Default to 500 if code is not a valid HTTP status
+    
     http_response_code($code);
+    
     $response = [
         'success' => false, 
-        'message' => $e->getMessage()
+        'message' => 'Database error: ' . $e->getMessage(),
+        'error_code' => $e->getCode(),
+        'error_type' => 'database'
     ];
+    
+    log_debug("Database Error: " . $e->getMessage() . 
+              " in " . $e->getFile() . " on line " . $e->getLine() . 
+              "\nSQL Error Info: " . print_r(isset($stmt) ? $stmt->errorInfo() : 'No statement', true));
+              
+} catch (Exception $e) {
+    // Handle all other exceptions
+    $code = is_numeric($e->getCode()) && $e->getCode() >= 100 && $e->getCode() < 600 
+        ? (int)$e->getCode() 
+        : 500; // Default to 500 if code is not a valid HTTP status
+    
+    http_response_code($code);
+    
+    $response = [
+        'success' => false, 
+        'message' => $e->getMessage(),
+        'error_type' => 'general'
+    ];
+    
     log_debug("Error: " . $e->getMessage() . " in " . $e->getFile() . " on line " . $e->getLine());
 }
 
-// Ensure we're sending JSON content type
-header('Content-Type: application/json');
+// Ensure no previous output
+if (ob_get_level()) {
+    ob_end_clean();
+}
+
+// Set JSON content type header
+header('Content-Type: application/json; charset=utf-8');
+
+// Encode the response
+$jsonResponse = json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+// Check for JSON encoding errors
+if ($jsonResponse === false) {
+    $response = [
+        'success' => false,
+        'message' => 'Failed to encode response: ' . json_last_error_msg()
+    ];
+    $jsonResponse = json_encode($response);
+}
 
 // Debug log the response
-log_debug('Sending JSON response: ' . json_encode($response, JSON_PRETTY_PRINT));
+log_debug('Sending JSON response: ' . $jsonResponse);
 
 // Output the JSON response and exit
-echo json_encode($response, JSON_PRETTY_PRINT);
-
-// Ensure no further output
+echo $jsonResponse;
 exit(0);

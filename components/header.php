@@ -24,10 +24,10 @@ require_once __DIR__ . '/../config/languages.php';
             </li>
             <li>
                 <a href="profile.php">
-                    <img src="./style/images/dash.png" alt="<?php echo __("dashboard"); ?>" /><?php echo __("dashboard"); ?>
+                    <img src="./style/images/profile-round-1342-svgrepo-com (2).svg" alt="<?php echo __("profil"); ?>" /><?php echo __("dashboard"); ?>
                 </a>
             </li>
-            
+
         </ul>
     </div>
     <div class="join-nav">

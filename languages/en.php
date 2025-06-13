@@ -8,14 +8,14 @@ $translations = [
     'dashboard' => 'Dashboard',
     'profile' => 'Profile',
     'settings' => 'Settings',
-    
+
     // Navigation
     'home' => 'S-Task',
     'tasks' => 'Tasks',
     'my_tasks' => 'My Tasks',
     'my_assignments' => 'My Assignments',
     'messages' => 'Messages',
-    
+
     // Hero Section
     'from_experts' => 'From Freelance Experts',
     'our_rating' => 'Our Rating',
@@ -24,10 +24,10 @@ $translations = [
     'hero_description' => 'Add your service and let skilled people nearby take and complete it for you.',
     'add_service_now' => 'Add Your Service Now!',
     'arrow_icon' => 'Arrow Icon',
-    
+
     // Video Section
     'video_explanation_placeholder' => 'Video explanation will be here',
-    
+
     // Solutions Section
     'our_solutions' => 'Our Solutions:',
     'smart_way_title' => 'A Smart Way to Manage Your Tasks from Start to Finish',
@@ -38,7 +38,7 @@ $translations = [
     'quick_matching_description' => 'Find skilled people nearby to complete your service quickly.',
     'secure_payment' => 'Secure Payment',
     'secure_payment_description' => 'You only pay when the service is completed and you are satisfied.',
-    
+
     // Advantages Section
     'why_choose_us' => 'Why Choose Our Platform?',
     'why_thousands_title' => 'Why Thousands of People Trust Us Every Day?',
@@ -53,13 +53,13 @@ $translations = [
     'new_opportunities_description' => 'Whether you\'re looking for a service or have a skill, our platform opens new doors for you.',
     'service_anywhere' => 'Service Anywhere',
     'service_anywhere_description' => 'You can request or offer a service in another city without being present, everything is done through the platform.',
-    
+
     // Services Section
     'services_icon' => 'Services Icon',
     'available_services' => 'Available Services',
     'find_help_title' => 'Find Help for Any Service, Anytime! Explore the Most Requested Services',
     'find_help_description' => 'We know your time is valuable, that\'s why we gather the best services for you in an easy and safe way to reach a quick and effective solution.',
-    
+
     // Task related
     'create_task' => 'Create Task',
     'task_title' => 'Task Title',
@@ -70,13 +70,13 @@ $translations = [
     'status' => 'Status',
     'submit' => 'Submit',
     'cancel' => 'Cancel',
-    
+
     // Task status
     'posted' => 'Posted',
     'in_progress' => 'In Progress',
     'completed' => 'Completed',
     'cancelled' => 'Cancelled',
-    
+
     // Categories
     'web_development' => 'Web Development',
     'mobile_development' => 'Mobile Development',
@@ -88,24 +88,24 @@ $translations = [
     'translation' => 'Translation',
     'virtual_assistant' => 'Virtual Assistant',
     'other' => 'Other',
-    
+
     // Messages
     'send_message' => 'Send Message',
     'message' => 'Message',
     'inbox' => 'Inbox',
-    
+
     // Payment
     'payment' => 'Payment',
     'payment_method' => 'Payment Method',
     'amount' => 'Amount',
     'transaction_id' => 'Transaction ID',
     'payment_status' => 'Payment Status',
-    
+
     // User roles
     'client' => 'Client',
     'freelancer' => 'Freelancer',
     'admin' => 'Administrator',
-    
+
     // Form labels
     'email' => 'Email',
     'password' => 'Password',
@@ -114,13 +114,13 @@ $translations = [
     'phone' => 'Phone',
     'address' => 'Address',
     'bio' => 'Bio',
-    
+
     // Messages
     'success' => 'Success',
     'error' => 'Error',
     'warning' => 'Warning',
     'info' => 'Information',
-    
+
     // Testimonials Section
     'testimonials_title' => 'What Our Users Say',
     'users_count' => '7,145+',
@@ -136,7 +136,7 @@ $translations = [
     'testimonial_9' => 'I had an important appointment and couldn\'t attend, I asked someone to go in my place to deliver documents, and everything went well. The platform really provides peace of mind.',
     'trusted_member' => 'Trusted Member',
     'service_provider' => 'Service Provider',
-    
+
     // How It Works Section
     'how_it_works' => 'How It Works',
     'how_it_works_title' => 'Easy to Request Your Service<br/>And Find Someone to Complete It Quickly',
@@ -147,12 +147,12 @@ $translations = [
     'step_2_text' => 'Professionals and people near you will see your request and offer their services.',
     'step_3_title' => 'Your Service is Done Quickly',
     'step_3_text' => 'Communicate, negotiate, and relax until your service is successfully completed.',
-    
+
     // Earth Section
     'what_makes_us_different' => 'What Makes Us Different',
     'different_title' => 'See How We Stand Out<br/>Among Global Competition',
     'different_description' => 'Discover our innovative features and collective approach that puts our platform above the rest.',
-    
+
     // Question Section
     'need_help' => 'Hello! Need help once? Or have a general question? 👋',
     'have_questions' => 'Have Any Questions',
@@ -162,7 +162,7 @@ $translations = [
     'last_name' => 'Last Name',
     'phone_number' => 'Phone Number',
     'your_message' => 'Your Message',
-    
+
     // FAQ Section
     'frequently_asked' => 'Frequently Asked Questions',
     'faq_title' => 'We\'ve Answered the Most Common Questions',
@@ -175,7 +175,7 @@ $translations = [
     'payment_answer' => 'Absolutely. We use modern encryption and secure payment systems. The money is protected until you confirm that the task is completed and you\'re satisfied, to protect you and the person who worked with you.',
     'how_to_verify_users' => 'How do you verify the identity of service providers?',
     'user_verification_answer' => 'We require people who want to provide services to verify their identity (national ID or official document), and we review their ratings and previous experiences to ensure quality and trust.',
-    
+
     // Footer translations
     'footer_description' => "Morocco's first platform by creators, for creators. We teach the strategies that turn your passion into profit through expert courses and growth tactics.",
     'have_question' => 'Have a question?',
@@ -189,7 +189,7 @@ $translations = [
     'terms_of_service' => 'Terms Of Service',
     'privacy_policy' => 'Privacy Policy',
     'copyright' => '© 2024, All Rights Reserved',
-    
+
     // Login and Registration
     'welcome_back' => 'Welcome Back!',
     'sign_in_message' => 'Sign in to your Task Platform account to manage your tasks.',
@@ -312,7 +312,15 @@ $translations = [
     'type_message_here' => 'Type your message here...',
     // Additional Task Details Page Translations
     'location' => 'Location',
-    'no_image_available' => 'No image available',
+    'no_bio_available' => 'No bio available',
+    'enter_your_full_name' => 'Enter your full name',
+    'enter_your_email' => 'Enter your email address',
+    'current_profile' => 'Current Profile',
+    'no_image_selected' => 'No image selected',
+    'accepted_formats' => 'Accepted formats',
+    'max_size' => 'Max size',
+    'biography' => 'Biography',
+    'tell_us_about_yourself' => 'Tell us about yourself...',
     'accept_bid' => 'Accept Bid',
     'payment_details' => 'Payment Details',
     'payment_success' => 'Payment Successful',
@@ -490,5 +498,32 @@ $translations = [
     'enter_budget' => 'Enter your budget',
     'enter_location' => 'Enter task location',
     'role_update_error' => 'Error updating role. Please try again.',
+
+    // Profile Page Translations
+    'profile_picture' => 'Profile Picture',
+    'status' => 'Status',
+    'tasks_posted' => 'Tasks Posted',
+    'tasks_completed' => 'Tasks Completed',
+    'total_payments' => 'Total Payments',
+    'pending_bids' => 'Pending Bids',
+    'total_earnings' => 'Total Earnings',
+    'available_tasks' => 'Available Tasks',
+    'current_assignments' => 'Current Assignments',
+    'about_me' => 'About Me',
+    'email' => 'Email',
+    'phone' => 'Phone',
+    'address' => 'Address',
+    'account_status' => 'Account Status',
+    'last_login' => 'Last Login',
+    'edit_profile' => 'Edit Profile',
+    'change_password' => 'Change Password',
+    'switch_role' => 'Switch Role',
+    'executor' => 'Executor',
+    'client' => 'Client',
+    'rating' => 'Rating',
+    'task_overview' => 'Task Overview',
+    'view_all_tasks' => 'View All Tasks',
+    'view_pending_bids' => 'View Pending Bids',
+    'available_tasks' => 'Available Tasks',
+    'my_assignments' => 'My Assignments'
 ];
-?> 
