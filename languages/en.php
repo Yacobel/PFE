@@ -467,12 +467,12 @@ $translations = [
     'message_executor' => 'Message Executor',
 
     // Tasks Page
-    'available_courses' => 'Available Courses',
-    'browse_courses_message' => 'Browse through courses that match your skills and interests',
+    'available_courses' => 'Available Tasks',
+    'browse_courses_message' => 'Browse through tasks that match your skills and interests',
     'posted_by' => 'Posted by',
     'see_details' => 'See Details',
-    'no_courses_available' => 'No courses available',
-    'no_courses_message' => 'There are currently no courses available. Please check back later.',
+    'no_courses_available' => 'No tasks available',
+    'no_courses_message' => 'There are currently no tasks available. Please check back later.',
 
     // Dashboard Page
     'welcome_to_platform' => 'Welcome to Task Platform',

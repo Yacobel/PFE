@@ -20,7 +20,8 @@ $translations = [
     'from_experts' => 'من خبراء العمل الحر',
     'our_rating' => 'تقييمنا',
     'rating' => 'التقييم',
-    'hero_title' => 'دع <span>المهام</span> تُنجExecutorقومون بتنفيذها لك.',
+    'hero_title' => 'أنجز <span>مهامك</span>   في أي وقت وفي أي مكان',
+    'hero_description' => 'أضف خدمتك واترك المختصين القريبين منك يتولون تنفيذها وإكمالها نيابة عنك.',
     'add_service_now' => 'أضف خدمتك الآن!',
     'arrow_icon' => 'أيقونة السهم',
 
