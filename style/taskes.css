@@ -1,65 +1,175 @@
-/* Reset and Base Styles */
-* {
+/* ===== Modern CSS Reset & Base Styles ===== */
+:root {
+  /* Color System */
+  --primary: #4ce595;
+  --primary-dark: #3ab777;
+  --primary-light: rgba(76, 229, 149, 0.1);
+  --bg-dark: #0a0f1f;
+  --bg-darker: #070b17;
+  --bg-light: #12192b;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --card-bg: rgba(18, 25, 43, 0.6);
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --info: #3b82f6;
+  
+  /* Typography */
+  --font-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  --font-heading: 'Magnetik', var(--font-base);
+  
+  /* Spacing */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2.5rem;
+  --space-xl: 4rem;
+  
+  /* Border Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+  
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.2);
+  --shadow-primary: 0 0 0 3px rgba(76, 229, 149, 0.25);
+  
+  /* Transitions */
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===== Base Styles ===== */
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body {
-  font-family: "Magnetik", sans-serif;
-  background: #12192b;
-  color: white;
-  min-height: 100vh;
-  line-height: 1.6;
+/* Import Inter font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@font-face {
+  font-family: 'Magnetik';
+  src: url('../fonts/66ac75fe25e658bf498cb053_Magnetik-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 
-ul,
-li {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-base);
+  background-color: var(--bg-darker);
+  color: var(--text-primary);
+  line-height: 1.6;
+  font-size: 1rem;
+  font-weight: 400;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text-primary);
+  margin-bottom: 1.25rem;
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.5rem; }
+
+p {
+  margin-bottom: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
 }
 
 a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+a:hover {
+  color: var(--primary-light);
   text-decoration: none;
 }
 
-@font-face {
-  font-family: "Magnetik";
-  src: url("../fonts/66ac75fe25e658bf498cb053_Magnetik-Regular.otf");
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
+/* Layout */
 .container {
-  max-width: 1200px;
+  width: 100%;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 var(--space-md);
 }
 
-/* Add smooth scrolling */
-html {
-  scroll-behavior: smooth;
-}
-
+/* Main Content */
 .main-container {
   min-height: 100vh;
-  background: radial-gradient(
-      circle at top right,
-      rgba(76, 229, 149, 0.1),
-      transparent 60%
+  background: 
+    radial-gradient(
+      circle at 90% 10%,
+      rgba(76, 229, 149, 0.15),
+      transparent 45%
     ),
     radial-gradient(
-      circle at bottom left,
-      rgba(76, 229, 149, 0.05),
-      transparent 60%
+      circle at 10% 90%,
+      rgba(76, 229, 149, 0.1),
+      transparent 40%
+    ),
+    var(--bg-darker);
+  background-attachment: fixed;
+  position: relative;
+  overflow: hidden;
+}
+
+.main-container::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  background: 
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(76, 229, 149, 0.03) 0%,
+      transparent 70%
     );
+  pointer-events: none;
+  z-index: 0;
 }
 
 /* Tasks Container */
 .tasks-container {
-  width: 90%;
+  width: 80%;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 120px 20px 60px;
+  padding: 120px 0px 60px;
   animation: fadeIn 0.6s ease-out;
 }
 
@@ -593,19 +703,86 @@ html {
   padding: 8px 16px;
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
-  color: white;
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
 }
 
 .language-selector a:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
 }
 
 .language-selector a.active {
-  background: rgba(255, 255, 255, 0.3);
-  border-color: rgba(255, 255, 255, 0.4);
+  background: var(--primary);
+  color: var(--bg-darker);
+  font-weight: 600;
+  border-color: var(--primary);
+  box-shadow: var(--shadow-primary);
+}
+
+/* Modal User Info */
+.modal-user-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.8);
+  border-radius: var(--radius-md);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-color);
+  margin-bottom: 1.5rem;
+}
+
+.modal-user-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.modal-user-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--primary);
+  padding: 2px;
+}
+
+.modal-user-details h4 {
+  margin: 0 0 0.25rem;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+}
+
+.modal-user-details p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.modal-user-details .online-status {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: var(--success);
+  border-radius: 50%;
+  margin-right: 4px;
+}
+
+.modal-user-actions {
+  display: flex;
+  gap: 0.75rem;
 }
 
 [dir="rtl"] .language-selector {
