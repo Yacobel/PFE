@@ -13,7 +13,7 @@ require_once __DIR__ . '/../config/languages.php';
             <!-- Left Column -->
             <div class="footer-column">
                 <div class="footer-logo">
-                    <a href="/">S-Task.</a>
+                    <a href="/">ServeMatch</a>
                 </div>
                 <p class="footer-description">
                     <?php echo __("footer_description"); ?>

@@ -10,7 +10,7 @@ $translations = [
     'settings' => 'Settings',
 
     // Navigation
-    'home' => 'S-Task',
+    'home' => 'ServeMatch',
     'tasks' => 'Tasks',
     'my_tasks' => 'My Tasks',
     'my_assignments' => 'My Assignments',

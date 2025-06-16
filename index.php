@@ -17,7 +17,7 @@ require_once 'config/languages.php';
     crossorigin="anonymous"
     referrerpolicy="no-referrer" />
   <style>
-    
+
   </style>
 </head>
 
@@ -27,14 +27,14 @@ require_once 'config/languages.php';
     <!-- Include Header Component -->
     <?php include 'components/header.php'; ?>
     <div class="language-selector">
-        <a href="?lang=en" class="<?php echo $lang === 'en' ? 'active' : ''; ?>">En</a>
-        <a href="?lang=ar" class="<?php echo $lang === 'ar' ? 'active' : ''; ?>">Ar</a>
+      <a href="?lang=en" class="<?php echo $lang === 'en' ? 'active' : ''; ?>">En</a>
+      <a href="?lang=ar" class="<?php echo $lang === 'ar' ? 'active' : ''; ?>">Ar</a>
     </div>
 
     <!-- Hero Section -->
     <div class="hero-section">
       <div class="hero-info">
-          
+
         <div class="header-hero">
           <div class="headline">
             <h1><?php echo __("hero_title"); ?></h1>
@@ -54,8 +54,8 @@ require_once 'config/languages.php';
       </div>
     </div>
 
-    
-   
+
+
 
     <!-- Solutions Section -->
     <div class="solution">
@@ -195,7 +195,7 @@ require_once 'config/languages.php';
       </div>
 
       <div class="services-grid">
-        
+
         <div class="service-card">
           <div class="card-image">
             <img
@@ -365,11 +365,11 @@ require_once 'config/languages.php';
             <button class="browse-button">Browse Work</button>
           </div>
         </div>
-      
+
       </div>
     </div>
 
-  
+
 
     <!-- How It Works Section -->
     <div class="how-it-works">
@@ -386,7 +386,7 @@ require_once 'config/languages.php';
       <div class="cards-container">
         <!-- Card 1 -->
         <div class="card">
-          
+
           <div class="card-info">
             <h3 class="card-title"><?php echo __("step_1_title"); ?></h3>
             <p class="card-text">
@@ -397,7 +397,7 @@ require_once 'config/languages.php';
 
         <!-- Card 2 -->
         <div class="card">
-          
+
           <div class="card-info">
             <h3 class="card-title"><?php echo __("step_2_title"); ?></h3>
             <p class="card-text">
@@ -408,7 +408,7 @@ require_once 'config/languages.php';
 
         <!-- Card 3 -->
         <div class="card">
-          
+
           <div class="card-info">
             <h3 class="card-title"><?php echo __("step_3_title"); ?></h3>
             <p class="card-text">
@@ -436,7 +436,7 @@ require_once 'config/languages.php';
       </p>
 
       <div class="form-card">
-        <div class="form-logo">S-Task.</div>
+        <div class="form-logo">ServeMatch</div>
         <form>
           <div class="form-row">
             <div class="form-col">
