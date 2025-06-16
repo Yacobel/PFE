@@ -172,20 +172,37 @@ try {
         }
     }
 
-    // Update user data in the database
-    // Get bio from POST data
-    $bio = trim($_POST['bio'] ?? '');
+    // Check which optional columns exist
+    $stmt = $pdo->prepare("SHOW COLUMNS FROM users");
+    $stmt->execute();
+    $columns = $stmt->fetchAll(PDO::FETCH_COLUMN);
     
-    $sql = "UPDATE users SET name = ?, email = ?, bio = ?";
-    $params = [$name, $email, $bio];
+    // Start building the update query with required fields
+    $updates = ["name = ?", "email = ?"];
+    $params = [$name, $email];
+    
+    // Add bio if the column exists
+    $bio = trim($_POST['bio'] ?? '');
+    if (in_array('bio', $columns)) {
+        $updates[] = "bio = ?";
+        $params[] = $bio;
+    }
+    
+    // Add phone if the column exists
+    $phone = trim($_POST['phone'] ?? '');
+    if (in_array('phone', $columns)) {
+        $updates[] = "phone = ?";
+        $params[] = $phone;
+    }
     
     // Add profile picture to update if available
     if ($relative_path !== null) {
-        $sql .= ", profile_picture = ?";
+        $updates[] = "profile_picture = ?";
         $params[] = $relative_path;
     }
     
-    $sql .= " WHERE id_user = ?";
+    // Build the final query
+    $sql = "UPDATE users SET " . implode(", ", $updates) . " WHERE id_user = ?";
     $params[] = $userId;
     
     // Execute the update query

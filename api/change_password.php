@@ -12,36 +12,59 @@ session_start();
 // Initialize response array
 $response = [
     'success' => false,
-    'message' => ''
+    'message' => '',
+    'error_type' => ''
 ];
 
 try {
     // Check if user is logged in
     if (!isset($_SESSION['user_id'])) {
+        $response['error_type'] = 'session';
         throw new Exception('You must be logged in to change your password.');
     }
 
     // Get user ID from session
     $userId = $_SESSION['user_id'];
     
-    // Get input data
-    $currentPassword = $_POST['current_password'] ?? '';
-    $newPassword = $_POST['new_password'] ?? '';
-    $confirmPassword = $_POST['confirm_password'] ?? '';
+    // Log received POST data for debugging
+    error_log('Received password change request: ' . print_r($_POST, true));
+    
+    // Get input data with trim to remove any whitespace
+    $currentPassword = trim($_POST['current_password'] ?? '');
+    $newPassword = trim($_POST['new_password'] ?? '');
+    $confirmPassword = trim($_POST['confirm_password'] ?? '');
 
     // Validate input
-    if (empty($currentPassword) || empty($newPassword) || empty($confirmPassword)) {
-        throw new Exception('All fields are required.');
+    if (empty($currentPassword)) {
+        $response['error_type'] = 'validation';
+        $response['field'] = 'current_password';
+        throw new Exception('Current password is required.');
+    }
+    
+    if (empty($newPassword)) {
+        $response['error_type'] = 'validation';
+        $response['field'] = 'new_password';
+        throw new Exception('New password is required.');
+    }
+    
+    if (empty($confirmPassword)) {
+        $response['error_type'] = 'validation';
+        $response['field'] = 'confirm_password';
+        throw new Exception('Please confirm your new password.');
     }
 
     // Check if new passwords match
     if ($newPassword !== $confirmPassword) {
+        $response['error_type'] = 'validation';
+        $response['field'] = 'confirm_password';
         throw new Exception('New passwords do not match.');
     }
 
-    // Validate password strength
-    if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/', $newPassword)) {
-        throw new Exception('Password must be at least 8 characters long and include uppercase, lowercase, number, and special character.');
+    // Validate password length
+    if (strlen($newPassword) < 8) {
+        $response['error_type'] = 'validation';
+        $response['field'] = 'new_password';
+        throw new Exception('Password must be at least 8 characters long.');
     }
 
     // Include database connection
