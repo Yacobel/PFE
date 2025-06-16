@@ -111,7 +111,7 @@ include 'components/head.php';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="./style/profile.css">
     <?php if (($_SESSION['lang'] ?? 'en') === 'ar'): ?>
-    <link rel="stylesheet" href="style/rtl.css">
+        <link rel="stylesheet" href="style/rtl.css">
     <?php endif; ?>
 </head>
 
@@ -120,13 +120,13 @@ include 'components/head.php';
 
     <div class="container">
         <?php include 'components/header.php'; ?>
-        
+
         <!-- Language Selector -->
         <div class="language-selector">
             <a href="?lang=en" class="<?php echo ($_SESSION['lang'] ?? 'en') === 'en' ? 'active' : ''; ?>">En</a>
             <a href="?lang=ar" class="<?php echo ($_SESSION['lang'] ?? 'en') === 'ar' ? 'active' : ''; ?>">Ar</a>
         </div>
-        
+
         <div class="profile-container">
             <!-- Profile Header -->
             <div class="profile-header">
@@ -288,10 +288,6 @@ include 'components/head.php';
                             <i class="fas fa-sync"></i> <?php echo $user['role'] === 'executor' ? __('Switch to Client') : __('Switch to Executor'); ?>
                         </a>
 
-                        <!-- Language Switch Button -->
-                        <a href="?lang=<?php echo $_SESSION['lang'] === 'en' ? 'ar' : 'en'; ?>" class="btn btn-lang-switch">
-                            <i class="fas fa-language"></i> <?php echo $_SESSION['lang'] === 'en' ? __('Arabic') : __('English'); ?>
-                        </a>
                     </div>
                 </div>
             </div> <!-- Profile Stats -->
@@ -305,7 +301,7 @@ include 'components/head.php';
                         <div class="stat-label"><?php echo __('tasks_posted'); ?></div>
                     </div>
                 <?php endif; ?>
-                
+
                 <div class="stat-card">
                     <div class="stat-icon">
                         <i class="fas fa-check-circle"></i>
@@ -313,7 +309,7 @@ include 'components/head.php';
                     <div class="stat-value"><?php echo $task_counts['tasks_completed'] ?? 0; ?></div>
                     <div class="stat-label"><?php echo __('tasks_completed'); ?></div>
                 </div>
-                
+
                 <?php if ($user['role'] === 'client'): ?>
                     <div class="stat-card">
                         <div class="stat-icon">
@@ -322,7 +318,7 @@ include 'components/head.php';
                         <div class="stat-value">$<?php echo number_format($client_stats['total_payments'] ?? 0, 0); ?></div>
                         <div class="stat-label"><?php echo __('total_payments'); ?></div>
                     </div>
-                    
+
                     <div class="stat-card">
                         <div class="stat-icon">
                             <i class="fas fa-user-clock"></i>
@@ -338,7 +334,7 @@ include 'components/head.php';
                         <div class="stat-value">$<?php echo number_format($executor_stats['total_earnings'] ?? 0, 0); ?></div>
                         <div class="stat-label"><?php echo __('total_earnings'); ?></div>
                     </div>
-                    
+
                     <div class="stat-card">
                         <div class="stat-icon">
                             <i class="fas fa-briefcase"></i>
@@ -346,7 +342,7 @@ include 'components/head.php';
                         <div class="stat-value"><?php echo $executor_stats['available_tasks'] ?? 0; ?></div>
                         <div class="stat-label"><?php echo __('available_tasks'); ?></div>
                     </div>
-                    
+
                     <div class="stat-card">
                         <div class="stat-icon">
                             <i class="fas fa-tasks"></i>
@@ -391,7 +387,7 @@ include 'components/head.php';
                         <i class="fas fa-edit"></i> <?php echo __('edit_profile'); ?>
                     </button>
                 </div>
-                
+
                 <p class="bio"><?php echo !empty($user['bio']) ? nl2br(htmlspecialchars($user['bio'])) : __('no_bio_available'); ?></p>
 
                 <div class="detail-row">
@@ -438,54 +434,54 @@ include 'components/head.php';
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
-    
+
     <script>
-    // Global modal functions
-    function openModal(modalId) {
-        const modal = document.getElementById(modalId);
-        if (modal) {
-            modal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-            // Focus on first input if exists
-            const firstInput = modal.querySelector('input, select, textarea');
-            if (firstInput) {
-                setTimeout(() => firstInput.focus(), 100);
+        // Global modal functions
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+                // Focus on first input if exists
+                const firstInput = modal.querySelector('input, select, textarea');
+                if (firstInput) {
+                    setTimeout(() => firstInput.focus(), 100);
+                }
             }
         }
-    }
 
-    function closeModal(modalId) {
-        const modal = document.getElementById(modalId);
-        if (modal) {
-            modal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-            // Reset any form inside the modal
-            const form = modal.querySelector('form');
-            if (form) form.reset();
-            // Clear any error messages
-            const errorMessages = modal.querySelectorAll('.alert');
-            errorMessages.forEach(el => el.classList.add('d-none'));
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                // Reset any form inside the modal
+                const form = modal.querySelector('form');
+                if (form) form.reset();
+                // Clear any error messages
+                const errorMessages = modal.querySelectorAll('.alert');
+                errorMessages.forEach(el => el.classList.add('d-none'));
+            }
         }
-    }
 
-    // Close modal when clicking outside
-    window.addEventListener('click', function(event) {
-        if (event.target.classList.contains('modal-overlay')) {
-            closeModal(event.target.id);
-        }
-    });
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            if (event.target.classList.contains('modal-overlay')) {
+                closeModal(event.target.id);
+            }
+        });
 
-    // Close modal with Escape key
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape') {
-            const modals = document.querySelectorAll('.modal-overlay');
-            modals.forEach(modal => {
-                if (modal.style.display === 'flex') {
-                    closeModal(modal.id);
-                }
-            });
-        }
-    });
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const modals = document.querySelectorAll('.modal-overlay');
+                modals.forEach(modal => {
+                    if (modal.style.display === 'flex') {
+                        closeModal(modal.id);
+                    }
+                });
+            }
+        });
     </script>
     <script src="js/profile.js"></script>
     <script src="js/change_password.js"></script>
@@ -504,22 +500,22 @@ include 'components/head.php';
                     <label for="name"><?php echo __('full_name'); ?></label>
                     <input type="text" id="name" name="name" class="form-control" value="<?php echo htmlspecialchars($user['name'] ?? ''); ?>" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="email"><?php echo __('email'); ?></label>
                     <input type="email" id="email" name="email" class="form-control" value="<?php echo htmlspecialchars($user['email'] ?? ''); ?>" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="phone"><?php echo __('phone'); ?></label>
                     <input type="tel" id="phone" name="phone" class="form-control" value="<?php echo htmlspecialchars($user['phone'] ?? ''); ?>">
                 </div>
-                
+
                 <div class="form-group">
                     <label for="bio"><?php echo __('bio'); ?></label>
                     <textarea id="bio" name="bio" class="form-control" rows="4"><?php echo htmlspecialchars($user['bio'] ?? ''); ?></textarea>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="profile_picture"><?php echo __('profile_picture'); ?></label>
                     <div class="file-upload">
@@ -531,7 +527,7 @@ include 'components/head.php';
                     </div>
                     <small class="text-muted"><?php echo __('max_file_size', ['size' => '5MB']); ?></small>
                 </div>
-                
+
                 <div class="form-actions">
                     <button type="button" class="btn btn-secondary" id="cancelEdit"><?php echo __('cancel'); ?></button>
                     <button type="submit" class="btn btn-primary">
@@ -563,16 +559,16 @@ include 'components/head.php';
                         </div>
                         <div class="error-message" id="currentPasswordError"></div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="newPassword"><?php echo __('new_password'); ?></label>
                         <div class="input-group">
                             <input type="password" id="newPassword" name="new_password" class="form-control"
-                                   minlength="8"
-                                   title=""
-                                   autocomplete="new-password"
-                                   oninvalid="this.setCustomValidity('')"
-                                   oninput="this.setCustomValidity('')">
+                                minlength="8"
+                                title=""
+                                autocomplete="new-password"
+                                oninvalid="this.setCustomValidity('')"
+                                oninput="this.setCustomValidity('')">
                             <div class="input-group-append">
                                 <button class="btn btn-outline-secondary toggle-password" type="button" data-target="#newPassword">
                                     <i class="fas fa-eye"></i>
@@ -586,7 +582,7 @@ include 'components/head.php';
                         </small>
                         <div class="error-message" id="newPasswordError"></div>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="confirmPassword"><?php echo __('confirm_new_password'); ?></label>
                         <div class="input-group">
@@ -599,7 +595,7 @@ include 'components/head.php';
                         </div>
                         <div class="error-message" id="confirmPasswordError"></div>
                     </div>
-                    
+
                     <div id="changePasswordMessage" class="alert d-none"></div>
                 </form>
             </div>
@@ -625,430 +621,438 @@ include 'components/head.php';
     </div>
 
     <script>
-    // Show fixed alert function
-    function showFixedAlert(message, type = 'success') {
-        // Remove any existing alerts
-        const existingAlert = document.getElementById('fixedAlert');
-        if (existingAlert) {
-            existingAlert.remove();
-        }
-        
-        // Create alert element
-        const alert = document.createElement('div');
-        alert.id = 'fixedAlert';
-        alert.className = `fixed-alert alert-${type}`;
-        
-        // Add icon based on type
-        const icon = document.createElement('i');
-        icon.className = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
-        alert.appendChild(icon);
-        
-        // Add message
-        const messageSpan = document.createElement('span');
-        messageSpan.textContent = message;
-        alert.appendChild(messageSpan);
-        
-        // Add to body
-        document.body.appendChild(alert);
-        
-        // Trigger reflow to enable animation
-        void alert.offsetWidth;
-        
-        // Show alert
-        alert.style.opacity = '1';
-        alert.style.transform = 'translateY(0)';
-        
-        // Auto-remove after delay
-        setTimeout(() => {
-            alert.style.opacity = '0';
-            alert.style.transform = 'translateY(20px)';
-            
-            // Remove from DOM after animation
-            setTimeout(() => {
-                if (alert.parentNode) {
-                    alert.parentNode.removeChild(alert);
-                }
-            }, 300);
-        }, 5000);
-    }
-    
-    // Password validation function
-    function validatePassword(password) {
-        const isValid = password.length >= 8;
-        const requirement = document.querySelector('.password-requirement');
-        
-        // Update requirement indicator
-        if (isValid) {
-            requirement.classList.add('valid');
-            requirement.innerHTML = '<i class="fas fa-check-circle"></i> Password is valid';
-        } else {
-            requirement.classList.remove('valid');
-            requirement.innerHTML = '<i class="fas fa-info-circle"></i> Password must be at least 8 characters long';
-        }
-        
-        return isValid;
-    }
-
-    // Initialize when DOM is loaded
-    document.addEventListener('DOMContentLoaded', function() {
-        // Password input event listener
-        const newPasswordInput = document.getElementById('newPassword');
-        if (newPasswordInput) {
-            newPasswordInput.addEventListener('input', function() {
-                validatePassword(this.value);
-            });
-        }
-        // Toggle password visibility
-        document.addEventListener('click', function(e) {
-            if (e.target.closest('.toggle-password')) {
-                const button = e.target.closest('.toggle-password');
-                const target = document.querySelector(button.getAttribute('data-target'));
-                const icon = button.querySelector('i');
-                
-                if (target.type === 'password') {
-                    target.type = 'text';
-                    icon.classList.remove('fa-eye');
-                    icon.classList.add('fa-eye-slash');
-                } else {
-                    target.type = 'password';
-                    icon.classList.remove('fa-eye-slash');
-                    icon.classList.add('fa-eye');
-                }
+        // Show fixed alert function
+        function showFixedAlert(message, type = 'success') {
+            // Remove any existing alerts
+            const existingAlert = document.getElementById('fixedAlert');
+            if (existingAlert) {
+                existingAlert.remove();
             }
-        });
 
-        // Change Password Modal
-        const changePasswordModal = document.getElementById('changePasswordModal');
-        const closeChangePasswordBtn = document.getElementById('closeChangePasswordModal');
-        const cancelChangePasswordBtn = document.getElementById('cancelChangePassword');
-        const changePasswordForm = document.getElementById('changePasswordForm');
-        const changePasswordBtn = document.getElementById('changePasswordBtn');
-        
-        // Open change password modal
-        const openChangePasswordModal = () => {
-            changePasswordModal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
+            // Create alert element
+            const alert = document.createElement('div');
+            alert.id = 'fixedAlert';
+            alert.className = `fixed-alert alert-${type}`;
+
+            // Add icon based on type
+            const icon = document.createElement('i');
+            icon.className = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
+            alert.appendChild(icon);
+
+            // Add message
+            const messageSpan = document.createElement('span');
+            messageSpan.textContent = message;
+            alert.appendChild(messageSpan);
+
+            // Add to body
+            document.body.appendChild(alert);
+
+            // Trigger reflow to enable animation
+            void alert.offsetWidth;
+
+            // Show alert
+            alert.style.opacity = '1';
+            alert.style.transform = 'translateY(0)';
+
+            // Auto-remove after delay
             setTimeout(() => {
-                changePasswordModal.classList.add('active');
-                document.getElementById('currentPassword').focus();
-            }, 10);
-        };
-        
-        // Close change password modal
-        const closeChangePasswordModal = () => {
-            changePasswordModal.classList.remove('active');
-            document.body.style.overflow = '';
-            setTimeout(() => {
-                changePasswordModal.style.display = 'none';
-            }, 300);
-        };
-        
-        // Set up change password button click handler
-        const changePasswordButton = document.getElementById('changePasswordButton');
-        if (changePasswordButton) {
-            changePasswordButton.addEventListener('click', openChangePasswordModal);
+                alert.style.opacity = '0';
+                alert.style.transform = 'translateY(20px)';
+
+                // Remove from DOM after animation
+                setTimeout(() => {
+                    if (alert.parentNode) {
+                        alert.parentNode.removeChild(alert);
+                    }
+                }, 300);
+            }, 5000);
         }
-        
-        // Close modal when clicking close button or cancel
-        if (closeChangePasswordBtn) {
-            closeChangePasswordBtn.addEventListener('click', closeChangePasswordModal);
-        }
-        
-        if (cancelChangePasswordBtn) {
-            cancelChangePasswordBtn.addEventListener('click', closeChangePasswordModal);
-        }
-        
-        // Close modal when clicking outside
-        changePasswordModal.addEventListener('click', (e) => {
-            if (e.target === changePasswordModal) {
-                closeChangePasswordModal();
+
+        // Password validation function
+        function validatePassword(password) {
+            const isValid = password.length >= 8;
+            const requirement = document.querySelector('.password-requirement');
+
+            // Update requirement indicator
+            if (isValid) {
+                requirement.classList.add('valid');
+                requirement.innerHTML = '<i class="fas fa-check-circle"></i> Password is valid';
+            } else {
+                requirement.classList.remove('valid');
+                requirement.innerHTML = '<i class="fas fa-info-circle"></i> Password must be at least 8 characters long';
             }
-        });
-        
-        // Handle change password form submission
-        if (changePasswordForm) {
-            changePasswordForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Get form data
-                const formData = new FormData(this);
-                const currentPassword = formData.get('current_password');
-                const newPassword = formData.get('new_password');
-                const confirmPassword = formData.get('confirm_password');
-                
-                // Reset previous states
-                let isValid = true;
-                document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
-                document.querySelectorAll('.form-control').forEach(el => el.classList.remove('is-invalid'));
-                document.getElementById('changePasswordMessage').classList.add('d-none');
-                
-                // Validate current password
-                if (!currentPassword) {
-                    document.getElementById('currentPasswordError').textContent = 'Current password is required';
-                    document.getElementById('currentPassword').classList.add('is-invalid');
-                    isValid = false;
-                }
-                
-                // Validate new password
-                if (!newPassword) {
-                    document.getElementById('newPasswordError').textContent = 'New password is required';
-                    document.getElementById('newPassword').classList.add('is-invalid');
-                    isValid = false;
-                } else if (newPassword.length < 8) {
-                    document.getElementById('newPasswordError').textContent = 'Password must be at least 8 characters long';
-                    document.getElementById('newPassword').classList.add('is-invalid');
-                    isValid = false;
-                }
-                
-                // Validate password confirmation
-                if (!confirmPassword) {
-                    document.getElementById('confirmPasswordError').textContent = 'Please confirm your new password';
-                    document.getElementById('confirmPassword').classList.add('is-invalid');
-                    isValid = false;
-                } else if (newPassword !== confirmPassword) {
-                    document.getElementById('confirmPasswordError').textContent = 'Passwords do not match';
-                    document.getElementById('confirmPassword').classList.add('is-invalid');
-                    isValid = false;
-                }
-                
-                if (!isValid) {
-                    // Scroll to first error
-                    const firstError = document.querySelector('.is-invalid');
-                    if (firstError) {
-                        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        firstError.focus();
-                    }
-                    return;
-                }
-                
-                // Get submit button and save original text
-                const submitButton = this.querySelector('button[type="submit"]');
-                const originalButtonText = submitButton.innerHTML;
-                
-                // Show loading state
-                submitButton.disabled = true;
-                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Changing...';
-                
-                // Submit form via AJAX
-                fetch(this.action, {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json'
-                    },
-                    body: formData
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        return response.json().then(err => {
-                            // Handle HTTP errors (400, 500, etc.)
-                            throw err || { message: 'An error occurred. Please try again.' };
-                        });
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    if (data.success) {
-                        // Show success message
-                        const successMessage = data.message || 'Password changed successfully';
-                        showFixedAlert(successMessage, 'success');
-                        
-                        // Reset form
-                        this.reset();
-                        
-                        // Close modal after delay
-                        setTimeout(() => {
-                            closeChangePasswordModal();
-                        }, 1500);
+
+            return isValid;
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Password input event listener
+            const newPasswordInput = document.getElementById('newPassword');
+            if (newPasswordInput) {
+                newPasswordInput.addEventListener('input', function() {
+                    validatePassword(this.value);
+                });
+            }
+            // Toggle password visibility
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.toggle-password')) {
+                    const button = e.target.closest('.toggle-password');
+                    const target = document.querySelector(button.getAttribute('data-target'));
+                    const icon = button.querySelector('i');
+
+                    if (target.type === 'password') {
+                        target.type = 'text';
+                        icon.classList.remove('fa-eye');
+                        icon.classList.add('fa-eye-slash');
                     } else {
-                        // Show error messages
-                        if (data.errors) {
-                            Object.entries(data.errors).forEach(([field, message]) => {
-                                const errorElement = document.getElementById(`${field}Error`);
-                                if (errorElement) {
-                                    errorElement.textContent = Array.isArray(message) ? message[0] : message;
-                                    const input = document.getElementById(field) || document.querySelector(`[name="${field}"]`);
-                                    if (input) input.classList.add('is-invalid');
-                                }
-                            });
-                        } else if (data.message) {
-                            const errorDiv = document.getElementById('changePasswordMessage');
-                            errorDiv.textContent = data.message;
-                            errorDiv.className = 'alert alert-danger';
-                            errorDiv.classList.remove('d-none');
-                        }
-                        
+                        target.type = 'password';
+                        icon.classList.remove('fa-eye-slash');
+                        icon.classList.add('fa-eye');
+                    }
+                }
+            });
+
+            // Change Password Modal
+            const changePasswordModal = document.getElementById('changePasswordModal');
+            const closeChangePasswordBtn = document.getElementById('closeChangePasswordModal');
+            const cancelChangePasswordBtn = document.getElementById('cancelChangePassword');
+            const changePasswordForm = document.getElementById('changePasswordForm');
+            const changePasswordBtn = document.getElementById('changePasswordBtn');
+
+            // Open change password modal
+            const openChangePasswordModal = () => {
+                changePasswordModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+                setTimeout(() => {
+                    changePasswordModal.classList.add('active');
+                    document.getElementById('currentPassword').focus();
+                }, 10);
+            };
+
+            // Close change password modal
+            const closeChangePasswordModal = () => {
+                changePasswordModal.classList.remove('active');
+                document.body.style.overflow = '';
+                setTimeout(() => {
+                    changePasswordModal.style.display = 'none';
+                }, 300);
+            };
+
+            // Set up change password button click handler
+            const changePasswordButton = document.getElementById('changePasswordButton');
+            if (changePasswordButton) {
+                changePasswordButton.addEventListener('click', openChangePasswordModal);
+            }
+
+            // Close modal when clicking close button or cancel
+            if (closeChangePasswordBtn) {
+                closeChangePasswordBtn.addEventListener('click', closeChangePasswordModal);
+            }
+
+            if (cancelChangePasswordBtn) {
+                cancelChangePasswordBtn.addEventListener('click', closeChangePasswordModal);
+            }
+
+            // Close modal when clicking outside
+            changePasswordModal.addEventListener('click', (e) => {
+                if (e.target === changePasswordModal) {
+                    closeChangePasswordModal();
+                }
+            });
+
+            // Handle change password form submission
+            if (changePasswordForm) {
+                changePasswordForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    // Get form data
+                    const formData = new FormData(this);
+                    const currentPassword = formData.get('current_password');
+                    const newPassword = formData.get('new_password');
+                    const confirmPassword = formData.get('confirm_password');
+
+                    // Reset previous states
+                    let isValid = true;
+                    document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+                    document.querySelectorAll('.form-control').forEach(el => el.classList.remove('is-invalid'));
+                    document.getElementById('changePasswordMessage').classList.add('d-none');
+
+                    // Validate current password
+                    if (!currentPassword) {
+                        document.getElementById('currentPasswordError').textContent = 'Current password is required';
+                        document.getElementById('currentPassword').classList.add('is-invalid');
+                        isValid = false;
+                    }
+
+                    // Validate new password
+                    if (!newPassword) {
+                        document.getElementById('newPasswordError').textContent = 'New password is required';
+                        document.getElementById('newPassword').classList.add('is-invalid');
+                        isValid = false;
+                    } else if (newPassword.length < 8) {
+                        document.getElementById('newPasswordError').textContent = 'Password must be at least 8 characters long';
+                        document.getElementById('newPassword').classList.add('is-invalid');
+                        isValid = false;
+                    }
+
+                    // Validate password confirmation
+                    if (!confirmPassword) {
+                        document.getElementById('confirmPasswordError').textContent = 'Please confirm your new password';
+                        document.getElementById('confirmPassword').classList.add('is-invalid');
+                        isValid = false;
+                    } else if (newPassword !== confirmPassword) {
+                        document.getElementById('confirmPasswordError').textContent = 'Passwords do not match';
+                        document.getElementById('confirmPassword').classList.add('is-invalid');
+                        isValid = false;
+                    }
+
+                    if (!isValid) {
                         // Scroll to first error
                         const firstError = document.querySelector('.is-invalid');
                         if (firstError) {
-                            firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            firstError.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'center'
+                            });
                             firstError.focus();
                         }
+                        return;
                     }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    const errorDiv = document.getElementById('changePasswordMessage');
-                    errorDiv.textContent = error.message || 'An error occurred. Please try again.';
-                    errorDiv.className = 'alert alert-danger';
-                    errorDiv.classList.remove('d-none');
-                })
-                .finally(() => {
-                    // Reset button state
-                    submitButton.disabled = false;
-                    submitButton.innerHTML = originalButtonText;
-                });
-            });
-        }
-        const profilePicture = document.getElementById('profilePicture');
-        const modal = document.getElementById('profilePictureModal');
-        const modalImg = document.getElementById('modalProfilePicture');
-        const closeBtn = document.getElementById('closePictureModal');
 
-        // Open modal when profile picture is clicked
-        if (profilePicture) {
-            profilePicture.addEventListener('click', function() {
-                modalImg.src = this.src;
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
-            });
-        }
+                    // Get submit button and save original text
+                    const submitButton = this.querySelector('button[type="submit"]');
+                    const originalButtonText = submitButton.innerHTML;
 
-
-        // Close modal when close button is clicked
-        if (closeBtn) {
-            closeBtn.addEventListener('click', function() {
-                modal.classList.remove('active');
-                document.body.style.overflow = ''; // Re-enable scrolling
-                // Add a small delay before removing the active class to allow the fade-out animation
-                setTimeout(() => {
-                    modal.classList.remove('active');
-                }, 300);
-            });
-        }
-
-
-        // Close modal when clicking outside the image
-        modal.addEventListener('click', function(e) {
-            if (e.target === modal) {
-                modal.classList.remove('active');
-                document.body.style.overflow = ''; // Re-enable scrolling
-                // Add a small delay before removing the active class to allow the fade-out animation
-                setTimeout(() => {
-                    modal.classList.remove('active');
-                }, 300);
-            }
-        });
-
-
-        // Close modal with Escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && modal.classList.contains('active')) {
-                modal.classList.remove('active');
-                document.body.style.overflow = ''; // Re-enable scrolling
-                // Add a small delay before removing the active class to allow the fade-out animation
-                setTimeout(() => {
-                    modal.classList.remove('active');
-                }, 300);
-            }
-        });
-
-        // Edit Profile Modal
-        const editModal = document.getElementById('editProfileModal');
-        const editBtn = document.getElementById('editProfileBtn');
-        const closeEditBtn = document.getElementById('closeEditModal');
-        const cancelEditBtn = document.getElementById('cancelEdit');
-        const profileForm = document.getElementById('profileForm');
-        const fileInput = document.getElementById('profile_picture');
-        const fileName = document.getElementById('file-name');
-
-        // Show edit modal
-        if (editBtn) {
-            editBtn.addEventListener('click', () => {
-                editModal.style.display = 'flex';
-                document.body.style.overflow = 'hidden';
-                setTimeout(() => {
-                    editModal.classList.add('active');
-                }, 10);
-            });
-        }
-
-        // Close edit modal
-        function closeEditModal() {
-            editModal.classList.remove('active');
-            document.body.style.overflow = '';
-            setTimeout(() => {
-                editModal.style.display = 'none';
-            }, 300);
-        }
-
-        if (closeEditBtn) {
-            closeEditBtn.addEventListener('click', closeEditModal);
-        }
-
-        if (cancelEditBtn) {
-            cancelEditBtn.addEventListener('click', closeEditModal);
-        }
-
-        // Close modal when clicking outside
-        editModal.addEventListener('click', (e) => {
-            if (e.target === editModal) {
-                closeEditModal();
-            }
-        });
-
-        // Update file name when file is selected
-        if (fileInput && fileName) {
-            fileInput.addEventListener('change', (e) => {
-                const file = e.target.files[0];
-                if (file) {
-                    fileName.textContent = file.name;
-                } else {
-                    fileName.textContent = '<?php echo __('no_file_chosen'); ?>';
-                }
-            });
-        }
-
-        // Handle form submission
-        if (profileForm) {
-            profileForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                
-                const formData = new FormData(profileForm);
-                const submitBtn = profileForm.querySelector('button[type="submit"]');
-                const originalBtnText = submitBtn.innerHTML;
-                
-                try {
                     // Show loading state
-                    submitBtn.disabled = true;
-                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <?php echo __('saving'); ?>...';
-                    
-                    const response = await fetch(profileForm.action, {
-                        method: 'POST',
-                        body: formData
-                    });
-                    
-                    const result = await response.json();
-                    
-                    if (result.success) {
-                        // Show success message
-                        alert('<?php echo __('profile_updated_successfully'); ?>');
-                        // Reload the page to show updated data
-                        window.location.reload();
-                    } else {
-                        // Show error message
-                        alert(result.message || '<?php echo __('error_updating_profile'); ?>');
-                    }
-                } catch (error) {
-                    console.error('Error:', error);
-                    alert('<?php echo __('error_occurred'); ?>: ' + error.message);
-                } finally {
-                    // Reset button state
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = originalBtnText;
+                    submitButton.disabled = true;
+                    submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Changing...';
+
+                    // Submit form via AJAX
+                    fetch(this.action, {
+                            method: 'POST',
+                            headers: {
+                                'Accept': 'application/json'
+                            },
+                            body: formData
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                return response.json().then(err => {
+                                    // Handle HTTP errors (400, 500, etc.)
+                                    throw err || {
+                                        message: 'An error occurred. Please try again.'
+                                    };
+                                });
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.success) {
+                                // Show success message
+                                const successMessage = data.message || 'Password changed successfully';
+                                showFixedAlert(successMessage, 'success');
+
+                                // Reset form
+                                this.reset();
+
+                                // Close modal after delay
+                                setTimeout(() => {
+                                    closeChangePasswordModal();
+                                }, 1500);
+                            } else {
+                                // Show error messages
+                                if (data.errors) {
+                                    Object.entries(data.errors).forEach(([field, message]) => {
+                                        const errorElement = document.getElementById(`${field}Error`);
+                                        if (errorElement) {
+                                            errorElement.textContent = Array.isArray(message) ? message[0] : message;
+                                            const input = document.getElementById(field) || document.querySelector(`[name="${field}"]`);
+                                            if (input) input.classList.add('is-invalid');
+                                        }
+                                    });
+                                } else if (data.message) {
+                                    const errorDiv = document.getElementById('changePasswordMessage');
+                                    errorDiv.textContent = data.message;
+                                    errorDiv.className = 'alert alert-danger';
+                                    errorDiv.classList.remove('d-none');
+                                }
+
+                                // Scroll to first error
+                                const firstError = document.querySelector('.is-invalid');
+                                if (firstError) {
+                                    firstError.scrollIntoView({
+                                        behavior: 'smooth',
+                                        block: 'center'
+                                    });
+                                    firstError.focus();
+                                }
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            const errorDiv = document.getElementById('changePasswordMessage');
+                            errorDiv.textContent = error.message || 'An error occurred. Please try again.';
+                            errorDiv.className = 'alert alert-danger';
+                            errorDiv.classList.remove('d-none');
+                        })
+                        .finally(() => {
+                            // Reset button state
+                            submitButton.disabled = false;
+                            submitButton.innerHTML = originalButtonText;
+                        });
+                });
+            }
+            const profilePicture = document.getElementById('profilePicture');
+            const modal = document.getElementById('profilePictureModal');
+            const modalImg = document.getElementById('modalProfilePicture');
+            const closeBtn = document.getElementById('closePictureModal');
+
+            // Open modal when profile picture is clicked
+            if (profilePicture) {
+                profilePicture.addEventListener('click', function() {
+                    modalImg.src = this.src;
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+                });
+            }
+
+
+            // Close modal when close button is clicked
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function() {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = ''; // Re-enable scrolling
+                    // Add a small delay before removing the active class to allow the fade-out animation
+                    setTimeout(() => {
+                        modal.classList.remove('active');
+                    }, 300);
+                });
+            }
+
+
+            // Close modal when clicking outside the image
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = ''; // Re-enable scrolling
+                    // Add a small delay before removing the active class to allow the fade-out animation
+                    setTimeout(() => {
+                        modal.classList.remove('active');
+                    }, 300);
                 }
             });
-        }
-    });
+
+
+            // Close modal with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modal.classList.contains('active')) {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = ''; // Re-enable scrolling
+                    // Add a small delay before removing the active class to allow the fade-out animation
+                    setTimeout(() => {
+                        modal.classList.remove('active');
+                    }, 300);
+                }
+            });
+
+            // Edit Profile Modal
+            const editModal = document.getElementById('editProfileModal');
+            const editBtn = document.getElementById('editProfileBtn');
+            const closeEditBtn = document.getElementById('closeEditModal');
+            const cancelEditBtn = document.getElementById('cancelEdit');
+            const profileForm = document.getElementById('profileForm');
+            const fileInput = document.getElementById('profile_picture');
+            const fileName = document.getElementById('file-name');
+
+            // Show edit modal
+            if (editBtn) {
+                editBtn.addEventListener('click', () => {
+                    editModal.style.display = 'flex';
+                    document.body.style.overflow = 'hidden';
+                    setTimeout(() => {
+                        editModal.classList.add('active');
+                    }, 10);
+                });
+            }
+
+            // Close edit modal
+            function closeEditModal() {
+                editModal.classList.remove('active');
+                document.body.style.overflow = '';
+                setTimeout(() => {
+                    editModal.style.display = 'none';
+                }, 300);
+            }
+
+            if (closeEditBtn) {
+                closeEditBtn.addEventListener('click', closeEditModal);
+            }
+
+            if (cancelEditBtn) {
+                cancelEditBtn.addEventListener('click', closeEditModal);
+            }
+
+            // Close modal when clicking outside
+            editModal.addEventListener('click', (e) => {
+                if (e.target === editModal) {
+                    closeEditModal();
+                }
+            });
+
+            // Update file name when file is selected
+            if (fileInput && fileName) {
+                fileInput.addEventListener('change', (e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                        fileName.textContent = file.name;
+                    } else {
+                        fileName.textContent = '<?php echo __('no_file_chosen'); ?>';
+                    }
+                });
+            }
+
+            // Handle form submission
+            if (profileForm) {
+                profileForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+
+                    const formData = new FormData(profileForm);
+                    const submitBtn = profileForm.querySelector('button[type="submit"]');
+                    const originalBtnText = submitBtn.innerHTML;
+
+                    try {
+                        // Show loading state
+                        submitBtn.disabled = true;
+                        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <?php echo __('saving'); ?>...';
+
+                        const response = await fetch(profileForm.action, {
+                            method: 'POST',
+                            body: formData
+                        });
+
+                        const result = await response.json();
+
+                        if (result.success) {
+                            // Show success message
+                            alert('<?php echo __('profile_updated_successfully'); ?>');
+                            // Reload the page to show updated data
+                            window.location.reload();
+                        } else {
+                            // Show error message
+                            alert(result.message || '<?php echo __('error_updating_profile'); ?>');
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('<?php echo __('error_occurred'); ?>: ' + error.message);
+                    } finally {
+                        // Reset button state
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = originalBtnText;
+                    }
+                });
+            }
+        });
     </script>
 </body>
 
