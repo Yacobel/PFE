@@ -15,50 +15,35 @@ require_once 'config/languages.php';
     <link rel="stylesheet" href="./style/header.css">
     <link rel="stylesheet" href="./style/footer.css">
     <link rel="stylesheet" href="./style/taskes.css">
-    
 </head>
 
 <body>
-    <!-- Language Switcher -->
     <div class="language-selector">
         <a href="?lang=en" class="<?php echo $lang === 'en' ? 'active' : ''; ?>">En</a>
         <a href="?lang=ar" class="<?php echo $lang === 'ar' ? 'active' : ''; ?>">Ar</a>
     </div>
-
     <div class="main-container">
-        <!-- Include Header Component -->
         <?php include 'components/header.php'; ?>
-
-        <!-- Main Content -->
         <main class="tasks-container">
             <?php
-            // Start session if not already started
             if (session_status() === PHP_SESSION_NONE) {
                 session_start();
             }
-            
-            // Check if user is logged in
             if (!isset($_SESSION['user_id'])) {
                 header("Location: login.php");
                 exit;
             }
-            
-            // Display error message if present
             if (isset($_GET['error'])) {
                 echo '<div class="error-alert">
                     <i class="fas fa-exclamation-circle"></i>
                     ' . htmlspecialchars(urldecode($_GET['error'])) . '
                 </div>';
             }
-
-            // Database connection using PDO
             $servername = "localhost";
-            $username = "root";  // Change to your database username
-            $password = "";      // Change to your database password
-            $dbname = "task_platform";  // Change to your database name
-
+            $username = "root";
+            $password = "";
+            $dbname = "task_platform";
             try {
-                // Create a PDO connection
                 $dsn = "mysql:host=$servername;dbname=$dbname;charset=utf8mb4";
                 $options = [
                     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -66,9 +51,6 @@ require_once 'config/languages.php';
                     PDO::ATTR_EMULATE_PREPARES => false,
                 ];
                 $pdo = new PDO($dsn, $username, $password, $options);
-
-                // Query to fetch tasks with category names and creator information
-                // Exclude tasks created by the current user
                 $stmt = $pdo->prepare("
                     SELECT t.*, c.name as category_name, u.name as creator_name, u.id_user as creator_id
                     FROM tasks t 
@@ -80,29 +62,20 @@ require_once 'config/languages.php';
                 ");
                 $stmt->bindParam(':current_user_id', $_SESSION['user_id'], PDO::PARAM_INT);
                 $stmt->execute();
-
-                // Get all tasks
                 $tasks = $stmt->fetchAll();
-
-                // Check if tasks exist
                 if (count($tasks) > 0) {
             ?>
                     <div class="tasks-header">
                         <h1><?php echo __("available_courses"); ?></h1>
                         <p><?php echo __("browse_courses_message"); ?></p>
                     </div>
-
                     <div class="task-grid">
                         <?php
-                        // Loop through each task and generate a card
                         foreach ($tasks as $row) {
-                            // Get data from database row
                             $title = htmlspecialchars($row['title']);
                             $category = htmlspecialchars($row['category_name']);
                             $image_url = !empty($row['image_url']) ? $row['image_url'] : "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&h=500&fit=crop";
-
                         ?>
-                            <!-- Task Card (styled like service cards) -->
                             <div class="task-card">
                                 <div class="card-image-container">
                                     <img src="<?php echo $image_url; ?>" alt="<?php echo $title; ?>" class="card-image">
@@ -112,11 +85,9 @@ require_once 'config/languages.php';
                                         <span class="card-category"><?php echo $category; ?></span>
                                         <h3 class="card-title"><?php echo $title; ?></h3>
                                         <?php if (isset($row['creator_name'])): ?>
-                                        <span class="card-creator"><?php echo __("posted_by"); ?>: <?php echo htmlspecialchars($row['creator_name']); ?></span>
+                                            <span class="card-creator"><?php echo __("posted_by"); ?>: <?php echo htmlspecialchars($row['creator_name']); ?></span>
                                         <?php endif; ?>
                                     </div>
-                                    
-                                    <!-- Show action button -->
                                     <a href="task_details.php?id=<?php echo $row['task_id']; ?>" class="see-task-btn">
                                         <i class="fas fa-eye"></i> <?php echo __("see_details"); ?>
                                     </a>
@@ -128,7 +99,6 @@ require_once 'config/languages.php';
                     </div>
                 <?php
                 } else {
-                    // If no tasks, show empty state
                 ?>
                     <div class="empty-state">
                         <div class="empty-icon">
@@ -140,15 +110,11 @@ require_once 'config/languages.php';
             <?php
                 }
             } catch (PDOException $e) {
-                // Handle database errors
                 echo '<div class="error-message">' . __("database_error") . ': ' . htmlspecialchars($e->getMessage()) . '</div>';
             }
-
-            // PDO connection is automatically closed when the script ends
             ?>
         </main>
     </div>
-
     <script src="js/main.js"></script>
 </body>
 

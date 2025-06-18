@@ -24,14 +24,12 @@ require_once 'config/languages.php';
 <body>
 
   <div class="main-container">
-    <!-- Include Header Component -->
     <?php include 'components/header.php'; ?>
     <div class="language-selector">
       <a href="?lang=en" class="<?php echo $lang === 'en' ? 'active' : ''; ?>">En</a>
       <a href="?lang=ar" class="<?php echo $lang === 'ar' ? 'active' : ''; ?>">Ar</a>
     </div>
 
-    <!-- Hero Section -->
     <div class="hero-section">
       <div class="hero-info">
 
@@ -47,7 +45,7 @@ require_once 'config/languages.php';
         </div>
 
         <div class="hero-btn">
-          <a href="./register.php"><?php echo __("add_service_now"); ?>
+          <a href="./taskes.php"><?php echo __("add_service_now"); ?>
             <img src="./style/images/Clip path group.png" alt="<?php echo __("arrow_icon"); ?>" />
           </a>
         </div>
@@ -57,7 +55,6 @@ require_once 'config/languages.php';
 
 
 
-    <!-- Solutions Section -->
     <div class="solution">
       <div class="our-solution">
         <p><?php echo __("our_solutions"); ?></p>
@@ -95,7 +92,6 @@ require_once 'config/languages.php';
       </div>
     </div>
 
-    <!-- Advantages Section -->
     <div class="advantage">
       <div class="our-advantage">
         <p><?php echo __("why_choose_us"); ?></p>
@@ -109,11 +105,7 @@ require_once 'config/languages.php';
 
       <div class="advantage-cards">
         <div class="card1">
-          <!-- <div class="images">
-            <img
-              src="./style/images/verification.png"
-              alt="<?php echo __("verified_users_icon"); ?>" />
-          </div> -->
+          
           <div class="info-card">
             <h3><?php echo __("verified_users"); ?></h3>
             <p>
@@ -123,9 +115,7 @@ require_once 'config/languages.php';
         </div>
 
         <div class="card2">
-          <!-- <div class="images">
-            <img src="./style/images/$.svg" alt="<?php echo __("affordable_prices_icon"); ?>" />
-          </div> -->
+          
           <div class="info-card">
             <h3><?php echo __("affordable_prices"); ?></h3>
             <p>
@@ -135,9 +125,7 @@ require_once 'config/languages.php';
         </div>
 
         <div class="card3">
-          <!-- <div class="images">
-            <img src="./style/images/f.svg" alt="<?php echo __("community_icon"); ?>" />
-          </div> -->
+          
           <div class="info-card">
             <h3><?php echo __("cooperative_community"); ?></h3>
             <p>
@@ -147,11 +135,7 @@ require_once 'config/languages.php';
         </div>
 
         <div class="card4">
-          <!-- <div class="images">
-            <img
-              src="./style/images/contact.svg"
-              alt="<?php echo __("new_opportunities_icon"); ?>" />
-          </div> -->
+          
           <div class="info-card">
             <h3><?php echo __("new_opportunities"); ?></h3>
             <p>
@@ -161,11 +145,7 @@ require_once 'config/languages.php';
         </div>
 
         <div class="card5">
-          <!-- <div class="images">
-            <img
-              src="./style/images/location.svg"
-              alt="<?php echo __("service_anywhere_icon"); ?>" />
-          </div> -->
+          
           <div class="info-card">
             <h3><?php echo __("service_anywhere"); ?></h3>
             <p>
@@ -176,7 +156,7 @@ require_once 'config/languages.php';
       </div>
     </div>
 
-    <!-- Services Section -->
+    
     <div class="our-services">
       <div class="services-button-container">
         <a href="taskes.php" class="services-button" style="text-decoration: none;">
@@ -252,7 +232,6 @@ require_once 'config/languages.php';
           </div>
         </div>
 
-        <!-- Service Card 2 -->
         <div class="service-card">
           <div class="card-image">
             <img
@@ -309,7 +288,6 @@ require_once 'config/languages.php';
           </div>
         </div>
 
-        <!-- Service Card 3 -->
         <div class="service-card">
           <div class="card-image">
             <img
@@ -371,7 +349,6 @@ require_once 'config/languages.php';
 
 
 
-    <!-- How It Works Section -->
     <div class="how-it-works">
       <div class="header">
         <div class="pill-button"><?php echo __("how_it_works"); ?></div>
@@ -384,7 +361,6 @@ require_once 'config/languages.php';
       </div>
 
       <div class="cards-container">
-        <!-- Card 1 -->
         <div class="card">
 
           <div class="card-info">
@@ -395,7 +371,6 @@ require_once 'config/languages.php';
           </div>
         </div>
 
-        <!-- Card 2 -->
         <div class="card">
 
           <div class="card-info">
@@ -406,7 +381,6 @@ require_once 'config/languages.php';
           </div>
         </div>
 
-        <!-- Card 3 -->
         <div class="card">
 
           <div class="card-info">
@@ -492,7 +466,6 @@ require_once 'config/languages.php';
         </p>
 
         <div class="faq-grid">
-          <!-- FAQ Item 1 -->
           <div class="faq-item">
             <div class="faq-question" onclick="toggleFAQ(this)">
               <div class="question-content">
@@ -515,7 +488,6 @@ require_once 'config/languages.php';
             </div>
           </div>
 
-          <!-- FAQ Item 2 -->
           <div class="faq-item">
             <div class="faq-question" onclick="toggleFAQ(this)">
               <div class="question-content">
@@ -538,7 +510,6 @@ require_once 'config/languages.php';
             </div>
           </div>
 
-          <!-- FAQ Item 3 -->
           <div class="faq-item">
             <div class="faq-question" onclick="toggleFAQ(this)">
               <div class="question-content">
@@ -561,7 +532,6 @@ require_once 'config/languages.php';
             </div>
           </div>
 
-          <!-- FAQ Item 4 -->
           <div class="faq-item">
             <div class="faq-question" onclick="toggleFAQ(this)">
               <div class="question-content">
@@ -587,7 +557,6 @@ require_once 'config/languages.php';
       </div>
     </div>
 
-    <!-- Include Footer Component -->
     <?php include 'components/footer.php'; ?>
 
     <script src="js/main.js"></script>

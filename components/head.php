@@ -1,5 +1,4 @@
 <?php
-// Start output buffering to prevent "headers already sent" errors
 if (!ob_get_level()) {
     ob_start();
 }

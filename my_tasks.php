@@ -22,7 +22,6 @@ include 'components/head.php';
 </head>
 
 <body>
-    <!-- Language Switcher -->
     <div class="language-selector">
         <a href="?lang=en" class="<?php echo $lang === 'en' ? 'active' : ''; ?>">En</a>
         <a href="?lang=ar" class="<?php echo $lang === 'ar' ? 'active' : ''; ?>">Ar</a>
@@ -64,7 +63,6 @@ include 'components/head.php';
             <?php endif; ?>
 
             <?php
-            // Fetch tasks for the current client
             $stmt = $pdo->prepare("
                 SELECT t.*, c.name as category_name 
                 FROM tasks t 
@@ -142,7 +140,6 @@ include 'components/head.php';
             ?>
         </div>
 
-        <!-- Edit Task Modal -->
         <div id="editTaskModal" class="modal-overlay">
             <div class="modal-container">
                 <div class="modal-header">
@@ -218,7 +215,6 @@ include 'components/head.php';
             </div>
         </div>
 
-        <!-- Payment Modal -->
         <div id="paymentModal" class="modal-overlay">
             <div class="modal-container">
                 <div class="modal-header">
@@ -273,7 +269,6 @@ include 'components/head.php';
             </div>
         </div>
 
-        <!-- Include the Create Task Modal -->
         <?php include 'components/create_task_modal.php'; ?>
     </div>
 

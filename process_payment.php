@@ -2,23 +2,19 @@
 session_start();
 require_once 'config/db.php';
 
-// Check if user is logged in and is a client
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'client') {
     header("Location: login.php");
     exit;
 }
 
-// Get task ID from URL parameter
 $task_id = isset($_GET['task_id']) ? intval($_GET['task_id']) : 0;
 
-// Validate task ID
 if ($task_id <= 0) {
     $_SESSION['error_message'] = "Invalid task ID.";
     header("Location: dashboard.php");
     exit;
 }
 
-// Get task details
 $stmt = $pdo->prepare("
     SELECT t.*, u.id_user as executor_id, u.name as executor_name, u.email as executor_email,
            b.bid_amount, b.status as bid_status
@@ -36,7 +32,6 @@ if (!$task) {
     exit;
 }
 
-// Check if payment has already been made
 $stmt = $pdo->prepare("SELECT payment_id FROM payments WHERE task_id = ? AND status = 'completed'");
 $stmt->execute([$task_id]);
 if ($stmt->rowCount() > 0) {
@@ -45,19 +40,15 @@ if ($stmt->rowCount() > 0) {
     exit;
 }
 
-// Set payment amount (use bid amount if available, otherwise use budget)
 $payment_amount = $task['bid_amount'] ? $task['bid_amount'] : $task['budget'];
 
-// Check if form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Get form data
     $task_id = isset($_POST['task_id']) ? intval($_POST['task_id']) : 0;
     $card_number = isset($_POST['card_number']) ? $_POST['card_number'] : '';
     $expiry_date = isset($_POST['expiry_date']) ? $_POST['expiry_date'] : '';
     $cvv = isset($_POST['cvv']) ? $_POST['cvv'] : '';
     $card_holder = isset($_POST['card_holder']) ? $_POST['card_holder'] : '';
 
-    // Validate task ID
     if ($task_id <= 0) {
         $_SESSION['error_message'] = "Invalid task ID.";
         header("Location: my_tasks.php");
@@ -65,10 +56,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     try {
-        // Start transaction
         $pdo->beginTransaction();
 
-        // Verify the task belongs to the client and is completed
         $stmt = $pdo->prepare("
             SELECT t.*, u.id_user as executor_id, u.name as executor_name, u.email as executor_email
             FROM tasks t
@@ -82,7 +71,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             throw new Exception("Task not found or not eligible for payment.");
         }
 
-        // 1. First, verify the task is still eligible for payment
         $stmt = $pdo->prepare("SELECT status, payment_status FROM tasks WHERE task_id = ? FOR UPDATE");
         $stmt->execute([$task_id]);
         $currentTask = $stmt->fetch();
@@ -95,8 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             throw new Exception("Payment has already been processed for this task.");
         }
 
-        // 2. Record the payment in the payments table first
-        $transaction_id = 'PAY-' . uniqid(); // Generate a unique transaction ID
+        $transaction_id = 'PAY-' . uniqid();
         $stmt = $pdo->prepare("
             INSERT INTO payments (
                 task_id, 
@@ -116,7 +103,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $transaction_id
         ]);
         
-        // 3. Update the task payment status
         $stmt = $pdo->prepare("
             UPDATE tasks
             SET payment_status = 'paid',
@@ -125,7 +111,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ");
         $stmt->execute([$task_id]);
         
-        // 4. Update the accepted bid to 'done' status
         $stmt = $pdo->prepare("
             UPDATE bids
             SET status = 'done'
@@ -135,7 +120,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ");
         $stmt->execute([$task_id, $task['executor_id']]);
         
-        // 5. Reject all other pending bids for this task
         $stmt = $pdo->prepare("
             UPDATE bids
             SET status = 'rejected'
@@ -145,7 +129,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ");
         $stmt->execute([$task_id, $task['executor_id']]);
         
-        // 6. Verify all updates were successful
         $stmt = $pdo->prepare("SELECT payment_status FROM tasks WHERE task_id = ?");
         $stmt->execute([$task_id]);
         $updatedStatus = $stmt->fetchColumn();
@@ -154,28 +137,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             throw new Exception("Failed to update task payment status.");
         }
         
-        // If we got here, everything is good - commit the transaction
         $pdo->commit();
         
-        // Set success message
         $_SESSION['success_message'] = "Payment successful! The payment has been processed and marked as done.";
         
-        // Redirect back to dashboard
         header("Location: dashboard.php");
         exit;
     } catch (Exception $e) {
-        // Roll back transaction on error
         $pdo->rollBack();
         
-        // Set error message
         $_SESSION['error_message'] = "Payment failed: " . $e->getMessage();
         
-        // Redirect back to my tasks page
         header("Location: my_tasks.php");
         exit;
     }
 } else {
-    // Display payment form
     $pageTitle = "Process Payment";
     include 'components/head.php';
 ?>

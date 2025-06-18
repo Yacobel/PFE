@@ -28,37 +28,27 @@ require_once 'config/languages.php';
             margin-bottom: 15px;
             font-size: 14px;
         }
-        
     </style>
     <link rel="stylesheet" href="./style/login.css">
 </head>
 
 <body>
     <div class="container">
-        
-
-        <!-- Include Header Component -->
         <?php include 'components/header.php'; ?>
         <div class="language-selector">
-        <a href="?lang=en" class="<?php echo $lang === 'en' ? 'active' : ''; ?>">En</a>
-        <a href="?lang=ar" class="<?php echo $lang === 'ar' ? 'active' : ''; ?>">Ar</a>
-    </div>
-
-        <!-- Main Content -->
+            <a href="?lang=en" class="<?php echo $lang === 'en' ? 'active' : ''; ?>">En</a>
+            <a href="?lang=ar" class="<?php echo $lang === 'ar' ? 'active' : ''; ?>">Ar</a>
+        </div>
         <main>
             <div class="main-content">
-                <!-- Left Column - Registration Form -->
                 <div class="signup-container">
                     <h1><?php echo __('create_account'); ?></h1>
                     <p class="welcome-text">
                         <?php echo __('join_message'); ?>
                     </p>
-
                     <?php
-                    // Display error messages if any
                     if (isset($_GET['error'])) {
                         echo '<div class="error-message">';
-
                         switch ($_GET['error']) {
                             case 'email_exists':
                                 echo __('email_exists_error');
@@ -75,38 +65,24 @@ require_once 'config/languages.php';
                             default:
                                 echo __('general_error');
                         }
-
                         echo '</div>';
                     }
-
-                    // Display session errors if any
                     if (isset($_SESSION['register_errors']) && !empty($_SESSION['register_errors'])) {
                         echo '<div class="error-message">';
                         foreach ($_SESSION['register_errors'] as $error) {
                             echo $error . '<br>';
                         }
                         echo '</div>';
-                        // Clear the errors
                         unset($_SESSION['register_errors']);
                     }
-
-                    // Display success message if registration is successful
                     if (isset($_GET['success'])) {
                         echo '<div class="success-message">' . __('registration_success') . '</div>';
                     }
                     ?>
-
-                    <!-- Google Sign Up Button -->
-                    
-
-                    <!-- Divider -->
                     <div class="divider">
                         <div class="divider-line"></div>
-                        
                         <div class="divider-line"></div>
                     </div>
-
-                    <!-- Registration Form -->
                     <form action="register_process.php" method="post" class="signup-form">
                         <div class="form-row">
                             <input type="text" name="firstName" placeholder="<?php echo __('first_name'); ?>" class="form-input half" required>
@@ -114,7 +90,6 @@ require_once 'config/languages.php';
                         </div>
                         <input type="email" name="email" placeholder="<?php echo __('enter_email'); ?>" class="form-input" required>
                         <div class="phone-input">
-                        
                             <input type="tel" name="phoneNumber" placeholder="<?php echo __('enter_phone'); ?>" class="form-input">
                         </div>
                         <div class="password-input">
@@ -144,15 +119,10 @@ require_once 'config/languages.php';
                         <button type="button" onclick="window.location.href='login.php'" class="btn btn-login"><?php echo __('already_have_account'); ?></button>
                     </form>
                 </div>
-
-                
             </div>
         </main>
-
-        <!-- Include Footer Component -->
         <?php include 'components/footer.php'; ?>
     </div>
-
     <script src="js/main.js"></script>
     <script src="js/register.js"></script>
 </body>

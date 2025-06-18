@@ -4,7 +4,6 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 require_once __DIR__ . '/../config/languages.php';
 ?>
-<!-- Navigation Bar -->
 <div class="nav-bar">
     <div class="logo"><a href="index.php"><img src="./style/images/lastlogo.png" alt="Logo"></a></div>
     <div class="icon">
@@ -27,7 +26,6 @@ require_once __DIR__ . '/../config/languages.php';
                     <img src="./style/images/profile-round-1342-svgrepo-com (2).svg" alt="<?php echo __("profile"); ?>" /><?php echo htmlspecialchars($_SESSION['username'] ?? __("profile")); ?>
                 </a>
             </li>
-
         </ul>
     </div>
     <div class="join-nav">
@@ -40,20 +38,13 @@ require_once __DIR__ . '/../config/languages.php';
         <?php endif; ?>
     </div>
 </div>
-
-
 <script>
-    // Add mobile navigation and sticky header functionality
     document.addEventListener('DOMContentLoaded', function() {
         const navIcon = document.querySelector('.icon');
         const navBar = document.querySelector('.nav-bar');
-
-        // Mobile menu toggle
         navIcon.addEventListener('click', function() {
             navBar.classList.toggle('mobile');
         });
-
-        // Sticky header on scroll
         window.addEventListener('scroll', function() {
             if (window.scrollY > 100) {
                 navBar.classList.add('sticky');
@@ -63,7 +54,6 @@ require_once __DIR__ . '/../config/languages.php';
         });
     });
 </script>
-
 <style>
     .logout-btn {
         display: flex;

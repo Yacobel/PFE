@@ -27,17 +27,14 @@ require_once 'config/languages.php';
     <div class="container">
 
 
-        <!-- Include Header Component -->
         <?php include 'components/header.php'; ?>
         <div class="language-selector">
         <a href="?lang=en" class="<?php echo $lang === 'en' ? 'active' : ''; ?>">En</a>
         <a href="?lang=ar" class="<?php echo $lang === 'ar' ? 'active' : ''; ?>">Ar</a>
     </div>
 
-        <!-- Main Content -->
         <main>
             <div class="main-content">
-                <!-- Left Column - Sign Up Form -->
                 <div class="signup-container">
                     <h1><?php echo __('welcome_back'); ?></h1>
                     <p class="welcome-text">
@@ -45,7 +42,6 @@ require_once 'config/languages.php';
                     </p>
 
                     <?php
-                    // Display error messages if any
                     if (isset($_GET['error'])) {
                         echo '<div class="error-message">';
 
@@ -66,28 +62,24 @@ require_once 'config/languages.php';
                         echo '</div>';
                     }
 
-                    // Display session errors if any
                     if (isset($_SESSION['login_errors']) && !empty($_SESSION['login_errors'])) {
                         echo '<div class="error-message">';
                         foreach ($_SESSION['login_errors'] as $error) {
                             echo $error . '<br>';
                         }
                         echo '</div>';
-                        // Clear the errors
                         unset($_SESSION['login_errors']);
                     }
                     ?>
 
                     
 
-                    <!-- Divider -->
                     <div class="divider">
                         <div class="divider-line"></div>
                         
                         <div class="divider-line"></div>
                     </div>
 
-                    <!-- Login Form -->
                     <form action="login_process.php" method="post" class="signup-form">
                         <input type="email" name="email" placeholder="<?php echo __('email_address'); ?>" class="form-input" required>
 
@@ -114,7 +106,6 @@ require_once 'config/languages.php';
             </div>
         </main>
 
-        <!-- Include Footer Component -->
         <?php include 'components/footer.php'; ?>
     </div>
 

@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . '/../config/db.php';
 ?>
-<!-- Create Task Modal -->
 <div class="modal-overlay" id="createTaskModal">
     <div class="modal-container">
         <div class="modal-header">
@@ -11,9 +10,9 @@ require_once __DIR__ . '/../config/db.php';
         <div class="modal-body">
             <?php if (isset($_SESSION['error_message'])): ?>
                 <div class="alert alert-error">
-                    <?php 
-                        echo htmlspecialchars($_SESSION['error_message']); 
-                        unset($_SESSION['error_message']);
+                    <?php
+                    echo htmlspecialchars($_SESSION['error_message']);
+                    unset($_SESSION['error_message']);
                     ?>
                 </div>
             <?php endif; ?>
@@ -33,7 +32,6 @@ require_once __DIR__ . '/../config/db.php';
                     <select id="category" name="category_id" class="form-control" required>
                         <option value="">Select a category</option>
                         <?php
-                        // Fetch categories from database
                         $stmt = $pdo->query("SELECT * FROM categories ORDER BY name");
                         while ($category = $stmt->fetch()) {
                             echo '<option value="' . $category['category_id'] . '">' . htmlspecialchars($category['name']) . '</option>';

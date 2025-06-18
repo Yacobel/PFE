@@ -4,7 +4,6 @@
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Toggle password visibility for the main password field
     const togglePassword = document.getElementById('togglePassword');
     if (togglePassword) {
         togglePassword.addEventListener('click', function() {
@@ -19,7 +18,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Toggle password visibility for the confirm password field
     const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
     if (toggleConfirmPassword) {
         toggleConfirmPassword.addEventListener('click', function() {
@@ -34,7 +32,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Phone checkbox functionality
     const phoneCheck = document.getElementById('phoneCheck');
     if (phoneCheck) {
         phoneCheck.addEventListener('change', function() {

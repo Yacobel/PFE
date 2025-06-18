@@ -3,7 +3,6 @@ session_start();
 require_once 'config/languages.php';
 require_once 'config/db.php';
 
-// Check if user is logged in and is an executor
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'executor') {
     header("Location: login.php");
     exit;
@@ -19,38 +18,10 @@ include 'components/head.php';
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="./style/my_assignments.css">
-    <!-- <style>
-        .language-selector {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 5px 10px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .language-selector a {
-            text-decoration: none;
-            color: #333;
-            padding: 5px 10px;
-            margin: 0 5px;
-            border-radius: 3px;
-            font-weight: 500;
-        }
-        .language-selector a.active {
-            background: #4ce595;
-            color: white;
-        }
-        [dir="rtl"] .language-selector {
-            left: 20px;
-            right: auto;
-        }
-    </style> -->
+   
 </head>
 
 <body>
-    <!-- Language Switcher -->
     <div class="language-selector">
         <a href="?lang=en" class="<?php echo $lang === 'en' ? 'active' : ''; ?>">En</a>
         <a href="?lang=ar" class="<?php echo $lang === 'ar' ? 'active' : ''; ?>">Ar</a>
@@ -66,8 +37,7 @@ include 'components/head.php';
                 </div>
 
                 <?php
-                // Fetch tasks assigned to the executor
-                $stmt = $pdo->prepare("
+                $stmt = $pdo->prepare(query: "
                     SELECT t.*, c.name as category_name, 
                            u.name as client_name, u.email as client_email,
                            u.profile_picture as client_profile
@@ -105,7 +75,6 @@ include 'components/head.php';
                                         <span><?php echo __("deadline"); ?>: <?php echo date('M d, Y', strtotime($task['deadline'])); ?></span>
                                     </div>
 
-                                    <!-- Client Info -->
                                     <div class="client-info">
                                         <div class="client-avatar">
                                             <?php if ($task['client_profile']): ?>
@@ -161,7 +130,6 @@ include 'components/head.php';
         </div>
     </main>
 
-    <!-- Cancellation Modal -->
     <div id="cancellationModal" class="modal" style="display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; overflow:auto; background-color:rgba(0,0,0,0.4);">
         <div class="modal-content" style="background-color:#fefefe; margin:15% auto; padding:20px; border:1px solid #888; width:50%; border-radius:5px; box-shadow:0 4px 8px rgba(0,0,0,0.1);">
             <span class="close" style="color:#aaa; float:right; font-size:28px; font-weight:bold; cursor:pointer;">&times;</span>

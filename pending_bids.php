@@ -3,14 +3,12 @@ session_start();
 require_once 'config/languages.php';
 require_once 'config/db.php';
 
-// Check if user is logged in and is a client
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'client') {
     header('Location: login.php');
     exit();
 }
 
 try {
-    // Get tasks with pending bids
     $stmt = $pdo->prepare("
         SELECT t.*, c.name as category_name, 
                (SELECT COUNT(*) FROM bids b WHERE b.task_id = t.task_id AND b.status = 'pending') as pending_bids_count,
@@ -46,7 +44,6 @@ try {
 </head>
 
 <body>
-    <!-- Language Switcher -->
     <div class="language-selector">
         <a href="?lang=en" class="<?php echo $lang === 'en' ? 'active' : ''; ?>">En</a>
         <a href="?lang=ar" class="<?php echo $lang === 'ar' ? 'active' : ''; ?>">Ar</a>

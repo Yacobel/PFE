@@ -4,7 +4,6 @@
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Task Actions
     window.acceptTask = function(taskId) {
         if (confirm('Are you sure you want to accept this task?')) {
             fetch('api/accept_task.php', {
@@ -59,22 +58,17 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    // Modal Functions
     window.openMessageModal = function() {
         document.getElementById('messageModal').classList.add('active');
         document.body.style.overflow = 'hidden';
-        // Set the recipient to the client by default
         const recipientIdElement = document.getElementById('recipient_id');
         if (recipientIdElement && recipientIdElement.value === '') {
-            // The PHP value will be injected when the page loads
-            // This is just a fallback in case the element exists but has no value
         }
     };
     
     window.openMessageModalWithRecipient = function(recipientId) {
         document.getElementById('messageModal').classList.add('active');
         document.body.style.overflow = 'hidden';
-        // Set the specific recipient
         document.getElementById('recipient_id').value = recipientId;
     };
 
@@ -83,7 +77,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.style.overflow = 'auto';
     };
 
-    // Bid Form Submission
     const bidForm = document.getElementById('bidForm');
     if (bidForm) {
         bidForm.addEventListener('submit', function(e) {
@@ -119,7 +112,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Message Form Submission
     const messageForm = document.getElementById('messageForm');
     if (messageForm) {
         messageForm.addEventListener('submit', function(e) {
@@ -156,21 +148,18 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Close modal when clicking outside
     window.onclick = function(event) {
         if (event.target.classList.contains('modal-overlay')) {
             closeMessageModal();
         }
     };
 
-    // Close modal on escape key
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' && document.getElementById('messageModal').classList.contains('active')) {
             closeMessageModal();
         }
     });
     
-    // Process Payment Function
     window.processPayment = function(taskId) {
         if (confirm('Are you sure you want to confirm task completion and process payment? This action cannot be undone.')) {
             fetch('api/process_payment.php', {
@@ -199,7 +188,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
     
-    // Cancel Task Function
     window.cancelTask = function(taskId) {
         if (confirm('Are you sure you want to cancel your assignment for this task? This will allow the client to select another executor.')) {
             const reason = document.getElementById('cancel_reason') ? 
@@ -231,7 +219,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    // Accept Bid Function (for clients)
     window.acceptBid = function(bidId, taskId) {
         if (confirm('Are you sure you want to accept this bid? This will assign the executor to your task.')) {
             fetch('api/accept_bid.php', {

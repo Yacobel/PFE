@@ -1,16 +1,13 @@
 <?php
-// Continue output buffering if needed
 if (!ob_get_level()) {
     ob_start();
 }
 require_once __DIR__ . '/../config/languages.php';
 ?>
-<!-- Footer -->
 <link rel="stylesheet" href="./style/footer.css">
 <footer>
     <div class="footer-content">
         <div class="footer-columns">
-            <!-- Left Column -->
             <div class="footer-column">
                 <div class="footer-logo">
                     <a href="/">ServeMatch</a>
@@ -44,8 +41,6 @@ require_once __DIR__ . '/../config/languages.php';
                     </div>
                 </div>
             </div>
-
-            <!-- Right Column - Newsletter -->
             <div class="footer-column">
                 <h3 class="footer-heading"><?php echo __("newsletter"); ?></h3>
                 <p class="footer-description">
@@ -57,8 +52,6 @@ require_once __DIR__ . '/../config/languages.php';
                 </div>
             </div>
         </div>
-
-        <!-- Bottom Links -->
         <div class="footer-bottom">
             <div class="footer-nav">
                 <a href="/about" class="footer-link"><?php echo __("about_us"); ?></a>
@@ -66,14 +59,9 @@ require_once __DIR__ . '/../config/languages.php';
                 <a href="/terms" class="footer-link"><?php echo __("terms_of_service"); ?></a>
                 <a href="/privacy" class="footer-link"><?php echo __("privacy_policy"); ?></a>
             </div>
-
             <div class="footer-end">
                 <p class="copyright"><?php echo __("copyright"); ?></p>
-
             </div>
         </div>
     </div>
-
-    <!-- Test Mode Badge -->
-
 </footer>

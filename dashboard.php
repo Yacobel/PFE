@@ -2,16 +2,13 @@
 session_start();
 require_once 'config/languages.php';
 
-// Check if user is logged in before trying to access database
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit;
 }
 
-// Include database connection
 require_once 'config/db.php';
 
-// Handle role switching
 if (isset($_POST['switch_role'])) {
     try {
         $new_role = $_SESSION['role'] === 'client' ? 'executor' : 'client';

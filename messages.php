@@ -3,7 +3,6 @@ session_start();
 require_once 'config/languages.php';
 require_once 'config/db.php';
 
-// Check if user is logged in
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit;
@@ -34,7 +33,6 @@ include 'components/head.php';
             </div>
 
             <div class="messages-container">
-                <!-- Conversations List -->
                 <div class="conversations-sidebar">
                     <div class="search-bar">
                         <i class="fas fa-search"></i>
@@ -42,7 +40,6 @@ include 'components/head.php';
                     </div>
                     
                     <div class="conversations-list">
-                        <!-- Conversation Item -->
                         <div class="conversation-item active">
                             <div class="avatar">
                                 <img src="images/default-avatar.png" alt="User">
@@ -58,7 +55,6 @@ include 'components/head.php';
                             </div>
                         </div>
 
-                        <!-- More conversation items -->
                         <div class="conversation-item">
                             <div class="avatar">
                                 <img src="images/default-avatar.png" alt="User">
@@ -88,7 +84,6 @@ include 'components/head.php';
                     </div>
                 </div>
 
-                <!-- Chat Area -->
                 <div class="chat-area">
                     <div class="chat-header">
                         <div class="chat-partner-info">
@@ -109,7 +104,6 @@ include 'components/head.php';
                     </div>
 
                     <div class="messages-list">
-                        <!-- Message from other user -->
                         <div class="message received">
                             <div class="avatar">
                                 <img src="images/default-avatar.png" alt="User">
@@ -120,7 +114,6 @@ include 'components/head.php';
                             </div>
                         </div>
 
-                        <!-- Your message -->
                         <div class="message sent">
                             <div class="message-content">
                                 <p>Hi! I'm doing great, thanks for asking. How about you?</p>
@@ -128,7 +121,6 @@ include 'components/head.php';
                             </div>
                         </div>
 
-                        <!-- More messages -->
                         <div class="message received">
                             <div class="avatar">
                                 <img src="images/default-avatar.png" alt="User">
@@ -151,7 +143,6 @@ include 'components/head.php';
         </div>
     </div>
 
-    <!-- New Message Modal -->
     <div class="modal-overlay" id="newMessageModal">
         <div class="modal-container">
             <div class="modal-header">
@@ -164,7 +155,6 @@ include 'components/head.php';
                     <input type="text" class="search-input" placeholder="<?php echo __("search_users_or_tasks"); ?>">
                 </div>
                 <div class="modal-body-inner">
-                    <!-- User list will be populated here -->
                     <div class="user-list">
                         <div class="user-item">
                             <div class="user-content">
@@ -202,10 +192,8 @@ include 'components/head.php';
                             </div>
                             <button class="btn btn-primary"><?php echo __("message"); ?></button>
                         </div>
-                        <!-- More user items can be added here -->
                     </div>
                     
-                    <!-- Empty state (hidden by default) -->
                     <div class="empty-state" style="display: none;">
                         <i class="fas fa-comment-dots"></i>
                         <h4>No users found</h4>
