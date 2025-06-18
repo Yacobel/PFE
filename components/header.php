@@ -6,7 +6,7 @@ require_once __DIR__ . '/../config/languages.php';
 ?>
 <!-- Navigation Bar -->
 <div class="nav-bar">
-    <div class="logo"><a href="index.php"><?php echo __("home"); ?></a></div>
+    <div class="logo"><a href="index.php"><img src="./style/images/lastlogo.png" alt="Logo"></a></div>
     <div class="icon">
         <i class="fa-solid fa-bars"></i>
     </div>

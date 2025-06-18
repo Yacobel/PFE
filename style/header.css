@@ -13,8 +13,8 @@
   border: none;
   outline: none;
 }
-body{
-  font-family: 'Magnetik';
+body {
+  font-family: "Magnetik";
 }
 .nav-bar {
   display: flex;
@@ -60,26 +60,16 @@ body{
 
 .nav-bar .logo a {
   font-weight: bold;
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: #4ce595;
   position: relative;
-  display: inline-block;
 }
-
-.nav-bar .logo a::after {
-  content: ".";
-  position: absolute;
-  color: #ffffff;
-  font-size: 36px;
-  bottom: -10px;
-  right: -10px;
-  opacity: 0.8;
-  transform: translateY(-2px);
-  transition: color 0.3s ease, transform 0.3s ease;
-}
-
-.nav-bar .logo:hover a::after {
-  color: #4ce595;
-  transform: translateY(0);
+.nav-bar .logo a img {
+  object-fit: cover;
+  width: 100%;
 }
 
 .nav-bar ul {

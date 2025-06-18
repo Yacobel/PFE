@@ -31,7 +31,10 @@ body {
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: 0rem 1rem;
+}
+.nav-bar {
+  width: 100%;
 }
 
 /* Profile Container */
@@ -61,22 +64,8 @@ body {
   gap: 2rem;
 }
 
-.profile-header:hover {
-  border-color: rgba(76, 229, 149, 0.3);
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(76, 229, 149, 0.1);
-}
 
-.profile-header::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--primary), var(--primary-light));
-  opacity: 0.8;
-}
+
 
 /* User info wrapper */
 .user-info-wrapper {
@@ -1044,39 +1033,104 @@ textarea.form-control {
 }
 
 /* Language Selector */
+
+.language-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.language-selector .language-btn {
+  padding: 4px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: none;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.language-selector .language-btn:hover {
+  background-color: #f0f0f0;
+}
+
+.language-selector .language-btn.active {
+  background-color: #00feae;
+  color: white;
+  border-color: #00feae;
+}
+
+/* RTL Support */
+[dir="rtl"] {
+    text-align: right;
+}
+
+[dir="rtl"] .language-selector {
+    flex-direction: column;
+}
+
+[dir="rtl"] .hero-btn img {
+    transform: scaleX(-1);
+}
+
+[dir="rtl"] .card-icon {
+    margin-right: 0;
+    margin-left: 15px;
+}
+
+[dir="rtl"] .advantage-cards .info-card {
+    padding-right: 20px;
+    padding-left: 0;
+}
+
+[dir="rtl"] .services-button img {
+    margin-right: 0;
+    margin-left: 10px;
+}
+
+[dir="rtl"] .service-card .card-details .detail-item {
+    margin-right: 0;
+    margin-left: 15px;
+}
+
+[dir="rtl"] .service-card .browse-button {
+    margin-right: 0;
+    margin-left: auto;
+}
 .language-selector {
   position: fixed;
-  bottom: 1.5rem;
-  right: 1.5rem;
+  top: 90%;
+  transform: translate(-50% ,-50%);
+  right: 20px;
   z-index: 1000;
   display: flex;
-  gap: 0.5rem;
-  background: var(--surface);
-  padding: 0.5rem;
-  border-radius: 50px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  border: 1px solid var(--border);
-  transition: var(--transition);
+  flex-direction: column;
+  gap: 8px;
 }
 
 .language-selector a {
-  padding: 0.5rem 1rem;
-  border-radius: 50px;
-  color: var(--text-light);
-  text-decoration: none;
-  font-weight: 500;
-  transition: var(--transition);
-}
-
-.language-selector a:hover,
-.language-selector a.active {
-  color: var(--primary);
-  background: rgba(74, 108, 247, 0.1);
-}
-
-.language-selector a.active {
-  background: var(--primary);
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
   color: white;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.language-selector a:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.language-selector a.active {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+[dir="rtl"] .language-selector {
+  left: 40px;
+  right: auto;
 }
 
 /* Profile Details Section */
@@ -1238,14 +1292,6 @@ textarea.form-control {
 }
 
 /* RTL Support */
-[dir="rtl"] .language-selector {
-  left: 2rem;
-  right: auto;
-}
-
-[dir="rtl"] .section-title {
-  flex-direction: row-reverse;
-}
 
 /* Profile Picture Styles */
 .profile-avatar {
