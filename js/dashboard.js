@@ -1,13 +1,10 @@
-// Modal handling
 const createTaskModal = document.getElementById("createTaskModal");
 const taskDeadline = document.getElementById("ire ");
 
-// Initialize modal state
 if (createTaskModal) {
   createTaskModal.style.display = "none";
 }
 
-// Set minimum date for deadline to today
 if (taskDeadline) {
   const today = new Date();
   const yyyy = today.getFullYear();
@@ -18,7 +15,6 @@ if (taskDeadline) {
   taskDeadline.min = `${yyyy}-${mm}-${dd}T${hh}:${min}`;
 }
 
-// Modal functions
 function openCreateTaskModal() {
   if (createTaskModal) {
     createTaskModal.style.display = "flex";
@@ -32,9 +28,8 @@ function closeCreateTaskModal() {
     createTaskModal.classList.remove("active");
     setTimeout(() => {
       createTaskModal.style.display = "none";
-    }, 300); // Match this with CSS animation duration
+    }, 300);
     document.body.style.overflow = "auto";
-    // Reset form
     document.getElementById("createTaskForm").reset();
     const preview = document.querySelector("#imagePreview img");
     const placeholder = document.querySelector("#imagePreview .placeholder");
@@ -45,7 +40,6 @@ function closeCreateTaskModal() {
   }
 }
 
-// Image preview handling
 function handleImagePreview(input) {
   const preview = document.querySelector("#imagePreview img");
   const placeholder = document.querySelector("#imagePreview .placeholder");
@@ -66,7 +60,6 @@ function handleImagePreview(input) {
   }
 }
 
-// Form validation
 function validateTaskForm(event) {
   const form = event.target;
   const categoryId = form.querySelector("#category").value;
@@ -103,14 +96,11 @@ function validateTaskForm(event) {
   return true;
 }
 
-// Event Listeners
 document.addEventListener("DOMContentLoaded", function () {
-  // Initialize modal state
   if (createTaskModal) {
     createTaskModal.style.display = "none";
   }
 
-  // Close modal when clicking outside
   if (createTaskModal) {
     createTaskModal.addEventListener("click", function (e) {
       if (e.target === this) {
@@ -119,7 +109,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Close modal on escape key
   document.addEventListener("keydown", function (e) {
     if (
       e.key === "Escape" &&
@@ -130,13 +119,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Form validation
   const createTaskForm = document.getElementById("createTaskForm");
   if (createTaskForm) {
     createTaskForm.addEventListener("submit", validateTaskForm);
   }
 
-  // Image preview
   const taskImage = document.getElementById("taskImage");
   if (taskImage) {
     taskImage.addEventListener("change", function () {
@@ -144,7 +131,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Handle success/error messages
   const urlParams = new URLSearchParams(window.location.search);
   if (urlParams.has("success")) {
     showNotification("Task created successfully!", "success");
@@ -153,7 +139,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-// Notification function
 function showNotification(message, type = "success") {
   const notification = document.createElement("div");
   notification.className = `notification ${type}`;
@@ -168,7 +153,6 @@ function showNotification(message, type = "success") {
   `;
   document.body.appendChild(notification);
 
-  // Auto remove after 5 seconds
   setTimeout(() => {
     notification.remove();
   }, 5000);
